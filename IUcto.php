@@ -33,7 +33,7 @@ class IUcto {
      * 
      * @return mixed[]
      */
-    public function getAllAvailableDocuments() {
+    public function getAllDocuments() {
         return $this->handleRequest('invoice_issued', Connector::GET);
     }
 
@@ -54,7 +54,7 @@ class IUcto {
      * @return mixed []
      */
     public function getDocumentDetail($id) {
-        return $this->handleRequest('invoice_issued/' + $id, Connector::GET);
+        return $this->handleRequest('invoice_issued/' . $id, Connector::GET);
     }
 
     /**
@@ -65,7 +65,7 @@ class IUcto {
      * @return mixed []
      */
     public function updateDocument($id, array $data) {
-        return $this->handleRequest('invoice_issued/' + $id, Connector::PUT, $data);
+        return $this->handleRequest('invoice_issued/' . $id, Connector::PUT, $data);
     }
 
     /**
@@ -75,7 +75,7 @@ class IUcto {
      * @return type
      */
     public function deleteDocument($id) {
-        return $this->handleRequest('invoice_issued/' + $id, Connector::DELETE);
+        return $this->handleRequest('invoice_issued/' . $id, Connector::DELETE);
     }
 
     /**
@@ -83,7 +83,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfCustomers() {
+    public function getCustomers() {
         return $this->handleRequest('customer', Connector::GET);
     }
 
@@ -104,7 +104,7 @@ class IUcto {
      * @return mixed []
      */
     public function getCustomerDetail($id) {
-        return $this->handleRequest('customer/' + $id, Connector::GET);
+        return $this->handleRequest('customer/' . $id, Connector::GET);
     }
 
     /**
@@ -115,7 +115,7 @@ class IUcto {
      * @return mixed []
      */
     public function updateCustomer($id, array $data) {
-        return $this->handleRequest('customer/' + $id, Connector::PUT, $data);
+        return $this->handleRequest('customer/' . $id, Connector::PUT, $data);
     }
 
     /**
@@ -125,7 +125,7 @@ class IUcto {
      * @return type
      */
     public function deleteCustomer($id) {
-        return $this->handleRequest('customer/' + $id, Connector::DELETE);
+        return $this->handleRequest('customer/' . $id, Connector::DELETE);
     }
 
     /**
@@ -133,7 +133,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getAllAvailableAccounts() {
+    public function getAllAccounts() {
         return $this->handleRequest('bank_account', Connector::GET);
     }
 
@@ -142,7 +142,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableCurrencies() {
+    public function getCurrencies() {
         return $this->handleRequest('currency', Connector::GET);
     }
 
@@ -151,7 +151,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableRoundingTypes() {
+    public function getRoundingTypes() {
         return $this->handleRequest('rounding_type', Connector::GET);
     }
 
@@ -160,7 +160,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableMethods() {
+    public function getMethods() {
         return $this->handleRequest('payment_type', Connector::GET);
     }
 
@@ -170,8 +170,8 @@ class IUcto {
      * @param int $date unix timestamp
      * @return mixed []
      */
-    public function getListOfVATRatesOnThatDate($date) {
-        return $this->handleRequest('vat_rates?date=' + $date, Connector::GET);
+    public function getVATRatesOn($date) {
+        return $this->handleRequest('vat_rates?date=' . $date, Connector::GET);
     }
 
     /**
@@ -180,8 +180,8 @@ class IUcto {
      * @param string $doctype
      * @return mixed []
      */
-    public function getListOfAccountingEntryTypes($doctype = "FV") {
-        return $this->handleRequest('accountentry_type?doctype=' + $doctype, Connector::GET);
+    public function getAccountingEntryTypes($doctype = "FV") {
+        return $this->handleRequest('accountentry_type?doctype=' . $doctype, Connector::GET);
     }
 
     /**
@@ -190,8 +190,8 @@ class IUcto {
      * @param string $doctype
      * @return mixed []
      */
-    public function getListOfVATs($doctype = "FV") {
-        return $this->handleRequest('accountentry_type?doctype=' + $doctype, Connector::GET);
+    public function getVATs($doctype = "FV") {
+        return $this->handleRequest('accountentry_type?doctype=' . $doctype, Connector::GET);
     }
 
     /**
@@ -199,7 +199,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableAccounts() {
+    public function getAccounts() {
         return $this->handleRequest('chart_account', Connector::GET);
     }
 
@@ -208,7 +208,7 @@ class IUcto {
      * 
      * @return type
      */
-    public function getListOfAvailableAccountVATs() {
+    public function getAccountVATs() {
         return $this->handleRequest('vat_chart', Connector::GET);
     }
 
@@ -217,7 +217,7 @@ class IUcto {
      *  
      * @return mixed []
      */
-    public function getAvailableResponsibilityCenters() {
+    public function getResponsibilityCenters() {
         return $this->handleRequest('department', Connector::GET);
     }
 
@@ -226,7 +226,7 @@ class IUcto {
      * 
      * @return type
      */
-    public function getAvailableContracts() {
+    public function getContracts() {
         return $this->handleRequest('contract', Connector::GET);
     }
 
@@ -235,7 +235,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableMethodsOfPayment() {
+    public function getPaymentMethods() {
         return $this->handleRequest('preferred_payment_method', Connector::GET);
     }
 
@@ -244,7 +244,7 @@ class IUcto {
      * 
      * @return mixed []
      */
-    public function getListOfAvailableStates() {
+    public function getStates() {
         return $this->handleRequest('country', Connector::GET);
     }
 

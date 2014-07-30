@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="docModule">
+    <head>
+        <title>iUcto API dokumentace</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
+        <script src="assets/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>        
+        <script src="assets/angular.js"></script>
+        <script src="assets/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="assets/definition.js"></script>
+        <script>
+            var docModule = angular.module('docModule', []);
+            docModule.value('docData', docDefinition)
+                    .controller('docController', function($scope, docData) {
+                        $scope.greeting = 'Hola!';
+                        $scope.docData = docData;
+                    })
+                    .directive('type', function() {
+                        return {
+                            restrict: 'E',
+                            scope: {
+                              "param" : "=param"
+                            },
+                            template: '<ul>'+
+    '<li>'+
+        '{{param.name}} <span ng-if="!isComplexDataType(param.dataType)">({{param.dataType}})</span>'+
+        '<p ng-if="isComplexDataType(param.dataType)">'+
+            '<ul ng-repeat="field in param.dataType.fields"><type param="field"></type></ul>'+
+       ' </p>   '+
+  '  </li>'+
+'</ul>',
+                            link: function($scope, element) {
+                                if (typeof $scope.param !== 'object') {
+                                    throw 'Param must be object!';
+                                }
+                                $scope.isComplexDataType = function(dataType) {
+                                    return typeof dataType === 'object'
+                                }
+                            }
+                        };
+                    });
+        </script>
+    </head>
+    <body ng-controller="docController">
+        <div class="bs-docs-header" id="content">
+            <div class="container">
+                <div ng-repeat="service in docData.services">
+                    <h1>{{service.name}}</h1>
+                    <p>{{service.shortDescription}}</p>
+                    <p ng-show="!service.parameters">Bez parametrů</p>
+                    <div ng-if="service.parameters">
+                        <h2>Parametry volání</h2>
+                        <div ng-repeat="param in service.parameters">
+                            <type param="param"></type>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+
+</html>

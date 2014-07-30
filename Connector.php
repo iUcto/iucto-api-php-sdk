@@ -47,7 +47,7 @@ class Connector {
             throw new ConnectionException(sprintf("Error while requesting endpoint. Original message: %s", $this->curl->error_message));
         }
         if ($this->curl->error_code > 205) {
-            $prepended = '';
+            $prepended = $this->curl->error_message . ' ';
             if ($this->curl->error_code == 401) {
                 $prepended = 'Unauthorized. Check you api key. ';
             }
