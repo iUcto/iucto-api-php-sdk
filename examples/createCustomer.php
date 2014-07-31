@@ -28,6 +28,18 @@ $data = array(
     "account_number3" => null, 
     "account_number4" => null
     );
-$documents = $iUcto->createCustomer($data);
 
-var_dump($documents);
+try {
+  $documents = $iUcto->createCustomer($data);
+  var_dump($documents);
+} catch (ValidationException $e) {
+    // input data problem
+    var_dump($e->getErrors());
+} catch (ConnectionException $e) {
+    // network layer problem
+    // HTTP response code
+    echo $e->getCode();
+    // Message from the server
+    echo $e->getMessage();
+}
+
