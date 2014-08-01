@@ -66,9 +66,11 @@
                             <div ng-repeat="param in service.parameters">
                                 <params val="param"></params>
                             </div>
+                        </div>
+                        <div ng-if="service.returns">
                             <h4>Návratový typ</h4>
+                            <p>Je asociativní pole s těmito klíči:</p>
                             <params val="service.returns"></params>
-
 
                         </div>
                         <h4>Příklad</h4>

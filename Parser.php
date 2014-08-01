@@ -9,6 +9,7 @@ class Parser {
         $array = json_decode($json, TRUE);
         if (array_key_exists(self::EMBEDED_KEY, $array)) {
             $this->filter($array);
+            $array = $array[self::EMBEDED_KEY];
         }
         return $array;
     }
