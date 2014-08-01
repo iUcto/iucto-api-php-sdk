@@ -34,9 +34,13 @@
                                 }
                                 var simpleTypeInfo = '';
                                 if (!scope.isComplexDataType(scope.val)) {
-                                    simpleTypeInfo = ' <span>({{val.dataType}})</span>';
+                                    simpleTypeInfo = ' <span class="type-name">{{val.dataType}}</span>';
                                 }
-                                var template = '<span>{{val.name}}' + simpleTypeInfo + '</span>';
+                                var description = '';
+                                if (scope.val.description) {
+                                    description += ' - <span class="description">{{val.description}}</span>';
+                                }
+                                var template = '<span>{{val.name}}' + simpleTypeInfo + description + '</span>';
                                 if (scope.isComplexDataType(scope.val)) {
                                     template += '<ul class="indent"><li ng-repeat="item in val.dataType.fields"><params val="item" parent-data="val.dataType.fields"></params></li></ul>';
                                 }
