@@ -1,11 +1,16 @@
 <?php
 
+namespace IUcto;
+
 class Parser {
 
     const EMBEDED_KEY = '_embedded';
     const LINKS = '_links';
 
     public function parse($json) {
+        if (!$json) {
+            return null;
+        }
         $array = json_decode($json, TRUE);
         if (array_key_exists(self::EMBEDED_KEY, $array)) {
             $this->filter($array);

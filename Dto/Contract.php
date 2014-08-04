@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of Contract
+ * DTO for Contract data
  *
  * @author odehnal@iprogress.cz
  */
@@ -31,11 +35,14 @@ class Contract {
      */
     private $description;
 
-    public function __construct(array $dataArray) {
-        $this->id = ArrayUtils::getValueOrNull($dataArray, 'id');
-        $this->code = ArrayUtils::getValueOrNull($dataArray, 'code');
-        $this->name = ArrayUtils::getValueOrNull($dataArray, 'name');
-        $this->description = ArrayUtils::getValueOrNull($dataArray, 'description');
+    /**
+     * @param mixed[] $arrayData input data
+     */
+    public function __construct(array $arrayData) {
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
+        $this->code = Utils::getValueOrNull($arrayData, 'code');
+        $this->name = Utils::getValueOrNull($arrayData, 'name');
+        $this->description = Utils::getValueOrNull($arrayData, 'description');
     }
 
     public function getId() {

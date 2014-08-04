@@ -1,5 +1,9 @@
 <?php
+
+namespace IUcto;
+
 require_once __DIR__ . '/ConnectionException.php';
+
 /**
  * Description of Connector
  *

@@ -1,5 +1,9 @@
 <?php
 
+namespace IUcto\Command;
+
+use IUcto\Dto\Address;
+
 /**
  * Description of SaveCustomer
  *
@@ -146,7 +150,7 @@ class SaveCustomer {
         $this->usualMaturity = $arrayData['usual_maturity'];
         $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
         $this->invoiceLanguage = $arrayData['invoice_language'];
-        $this->address = $arrayData['address'];
+        $this->address = new Address($arrayData['address']);
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
         $this->accountNumber2 = $arrayData['account_number2'];
@@ -299,7 +303,7 @@ class SaveCustomer {
     }
 
     public function toArray() {
-        return array('id' => $this->id,
+        return array(
             'name' => $this->name,
             'name_display' => $this->nameDisplay,
             'comid' => $this->comid,
@@ -317,7 +321,7 @@ class SaveCustomer {
             'account_number1' => $this->accountNumber1,
             'account_number2' => $this->accountNumber2,
             'account_number3' => $this->accountNumber3,
-            'account_number4' => $this->account_number4);
+            'account_number4' => $this->accountNumber4);
     }
 
 }

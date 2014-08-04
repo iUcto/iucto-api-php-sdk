@@ -1,10 +1,11 @@
 <?php
+date_default_timezone_set("Europe/Prague");
 
 require_once __DIR__ . '/../IUctoFactory.php';
 
-$iUcto = IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
+$iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
 try {
-    $newDocument = new SaveDocument(
+    $newDocument = new IUcto\Command\SaveDocument(
             array(
         "variable_symbol" => "20140001",
         "date" => 1402557951,
@@ -47,15 +48,15 @@ try {
             )
     );
 
-    $document = $iUcto->createNewDocument($newDocument);
+    $document = $iUcto->createDocument($newDocument);
 
     echo '<pre>';
     print_r($document);
     echo '</pre>';
-} catch (ValidationException $e) {
+} catch (IUcto\ValidationException $e) {
     echo '<p>Validation errors:</p>';
     var_dump($e->getErrors());
-} catch (ConnectionException $e) {
+} catch (IUcto\ConnectionException $e) {
     // network layer problem
     // HTTP response code
     echo $e->getCode();

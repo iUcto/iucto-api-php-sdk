@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of BankAccountList
+ * DTO for BankAccountList data
  *
  * @author admin
  */
@@ -19,9 +23,12 @@ class BankAccountList {
      */
     private $bankAccounts = array();
 
+    /**
+     * @param mixed[] $arrayData input data
+     */
     public function __construct(array $arrayData) {
         foreach ($arrayData as $data) {
-            $bankAccount = new BankAccount($data);
+            $bankAccount = new BankAccountOverview($data);
             $this->bankAccounts[] = $bankAccount;
             if ($data['isdefault']) {
                 $this->defaultBankAccount = $bankAccount;

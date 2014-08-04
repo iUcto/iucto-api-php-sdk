@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of DocumentOverview
+ * DTO for DocumentOverview data
  *
  * @author admin
  */
@@ -92,22 +96,21 @@ class DocumentOverview {
     private $deleted;
 
     /**
-     * 
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData) {
-        $this->id = ArrayUtils::getValueOrNull($arrayData, 'id');
-        $this->sequenceCode = ArrayUtils::getValueOrNull($arrayData, 'sequence_code');
-        $this->variableSymbol = ArrayUtils::getValueOrNull($arrayData, 'variable_symbol');
-        $this->date = ArrayUtils::getValueOrNull($arrayData, 'date');
-        $this->dateVat = ArrayUtils::getValueOrNull($arrayData, 'date_vat');
-        $this->maturityDate = ArrayUtils::getValueOrNull($arrayData, 'maturity_date');
-        $this->currency = ArrayUtils::getValueOrNull($arrayData, 'currency');
-        $this->priceIncVat = ArrayUtils::getValueOrNull($arrayData, 'price_inc_vat');
-        $this->toBePaid = ArrayUtils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->customer = ArrayUtils::getValueOrNull($arrayData, 'customer');
-        $this->accounted = ArrayUtils::getValueOrNull($arrayData, 'accounted');
-        $this->deleted = ArrayUtils::getValueOrNull($arrayData, 'deleted');
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
+        $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
+        $this->date = Utils::getValueOrNull($arrayData, 'date');
+        $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
+        $this->maturityDate = Utils::getValueOrNull($arrayData, 'maturity_date');
+        $this->currency = Utils::getValueOrNull($arrayData, 'currency');
+        $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
+        $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
+        $this->customer = Utils::getValueOrNull($arrayData, 'customer');
+        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
+        $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
     
     public function getId() {

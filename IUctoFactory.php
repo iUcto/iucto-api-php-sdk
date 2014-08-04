@@ -1,4 +1,6 @@
 <?php
+namespace IUcto;
+
 require_once __DIR__.'/IUcto.php';
 require_once __DIR__.'/Curl.php';
 require_once __DIR__.'/Connector.php';
@@ -11,16 +13,18 @@ require_once __DIR__ . '/Dto/DocumentDetail.php';
 require_once __DIR__ . '/Dto/Department.php';
 require_once __DIR__ . '/Dto/CustomerOverview.php';
 require_once __DIR__ . '/Dto/Customer.php';
-require_once __DIR__ . '/Dto/ContractOverview.php';
 require_once __DIR__ . '/Dto/Contract.php';
 require_once __DIR__ . '/Dto/BankAccount.php';
+require_once __DIR__ . '/Dto/BankAccountOverview.php';
 require_once __DIR__ . '/Dto/BankAccountList.php';
 require_once __DIR__ . '/Dto/Address.php';
 
 require_once __DIR__ . '/Command/SaveCustomer.php';
 require_once __DIR__ . '/Command/SaveDocument.php';
 
-require_once __DIR__ . '/ArrayUtils.php';
+require_once __DIR__ . '/Utils.php';
+
+
 /**
  * @author admin
  */

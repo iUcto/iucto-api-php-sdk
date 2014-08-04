@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of DocumentItem
+ * DTO for DocumentItem data
  *
  * @author admin
  */
@@ -91,19 +95,22 @@ class DocumentItem {
      */
     private $contractId;
 
-    public function __construct(array $dataArray) {
-        $this->id = ArrayUtils::getValueOrNull($dataArray, 'id');
-        $this->amount = ArrayUtils::getValueOrNull($dataArray, 'amount');
-        $this->unit = ArrayUtils::getValueOrNull($dataArray, 'unit');
-        $this->price = ArrayUtils::getValueOrNull($dataArray, 'price');
-        $this->text = ArrayUtils::getValueOrNull($dataArray, 'text');
-        $this->vat = ArrayUtils::getValueOrNull($dataArray, 'vat');
-        $this->accountentrytypeId = ArrayUtils::getValueOrNull($dataArray, 'accountentrytype_id');
-        $this->vattypeId = ArrayUtils::getValueOrNull($dataArray, 'vattype_id');
-        $this->chartAccountId = ArrayUtils::getValueOrNull($dataArray, 'chart_account_id');
-        $this->vatChartId = ArrayUtils::getValueOrNull($dataArray, 'vat_chart_id');
-        $this->departmentId = ArrayUtils::getValueOrNull($dataArray, 'department_id');
-        $this->contractId = ArrayUtils::getValueOrNull($dataArray, 'contract_id');
+    /**
+     * @param mixed[] $arrayData input data
+     */
+    public function __construct(array $arrayData) {
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
+        $this->amount = Utils::getValueOrNull($arrayData, 'amount');
+        $this->unit = Utils::getValueOrNull($arrayData, 'unit');
+        $this->price = Utils::getValueOrNull($arrayData, 'price');
+        $this->text = Utils::getValueOrNull($arrayData, 'text');
+        $this->vat = Utils::getValueOrNull($arrayData, 'vat');
+        $this->accountentrytypeId = Utils::getValueOrNull($arrayData, 'accountentrytype_id');
+        $this->vattypeId = Utils::getValueOrNull($arrayData, 'vattype_id');
+        $this->chartAccountId = Utils::getValueOrNull($arrayData, 'chart_account_id');
+        $this->vatChartId = Utils::getValueOrNull($arrayData, 'vat_chart_id');
+        $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
+        $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
     }
 
     public function toArray() {

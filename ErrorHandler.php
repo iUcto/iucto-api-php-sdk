@@ -1,5 +1,8 @@
 <?php
+namespace IUcto;
+
 require_once __DIR__ . '/ValidationException.php';
+
 /**
  * @author admin
  */

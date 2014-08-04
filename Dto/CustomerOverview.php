@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of CustomerOverview
+ * DTO for CustomerOverview data
  *
  * @author admin
  */
@@ -26,14 +30,14 @@ class CustomerOverview {
      *
      * @var string 
      */
-    private $ico;
+    private $comid;
 
     /**
      * DIČ
      *
      * @var string 
      */
-    private $dic;
+    private $vatid;
 
     /**
      * Plátce DPH (ano/ne)
@@ -49,11 +53,14 @@ class CustomerOverview {
      */
     private $email;
 
+    /**
+     * @param mixed[] $arrayData input data
+     */
     public function __construct(array $arrayData) {
         $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];
-        $this->ico = $arrayData['ico'];
-        $this->dic = $arrayData['dic'];
+        $this->comid = $arrayData['comid'];
+        $this->vatid = $arrayData['vatid'];
         $this->vatPayer = $arrayData['vat_payer'];
         $this->email = $arrayData['email'];
     }
@@ -66,12 +73,12 @@ class CustomerOverview {
         return $this->name;
     }
 
-    public function getIco() {
-        return $this->ico;
+    public function getComid() {
+        return $this->comid;
     }
 
-    public function getDic() {
-        return $this->dic;
+    public function getVatid() {
+        return $this->vatid;
     }
 
     public function getVatPayer() {

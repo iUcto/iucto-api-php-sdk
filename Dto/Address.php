@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of Address
+ * DTO for Address data
  *
  * @author admin
  */
@@ -35,11 +39,14 @@ class Address {
      */
     private $country;
 
-    public function __construct(array $dataArray) {
-        $this->street = $dataArray['street'];
-        $this->city = $dataArray['city'];
-        $this->postalcode = $dataArray['postalcode'];
-        $this->country = $dataArray['country'];
+    /**
+     * @param mixed[] $arrayData input data
+     */
+    public function __construct(array $arrayData) {
+        $this->street = $arrayData['street'];
+        $this->city = $arrayData['city'];
+        $this->postalcode = $arrayData['postalcode'];
+        $this->country = $arrayData['country'];
     }
 
     public function getStreet() {

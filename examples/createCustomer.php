@@ -1,13 +1,14 @@
 <?php
+date_default_timezone_set("Europe/Prague");
 
 require_once __DIR__ . '/../IUctoFactory.php';
 
-$iUcto = IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5', 'http://api.gsmobile-novydesign.dev2.datesoft.cz/');
+$iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
 
 $data = array(
     "name" => "Jan Novák",
     "name_display" => null,
-    "comid" => "1234568004",
+    "comid" => "1234568003",
     "vatid" => null,
     "vat_payer" => false,
     "email" =>
@@ -31,9 +32,14 @@ $data = array(
 );
 
 try {
-    $documents = $iUcto->createCustomer($data);
-    var_dump($documents);
-} catch (ConnectionException $e) {
+    $customer = $iUcto->createCustomer(new IUcto\Command\SaveCustomer($data));
+    echo '<pre>';
+    print_r($customer);
+    echo '</pre>';
+} catch (IUcto\ValidationException $e) {
+    echo '<p>Validation errors:</p>';
+    var_dump($e->getErrors());
+} catch (IUcto\ConnectionException $e) {
     // network layer problem
     // HTTP response code
     echo $e->getCode();

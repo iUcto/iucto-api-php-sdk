@@ -1,13 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace IUcto\Dto;
+
+use IUcto\Utils;
 
 /**
- * Description of DocumentDetail
+ * DTO for DocumentDetail data  
  *
  * @author admin
  */
@@ -167,38 +165,41 @@ class DocumentDetail {
      */
     private $deleted;
 
-    public function __construct(array $dataArray) {
-        $this->id = ArrayUtils::getValueOrNull($dataArray, 'id');
-        $this->sequenceCode = ArrayUtils::getValueOrNull($dataArray, 'sequence_code');
-        $this->variableSymbol = ArrayUtils::getValueOrNull($dataArray, 'variable_symbol');
-        $this->date = ArrayUtils::getValueOrNull($dataArray, 'date');
-        $this->dateVat = ArrayUtils::getValueOrNull($dataArray, 'date_vat');
-        $this->maturityDate = ArrayUtils::getValueOrNull($dataArray, 'maturity_date');
-        $this->currency = ArrayUtils::getValueOrNull($dataArray, 'currency');
-        $this->price = ArrayUtils::getValueOrNull($dataArray, 'price');
-        $this->priceCzk = ArrayUtils::getValueOrNull($dataArray, 'price_czk');
-        $this->priceIncVat = ArrayUtils::getValueOrNull($dataArray, 'price_inc_vat');
-        $this->priceIncVatCzk = ArrayUtils::getValueOrNull($dataArray, 'price_inc_vat_czk');
-        $this->toBePaid = ArrayUtils::getValueOrNull($dataArray, 'to_be_paid');
-        if (array_key_exists('customer', $dataArray)) {
-            $this->customer = new Customer($dataArray['customer']);
+    /**
+     * @param mixed[] $arrayData input data
+     */
+    public function __construct(array $arrayData) {
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
+        $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
+        $this->date = Utils::getDateTimeFrom($arrayData['date']);
+        $this->dateVat = Utils::getDateTimeFrom($arrayData['date_vat']);
+        $this->maturityDate = Utils::getDateTimeFrom($arrayData['maturity_date']);
+        $this->currency = Utils::getValueOrNull($arrayData, 'currency');
+        $this->price = Utils::getValueOrNull($arrayData, 'price');
+        $this->priceCzk = Utils::getValueOrNull($arrayData, 'price_czk');
+        $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
+        $this->priceIncVatCzk = Utils::getValueOrNull($arrayData, 'price_inc_vat_czk');
+        $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
+        if (array_key_exists('customer', $arrayData)) {
+            $this->customer = new Customer($arrayData['customer']);
         }
-        $this->customerBankAccount = ArrayUtils::getValueOrNull($dataArray, 'customer_bank_account');
-        $this->paymentType = ArrayUtils::getValueOrNull($dataArray, 'payment_type');
-        if (array_key_exists('bank_account', $dataArray)) {
-            $this->bankAccount = new BankAccount($dataArray['bank_account']);
+        $this->customerBankAccount = Utils::getValueOrNull($arrayData, 'customer_bank_account');
+        $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
+        if (array_key_exists('bank_account', $arrayData)) {
+            $this->bankAccount = new BankAccount($arrayData['bank_account']);
         }
         
-        $this->dateVatPrev = ArrayUtils::getValueOrNull($dataArray, 'date_vat_prev');
-        $this->description = ArrayUtils::getValueOrNull($dataArray, 'description');
-        $this->roundingType = ArrayUtils::getValueOrNull($dataArray, 'rounding_type');
-        if (array_key_exists('items', $dataArray)) {
-            foreach ($dataArray['items'] as $itemData) {
+        $this->dateVatPrev = Utils::getDateTimeFrom($arrayData['date_vat_prev']);
+        $this->description = Utils::getValueOrNull($arrayData, 'description');
+        $this->roundingType = Utils::getValueOrNull($arrayData, 'rounding_type');
+        if (array_key_exists('items', $arrayData)) {
+            foreach ($arrayData['items'] as $itemData) {
                 $this->items[] = new DocumentItem($itemData);
             }
         }        
-        $this->accounted = ArrayUtils::getValueOrNull($dataArray, 'accounted');
-        $this->deleted = ArrayUtils::getValueOrNull($dataArray, 'deleted');
+        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
+        $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
     public function getId() {

@@ -1,11 +1,13 @@
 <?php
 
+namespace IUcto;
+
 /**
  * Description of IUctoException
  *
  * @author admin
  */
-class ValidationException extends Exception {
+class ValidationException extends \Exception {
 
     private $errors = array();
 

@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for BankAccount data
- * 
- * @author admin
+ * DTO for BankAccountOverview data
+ *
+ * @author odehnal@iprogress.cz
  */
-class BankAccount {
+class BankAccountOverview {
 
     /**
      * ID bankovního účtu
@@ -40,6 +40,24 @@ class BankAccount {
     private $currency;
 
     /**
+     *
+     * @var bool
+     */
+    private $isdefault;
+
+    /**
+     *
+     * @var int 
+     */
+    private $initialState;
+
+    /**
+     *
+     * @var bool
+     */
+    private $visible;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData) {
@@ -47,6 +65,9 @@ class BankAccount {
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->number = Utils::getValueOrNull($arrayData, 'number');
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
+        $this->isdefault = Utils::getValueOrNull($arrayData, 'isdefault');
+        $this->initialState = Utils::getValueOrNull($arrayData, 'initial_state');
+        $this->visible = Utils::getValueOrNull($arrayData, 'visible');
     }
 
     public function getId() {
@@ -63,6 +84,18 @@ class BankAccount {
 
     public function getCurrency() {
         return $this->currency;
+    }
+
+    public function getIsdefault() {
+        return $this->isdefault;
+    }
+
+    public function getInitialState() {
+        return $this->initialState;
+    }
+
+    public function getVisible() {
+        return $this->visible;
     }
 
 }

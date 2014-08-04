@@ -1,5 +1,9 @@
 <?php
 
+namespace IUcto\Command;
+
+use IUcto\Utils;
+use IUcto\Dto\DocumentItem;
 /**
  * Comman object pro uložení dokumentu
  *
@@ -17,21 +21,21 @@ class SaveDocument {
     /**
      * Datum vystavení
      *   
-     * @var \DateTime
+     * @var DateTime
      */
     private $date;
 
     /**
      * Datum zdanitelného plnění
      *   
-     * @var \DateTime
+     * @var DateTime
      */
     private $dateVat;
 
     /**
      * Datum splatnosti
      *   
-     * @var \DateTime
+     * @var DateTime
      */
     private $maturityDate;
 
@@ -41,41 +45,6 @@ class SaveDocument {
      * @var string (3)
      */
     private $currency;
-
-    /**
-     * Celková částka bez DPH
-     *   
-     * @var int(11)
-     */
-    private $price;
-
-    /**
-     * Celková částka v CZK bez DPH
-     *   
-     * @var int(11)
-     */
-    private $priceCzk;
-
-    /**
-     * Celková částka s DPH
-     *   
-     * @var int(11)
-     */
-    private $priceIncVat;
-
-    /**
-     * Celková částka v CZK s DPH
-     *   
-     * @var int(11)
-     */
-    private $priceIncVatCzk;
-
-    /**
-     * Zbývající částka k úhradě (v měně dokladu)
-     *   
-     * @var int
-     */
-    private $toBePaid;
 
     /**
      * Zákazník
@@ -108,7 +77,7 @@ class SaveDocument {
     /**
      * Datum zdanitelného plnění
      *   
-     * @var \DateTime
+     * @var DateTime
      */
     private $dateVatPrev;
 
@@ -134,23 +103,18 @@ class SaveDocument {
     private $items = array();
 
     public function __construct(array $dataArray = array()) {
-        $this->variableSymbol = ArrayUtils::getValueOrNull($dataArray, 'variable_symbol');
-        $this->date = ArrayUtils::getValueOrNull($dataArray, 'date');
-        $this->dateVat = ArrayUtils::getValueOrNull($dataArray, 'date_vat');
-        $this->maturityDate = ArrayUtils::getValueOrNull($dataArray, 'maturity_date');
-        $this->currency = ArrayUtils::getValueOrNull($dataArray, 'currency');
-        $this->price = ArrayUtils::getValueOrNull($dataArray, 'price');
-        $this->priceCzk = ArrayUtils::getValueOrNull($dataArray, 'price_czk');
-        $this->priceIncVat = ArrayUtils::getValueOrNull($dataArray, 'price_inc_vat');
-        $this->priceIncVatCzk = ArrayUtils::getValueOrNull($dataArray, 'price_inc_vat_czk');
-        $this->toBePaid = ArrayUtils::getValueOrNull($dataArray, 'to_be_paid');
-        $this->customerId = ArrayUtils::getValueOrNull($dataArray, 'customer_id');
-        $this->customerBankAccount = ArrayUtils::getValueOrNull($dataArray, 'customer_bank_account');
-        $this->paymentType = ArrayUtils::getValueOrNull($dataArray, 'payment_type');
-        $this->bankAccount = ArrayUtils::getValueOrNull($dataArray, 'bank_account');
-        $this->dateVatPrev = ArrayUtils::getValueOrNull($dataArray, 'date_vat_prev');
-        $this->description = ArrayUtils::getValueOrNull($dataArray, 'description');
-        $this->roundingType = ArrayUtils::getValueOrNull($dataArray, 'rounding_type');
+        $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
+        $this->date = Utils::getDateTimeFrom($dataArray['date']);
+        $this->dateVat = Utils::getDateTimeFrom($dataArray['date_vat']);
+        $this->maturityDate = Utils::getDateTimeFrom($dataArray['maturity_date']);
+        $this->currency = Utils::getValueOrNull($dataArray, 'currency');
+        $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
+        $this->customerBankAccount = Utils::getValueOrNull($dataArray, 'customer_bank_account');
+        $this->paymentType = Utils::getValueOrNull($dataArray, 'payment_type');
+        $this->bankAccount = Utils::getValueOrNull($dataArray, 'bank_account');
+        $this->dateVatPrev = Utils::getDateTimeFrom($dataArray['date_vat_prev']);
+        $this->description = Utils::getValueOrNull($dataArray, 'description');
+        $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
                 $this->items[] = new DocumentItem($itemData);
@@ -176,26 +140,6 @@ class SaveDocument {
 
     public function getCurrency() {
         return $this->currency;
-    }
-
-    public function getPrice() {
-        return $this->price;
-    }
-
-    public function getPriceCzk() {
-        return $this->priceCzk;
-    }
-
-    public function getPriceIncVat() {
-        return $this->priceIncVat;
-    }
-
-    public function getPriceIncVatCzk() {
-        return $this->priceIncVatCzk;
-    }
-
-    public function getToBePaid() {
-        return $this->toBePaid;
     }
 
     public function getCustomerId() {
@@ -234,44 +178,36 @@ class SaveDocument {
         $this->variableSymbol = $variableSymbol;
     }
 
-    public function setDate(\DateTime $date) {
-        $this->date = $date;
+    /**
+     * 
+     * @param int|DateTime $input unix timestamp or DateTime object
+     */
+    public function setDate($input) {
+        $this->date = Utils::getDateTimeFrom($input);
     }
 
-    public function setDateVat(\DateTime $dateVat) {
-        $this->dateVat = $dateVat;
+    /**
+     * 
+     * @param int|DateTime $input unix timestamp or DateTime object
+     */
+    public function setDateVat(DateTime $input) {
+        $this->dateVat = Utils::getDateTimeFrom($input);
     }
 
-    public function setMaturityDate(\DateTime $maturityDate) {
-        $this->maturityDate = $maturityDate;
+    /**
+     * 
+     * @param int|DateTime $input unix timestamp or DateTime object
+     */
+    public function setMaturityDate(DateTime $input) {
+        $this->maturityDate = Utils::getDateTimeFrom($input);
     }
 
     public function setCurrency($currency) {
         $this->currency = $currency;
     }
 
-    public function setPrice($price) {
-        $this->price = $price;
-    }
-
-    public function setPriceCzk($priceCzk) {
-        $this->priceCzk = $priceCzk;
-    }
-
-    public function setPriceIncVat($priceIncVat) {
-        $this->priceIncVat = $priceIncVat;
-    }
-
-    public function setPriceIncVatCzk($priceIncVatCzk) {
-        $this->priceIncVatCzk = $priceIncVatCzk;
-    }
-
-    public function setToBePaid($toBePaid) {
-        $this->toBePaid = $toBePaid;
-    }
-
-    public function setCustomerId(CustomerOverview $customer) {
-        $this->customerId = $customer;
+    public function setCustomerId(CustomerOverview $customerId) {
+        $this->customerId = $customerId;
     }
 
     public function setCustomerBankAccount($customerBankAccount) {
@@ -286,8 +222,12 @@ class SaveDocument {
         $this->bankAccount = $bankAccount;
     }
 
-    public function setDateVatPrev(\DateTime $dateVatPrev) {
-        $this->dateVatPrev = $dateVatPrev;
+    /**
+     * 
+     * @param int|DateTime $input unix timestamp or DateTime object
+     */
+    public function setDateVatPrev($input) {
+        $this->dateVatPrev = Utils::getDateTimeFrom($input);
     }
 
     public function setDescription($description) {
@@ -304,20 +244,15 @@ class SaveDocument {
 
     public function toArray() {
         $array = array('variable_symbol' => $this->variableSymbol,
-            'date' => $this->date,
-            'date_vat' => $this->dateVat,
-            'maturity_date' => $this->maturityDate,
+            'date' => Utils::getTimestampFrom($this->date),
+            'date_vat' => Utils::getTimestampFrom($this->dateVat),
+            'maturity_date' => Utils::getTimestampFrom($this->maturityDate),
             'currency' => $this->currency,
-            'price' => $this->price,
-            'price_czk' => $this->priceCzk,
-            'price_inc_vat' => $this->priceIncVat,
-            'price_inc_vat_czk' => $this->priceIncVatCzk,
-            'to_be_paid' => $this->toBePaid,
             'customer_id' => $this->customerId,
             'customer_bank_account' => $this->customerBankAccount,
             'payment_type' => $this->paymentType,
             'bank_account' => $this->bankAccount,
-            'date_vat_prev' => $this->dateVatPrev,
+            'date_vat_prev' => Utils::getTimestampFrom($this->dateVatPrev),
             'description' => $this->description,
             'rounding_type' => $this->roundingType
         );

@@ -1,5 +1,8 @@
 <?php
 
+namespace IUcto;
+
+
 require_once __DIR__ . '/Connector.php';
 require_once __DIR__ . '/Parser.php';
 require_once __DIR__ . '/ErrorHandler.php';
@@ -10,16 +13,29 @@ require_once __DIR__ . '/Dto/DocumentDetail.php';
 require_once __DIR__ . '/Dto/Department.php';
 require_once __DIR__ . '/Dto/CustomerOverview.php';
 require_once __DIR__ . '/Dto/Customer.php';
-require_once __DIR__ . '/Dto/ContractOverview.php';
 require_once __DIR__ . '/Dto/Contract.php';
 require_once __DIR__ . '/Dto/BankAccount.php';
+require_once __DIR__ . '/Dto/BankAccountOverview.php';
 require_once __DIR__ . '/Dto/BankAccountList.php';
 require_once __DIR__ . '/Dto/Address.php';
 
 require_once __DIR__ . '/Command/SaveCustomer.php';
 require_once __DIR__ . '/Command/SaveDocument.php';
 
-require_once __DIR__ . '/ArrayUtils.php';
+require_once __DIR__ . '/Utils.php';
+
+
+use IUcto\Command\SaveCustomer;
+use IUcto\Command\SaveDocument;
+
+use IUcto\Dto\BankAccountList;
+use IUcto\Dto\Contract;
+use IUcto\Dto\Customer;
+use IUcto\Dto\CustomerOverview;
+use IUcto\Dto\Department;
+use IUcto\Dto\DocumentDetail;
+use IUcto\Dto\DocumentOverview;
+
 
 /**
  * @author IUcto
@@ -36,7 +52,7 @@ class IUcto {
         $this->errorHandler = $errorHandler;
     }
 
-    private function handleRequest($address, $method, array $data = array()) {        
+    private function handleRequest($address, $method, array $data = array()) {
         $response = $this->connector->request($address, $method, $data);
         $data = $this->parser->parse($response);
         if (isset($data['errors']) && is_array($data['errors'])) {
@@ -56,7 +72,7 @@ class IUcto {
         foreach ($allData as $type => $typeData) {
             foreach ($typeData as $data) {
                 $allDocuments[$type][] = new DocumentOverview($data);
-            }            
+            }
         }
         return $allDocuments;
     }
@@ -67,7 +83,7 @@ class IUcto {
      * @param SaveDocument $saveDocument
      * @return DocumentDetail
      */
-    public function createNewDocument(SaveDocument $saveDocument) {
+    public function createDocument(SaveDocument $saveDocument) {
         $allData = $this->handleRequest('invoice_issued', Connector::POST, $saveDocument->toArray());
         return new DocumentDetail($allData);
     }
@@ -76,7 +92,7 @@ class IUcto {
      * Vrátí kompletní kolekci dat vybraného dokladu.
      * 
      * @param int $id
-     * @return mixed []
+     * @return DocumentDetail
      */
     public function getDocumentDetail($id) {
         $allData = $this->handleRequest('invoice_issued/' . $id, Connector::GET);
@@ -87,11 +103,11 @@ class IUcto {
      * Aktulizuje předané parametry vybraného dokladu. Poviné ple jsou stejná jako při vkládání nového záznamu.
      * 
      * @param int $id
-     * @param mixed [] $data
+     * @param SaveDocument $saveDocument
      * @return mixed []
      */
-    public function updateDocument($id, array $data) {
-        $allData = $this->handleRequest('invoice_issued/' . $id, Connector::PUT, $data);
+    public function updateDocument($id, SaveDocument $saveDocument) {
+        $allData = $this->handleRequest('invoice_issued/' . $id, Connector::PUT, $saveDocument->toArray());
         return new DocumentDetail($allData);
     }
 
@@ -108,18 +124,22 @@ class IUcto {
     /**
      * Zjednodušený výpis všech dostupných zákazníků.
      * 
-     * @return mixed []
+     * @return CustomerOverview []
      */
     public function getCustomers() {
         $allData = $this->handleRequest('customer', Connector::GET);
-        return new CustomerOverview($allData);
+        $allCustomers = array();
+        foreach ($allData['customer'] as $customer) {
+            $allCustomers[] = new CustomerOverview($customer);
+        }
+        return $allCustomers;
     }
 
     /**
      * Vytvoří nový doklad, odpověd obsahuje detail vytvořeného zákazníka.
      * 
-     * @param mixed [] $data
-     * @return mixed []
+     * @param SaveCustomer $saveCustomer
+     * @return Customer
      */
     public function createCustomer(SaveCustomer $saveCustomer) {
         $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
@@ -130,7 +150,7 @@ class IUcto {
      * Vrátí veškerá data k zákazníkovi.
      * 
      * @param int $id
-     * @return mixed []
+     * @return Customer
      */
     public function getCustomerDetail($id) {
         $allData = $this->handleRequest('customer/' . $id, Connector::GET);
@@ -145,7 +165,7 @@ class IUcto {
      * @return mixed []
      */
     public function updateCustomer($id, SaveCustomer $saveCustomer) {
-        $allData = $this->handleRequest('customer/' . $id, Connector::PUT, $saveCustomer);
+        $allData = $this->handleRequest('customer/' . $id, Connector::PUT, $saveCustomer->toArray());
         return new Customer($allData);
     }
 
@@ -153,26 +173,26 @@ class IUcto {
      * Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a zákazník se nasmaže.
      * 
      * @param int $id
-     * @return type
+     * @return void
      */
     public function deleteCustomer($id) {
-        $allData = $this->handleRequest('customer/' . $id, Connector::DELETE);
+        $this->handleRequest('customer/' . $id, Connector::DELETE);
     }
 
     /**
      * Seznam dostupných bankovních účtů.
      * 
-     * @return mixed []
+     * @return BankAccountList
      */
     public function getAllAccounts() {
         $allData = $this->handleRequest('bank_account', Connector::GET);
-        return new BankAccountList($allData);
+        return new BankAccountList($allData['bank_account']);
     }
 
     /**
      * Seznam dostupných měn pro použití v dokladech.Dostupnost se může měnit v závislosti na aktivaci rozšíření Účtování v cizích měnách.
      * 
-     * @return mixed []
+     * @return string[]
      */
     public function getCurrencies() {
         return $this->handleRequest('currency', Connector::GET);
@@ -181,7 +201,7 @@ class IUcto {
     /**
      * Seznam metod pro zaokrouhlování částek v dokladech.
      * 
-     * @return mixed []
+     * @return string[]  klíč označení, hodnota popis
      */
     public function getRoundingTypes() {
         return $this->handleRequest('rounding_type', Connector::GET);
@@ -190,7 +210,7 @@ class IUcto {
     /**
      * Seznam dostupných metod pro provedení platby používaných v dokladech.
      * 
-     * @return mixed []
+     * @return string[]  klíč označení, hodnota popis
      */
     public function getMethods() {
         return $this->handleRequest('payment_type', Connector::GET);
@@ -199,18 +219,18 @@ class IUcto {
     /**
      * Seznam kurzů DPH k danému datu.
      * 
-     * @param int $date unix timestamp
-     * @return mixed []
+     * @param int|DateTime $date unix timestamp or DateTime object
+     * @return int[]
      */
     public function getVATRatesOn($date) {
-        return $this->handleRequest('vat_rates?date=' . $date, Connector::GET);
+        return $this->handleRequest('vat_rates?date=' . Utils::getTimestampFrom($date), Connector::GET);
     }
 
     /**
      * Odpověd obsahuje pole dostupných účetních položek v závislosti na parametru doctype. Formát odpovědi: {"id": "popis"}
      * 
      * @param string $doctype
-     * @return mixed []
+     * @return string[] klíč označení, hodnota popis
      */
     public function getAccountingEntryTypes($doctype = "FV") {
         return $this->handleRequest('accountentry_type?doctype=' . $doctype, Connector::GET);
@@ -220,7 +240,7 @@ class IUcto {
      * Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru doctype. Formát odpovědi: {"id": "popis"}
      * 
      * @param string $doctype
-     * @return mixed []
+     * @return string[] klíč označení, hodnota popis
      */
     public function getVATs($doctype = "FV") {
         return $this->handleRequest('accountentry_type?doctype=' . $doctype, Connector::GET);
@@ -229,30 +249,30 @@ class IUcto {
     /**
      * Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.{"id": "popis"}
      * 
-     * @return mixed []
+     * @return string[] klíč označení, hodnota popis
      */
-    public function getAccounts() {
+    public function getChartAccounts() {
         return $this->handleRequest('chart_account', Connector::GET);
     }
 
     /**
      * Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.{"id": "popis"}
      * 
-     * @return type
+     * @return mixed[] klíč (int) označení, hodnota popis
      */
-    public function getAccountVATs() {
+    public function getChartAccountVATs() {
         return $this->handleRequest('vat_chart', Connector::GET);
     }
 
     /**
      * Výpis dostupných středisek.
      *  
-     * @return mixed []
+     * @return Department[]
      */
     public function getDepartments() {
         $allData = $this->handleRequest('department', Connector::GET);
         $departments = array();
-        foreach ($allData as $data) {
+        foreach ($allData['department'] as $data) {
             $departments[] = new Department($data);
         }
         return $departments;
@@ -261,12 +281,12 @@ class IUcto {
     /**
      * Výpis dostupných zakázek.
      * 
-     * @return type
+     * @return Contract[]
      */
     public function getContracts() {
         $allData = $this->handleRequest('contract', Connector::GET);
         $contracts = array();
-        foreach ($allData as $data) {
+        foreach ($allData['contract'] as $data) {
             $contracts[] = new Contract($data);
         }
         return $contracts;
@@ -275,7 +295,7 @@ class IUcto {
     /**
      * Seznam dostupných metod.
      * 
-     * @return mixed []
+     * @return string[] klíč označení, hodnota popis
      */
     public function getPaymentMethods() {
         return $this->handleRequest('preferred_payment_method', Connector::GET);
@@ -284,7 +304,7 @@ class IUcto {
     /**
      * Seznam dostupných států.
      * 
-     * @return mixed []
+     * @return string[] klíč označení, hodnota popis
      */
     public function getStates() {
         return $this->handleRequest('country', Connector::GET);

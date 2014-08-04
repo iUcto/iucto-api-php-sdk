@@ -1,7 +1,11 @@
 <?php
 
+namespace IUcto\Dto;
+
+use IUcto\Utils;
+
 /**
- * Description of Customer
+ * DTO for Customer data
  *
  * @author admin
  */
@@ -43,7 +47,7 @@ class Customer {
     private $vatid;
 
     /**
-     * Plátce DPHP (ano/ne)
+     * Plátce DPH (ano/ne)
      *
      * @var string
      */
@@ -140,6 +144,9 @@ class Customer {
      */
     private $accountNumber4;
 
+    /**
+     * @param mixed[] $arrayData input data
+     */
     public function __construct(array $arrayData) {
         $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];

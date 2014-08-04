@@ -1,4 +1,7 @@
 <?php
+
+namespace IUcto;
+
 /**
  * @see https://github.com/php-curl-class/php-curl-class
  */
@@ -123,7 +126,7 @@ class Curl
     {
         $this->setOpt(CURLOPT_URL, $url);
         $this->setOpt(CURLOPT_CUSTOMREQUEST, 'PUT');
-        $put_data = http_build_query($data);
+        $put_data = json_encode($data);
         if (empty($this->options[CURLOPT_INFILE]) && empty($this->options[CURLOPT_INFILESIZE])) {
             $this->setHeader('Content-Length', strlen($put_data));
         }

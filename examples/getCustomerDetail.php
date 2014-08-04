@@ -1,14 +1,17 @@
 <?php
+date_default_timezone_set("Europe/Prague");
 
 require_once __DIR__ . '/../IUctoFactory.php';
 
-$iUcto = IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
+$iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
 
 
 try {
-    $documents = $iUcto->getCustomerDetail(33);
-    var_dump($documents);
-} catch (ConnectionException $e) {
+    $customer = $iUcto->getCustomerDetail(1638);
+    echo '<pre>';
+    print_r($customer);
+    echo '</pre>';
+} catch (IUcto\ConnectionException $e) {
     // network layer problem
     // HTTP response code
     echo $e->getCode();
