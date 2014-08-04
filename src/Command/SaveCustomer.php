@@ -12,7 +12,7 @@ use IUcto\Dto\Address;
 class SaveCustomer {
 
     /**
-     * Jméno zákazníka
+     * Jméno zákazníka (povinné)
      *
      * @var string
      */
@@ -33,21 +33,21 @@ class SaveCustomer {
     private $comid;
 
     /**
-     * DIČ
+     * DIČ (povinné, pokud je vatPayer true)
      *
      * @var string
      */
     private $vatid;
 
     /**
-     * Plátce DPHP (ano/ne)
+     * Plátce DPH (ano/ne) (povinné)
      *
      * @var string
      */
     private $vatPayer;
 
     /**
-     * Email
+     * Email (povinné)
      *
      * @var string
      */
@@ -75,28 +75,28 @@ class SaveCustomer {
     private $www;
 
     /**
-     * Obvyklá splatnost [dny]
+     * Obvyklá splatnost [dny] (povinné)
      *
      * @var string
      */
     private $usualMaturity;
 
     /**
-     * Preferovaná metoda platby
+     * Preferovaná metoda platby (povinné)
      *
      * @var string
      */
     private $preferredPaymentMethod;
 
     /**
-     * Jazyk faktury [cs, sk, en]
+     * Jazyk faktury [cs, sk, en] (povinné)
      *
      * @var string
      */
     private $invoiceLanguage;
 
     /**
-     * Adresa
+     * Adresa (povinné)
      *
      * @var Address
      */

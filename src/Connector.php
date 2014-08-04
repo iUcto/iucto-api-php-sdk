@@ -28,6 +28,16 @@ class Connector {
         $this->endpoint = rtrim($endpoint, '/');
     }
 
+    /**
+     * Request the server
+     * 
+     * @param string $address
+     * @param string $method
+     * @param mixed[] $data
+     * @return mixed[]
+     * @throws Exception
+     * @throws ConnectionException
+     */
     public function request($address, $method, $data) {
         $response = null;
         $url = $this->endpoint . "/" . $this->version . "/" . $address;

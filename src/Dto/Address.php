@@ -12,28 +12,28 @@ use IUcto\Utils;
 class Address {
 
     /**
-     * 
+     * (povinné)
      *   
      * @var string
      */
     private $street;
 
     /**
-     * 
+     * (povinné)
      *   
      * @var string
      */
     private $city;
 
     /**
-     * 
+     * (povinné)
      *   
      * @var string
      */
     private $postalcode;
 
     /**
-     * 
+     * (povinné)
      *   
      * @var string
      */

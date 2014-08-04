@@ -19,7 +19,7 @@ class DocumentItem {
     private $id;
 
     /**
-     * Počet
+     * Počet (povinné)
      *   
      * @var decimal(12,2)
      */
@@ -33,14 +33,14 @@ class DocumentItem {
     private $unit;
 
     /**
-     * Cena za jednotku
+     * Cena za jednotku (povinné)
      *   
      * @var decimal(12,2)
      */
     private $price;
 
     /**
-     * Popis
+     * Popis (povinné) 
      *   
      * @var string(255)
      */
@@ -54,14 +54,14 @@ class DocumentItem {
     private $vat;
 
     /**
-     * Typ účetní položky
+     * Typ účetní položky (povinné)
      *   
      * @var int(11)
      */
     private $accountentrytypeId;
 
     /**
-     * Typ DPH
+     * Typ DPH (povinné)
      *   
      * @var int(11)
      */

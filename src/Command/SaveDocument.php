@@ -12,42 +12,42 @@ use IUcto\Dto\DocumentItem;
 class SaveDocument {
 
     /**
-     * Variabilní symbol
+     * Variabilní symbol (povinné)
      *   
      * @var string (42)
      */
     private $variableSymbol;
 
     /**
-     * Datum vystavení
+     * Datum vystavení (povinné)
      *   
      * @var DateTime
      */
     private $date;
 
     /**
-     * Datum zdanitelného plnění
+     * Datum zdanitelného plnění (povinné)
      *   
      * @var DateTime
      */
     private $dateVat;
 
     /**
-     * Datum splatnosti
+     * Datum splatnosti (povinné)
      *   
      * @var DateTime
      */
     private $maturityDate;
 
     /**
-     * Měna dokladu
+     * Měna dokladu (povinné)
      *   
      * @var string (3)
      */
     private $currency;
 
     /**
-     * Zákazník
+     * Zákazník (povinné)
      *   
      * @var CustomerOverview
      */
@@ -68,9 +68,9 @@ class SaveDocument {
     private $paymentType;
 
     /**
-     * Bankovního účet pro příjem platby
+     * Bankovního účet pro příjem platby (povinné)
      *   
-     * @var BankAccount
+     * @var int
      */
     private $bankAccount;
 
@@ -96,7 +96,7 @@ class SaveDocument {
     private $roundingType;
 
     /**
-     * Položky dokladu
+     * Položky dokladu (povinné)
      *   
      * @var DocumentItem[]
      */
@@ -190,7 +190,7 @@ class SaveDocument {
      * 
      * @param int|DateTime $input unix timestamp or DateTime object
      */
-    public function setDateVat(DateTime $input) {
+    public function setDateVat($input) {
         $this->dateVat = Utils::getDateTimeFrom($input);
     }
 
@@ -198,7 +198,7 @@ class SaveDocument {
      * 
      * @param int|DateTime $input unix timestamp or DateTime object
      */
-    public function setMaturityDate(DateTime $input) {
+    public function setMaturityDate($input) {
         $this->maturityDate = Utils::getDateTimeFrom($input);
     }
 
@@ -206,7 +206,7 @@ class SaveDocument {
         $this->currency = $currency;
     }
 
-    public function setCustomerId(CustomerOverview $customerId) {
+    public function setCustomerId($customerId) {
         $this->customerId = $customerId;
     }
 
@@ -238,7 +238,7 @@ class SaveDocument {
         $this->roundingType = $roundingType;
     }
 
-    public function setItems(DocumentItem $items) {
+    public function setItems(array $items) {
         $this->items = $items;
     }
 
