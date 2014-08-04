@@ -697,6 +697,8 @@ var connectionExceptions = {
     "description": "V případě jiného návratového kódu požadavku, než je 2xx bude vyhozena výjimka ConnectionException."
 }
 
+var allTypes = [bankAccountType, documentType, customerDataType, customerDataType.fields[2].dataType, documentType.fields[19].dataType]
+
 var docDefinition = {
     "apiVersion": "0.1",
     "apiName": "iUcto api dokumentace",

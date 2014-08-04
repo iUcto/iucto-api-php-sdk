@@ -115,7 +115,7 @@ class Curl
         $this->setOpt(CURLOPT_URL, $this->buildURL($url));
         $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
         $this->setOpt(CURLOPT_POST, true);
-        $this->setOpt(CURLOPT_POSTFIELDS, $this->postfields($data));
+        $this->setOpt(CURLOPT_POSTFIELDS, json_encode($data));
         return $this->exec();
     }
 

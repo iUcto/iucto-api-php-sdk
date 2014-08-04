@@ -4,6 +4,23 @@ require_once __DIR__ . '/Connector.php';
 require_once __DIR__ . '/Parser.php';
 require_once __DIR__ . '/ErrorHandler.php';
 
+require_once __DIR__ . '/Dto/DocumentOverview.php';
+require_once __DIR__ . '/Dto/DocumentItem.php';
+require_once __DIR__ . '/Dto/DocumentDetail.php';
+require_once __DIR__ . '/Dto/Department.php';
+require_once __DIR__ . '/Dto/CustomerOverview.php';
+require_once __DIR__ . '/Dto/Customer.php';
+require_once __DIR__ . '/Dto/ContractOverview.php';
+require_once __DIR__ . '/Dto/Contract.php';
+require_once __DIR__ . '/Dto/BankAccount.php';
+require_once __DIR__ . '/Dto/BankAccountList.php';
+require_once __DIR__ . '/Dto/Address.php';
+
+require_once __DIR__ . '/Command/SaveCustomer.php';
+require_once __DIR__ . '/Command/SaveDocument.php';
+
+require_once __DIR__ . '/ArrayUtils.php';
+
 /**
  * @author IUcto
  */
@@ -19,7 +36,7 @@ class IUcto {
         $this->errorHandler = $errorHandler;
     }
 
-    private function handleRequest($address, $method, array $data = array()) {
+    private function handleRequest($address, $method, array $data = array()) {        
         $response = $this->connector->request($address, $method, $data);
         $data = $this->parser->parse($response);
         if (isset($data['errors']) && is_array($data['errors'])) {
@@ -31,20 +48,28 @@ class IUcto {
     /**
      * Zjednodušený výpis všech dostupných dokladů.
      * 
-     * @return mixed[]
+     * @return DocumentOverview[][] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu. 
      */
     public function getAllDocuments() {
-        return $this->handleRequest('invoice_issued', Connector::GET);
+        $allData = $this->handleRequest('invoice_issued', Connector::GET);
+        $allDocuments = array();
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                $allDocuments[$type][] = new DocumentOverview($data);
+            }            
+        }
+        return $allDocuments;
     }
 
     /**
      * Vytvoří nový doklad, odpověd obsahuje detail dokladu.
      * 
-     * @param mixed[] $data
-     * @return mixed []
+     * @param SaveDocument $saveDocument
+     * @return DocumentDetail
      */
-    public function createNewDocument(array $data) {
-        return $this->handleRequest('invoice_issued', Connector::POST, $data);
+    public function createNewDocument(SaveDocument $saveDocument) {
+        $allData = $this->handleRequest('invoice_issued', Connector::POST, $saveDocument->toArray());
+        return new DocumentDetail($allData);
     }
 
     /**
@@ -54,7 +79,8 @@ class IUcto {
      * @return mixed []
      */
     public function getDocumentDetail($id) {
-        return $this->handleRequest('invoice_issued/' . $id, Connector::GET);
+        $allData = $this->handleRequest('invoice_issued/' . $id, Connector::GET);
+        return new DocumentDetail($allData);
     }
 
     /**
@@ -65,17 +91,18 @@ class IUcto {
      * @return mixed []
      */
     public function updateDocument($id, array $data) {
-        return $this->handleRequest('invoice_issued/' . $id, Connector::PUT, $data);
+        $allData = $this->handleRequest('invoice_issued/' . $id, Connector::PUT, $data);
+        return new DocumentDetail($allData);
     }
 
     /**
      * Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
      * 
      * @param int $id
-     * @return type
+     * @return void
      */
     public function deleteDocument($id) {
-        return $this->handleRequest('invoice_issued/' . $id, Connector::DELETE);
+        $this->handleRequest('invoice_issued/' . $id, Connector::DELETE);
     }
 
     /**
@@ -84,7 +111,8 @@ class IUcto {
      * @return mixed []
      */
     public function getCustomers() {
-        return $this->handleRequest('customer', Connector::GET);
+        $allData = $this->handleRequest('customer', Connector::GET);
+        return new CustomerOverview($allData);
     }
 
     /**
@@ -93,8 +121,9 @@ class IUcto {
      * @param mixed [] $data
      * @return mixed []
      */
-    public function createCustomer(array $data) {
-        return $this->handleRequest('customer', Connector::POST, $data);
+    public function createCustomer(SaveCustomer $saveCustomer) {
+        $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
+        return new Customer($allData);
     }
 
     /**
@@ -104,7 +133,8 @@ class IUcto {
      * @return mixed []
      */
     public function getCustomerDetail($id) {
-        return $this->handleRequest('customer/' . $id, Connector::GET);
+        $allData = $this->handleRequest('customer/' . $id, Connector::GET);
+        return new Customer($allData);
     }
 
     /**
@@ -114,8 +144,9 @@ class IUcto {
      * @param mixed [] $data
      * @return mixed []
      */
-    public function updateCustomer($id, array $data) {
-        return $this->handleRequest('customer/' . $id, Connector::PUT, $data);
+    public function updateCustomer($id, SaveCustomer $saveCustomer) {
+        $allData = $this->handleRequest('customer/' . $id, Connector::PUT, $saveCustomer);
+        return new Customer($allData);
     }
 
     /**
@@ -125,7 +156,7 @@ class IUcto {
      * @return type
      */
     public function deleteCustomer($id) {
-        return $this->handleRequest('customer/' . $id, Connector::DELETE);
+        $allData = $this->handleRequest('customer/' . $id, Connector::DELETE);
     }
 
     /**
@@ -134,7 +165,8 @@ class IUcto {
      * @return mixed []
      */
     public function getAllAccounts() {
-        return $this->handleRequest('bank_account', Connector::GET);
+        $allData = $this->handleRequest('bank_account', Connector::GET);
+        return new BankAccountList($allData);
     }
 
     /**
@@ -217,8 +249,13 @@ class IUcto {
      *  
      * @return mixed []
      */
-    public function getResponsibilityCenters() {
-        return $this->handleRequest('department', Connector::GET);
+    public function getDepartments() {
+        $allData = $this->handleRequest('department', Connector::GET);
+        $departments = array();
+        foreach ($allData as $data) {
+            $departments[] = new Department($data);
+        }
+        return $departments;
     }
 
     /**
@@ -227,7 +264,12 @@ class IUcto {
      * @return type
      */
     public function getContracts() {
-        return $this->handleRequest('contract', Connector::GET);
+        $allData = $this->handleRequest('contract', Connector::GET);
+        $contracts = array();
+        foreach ($allData as $data) {
+            $contracts[] = new Contract($data);
+        }
+        return $contracts;
     }
 
     /**

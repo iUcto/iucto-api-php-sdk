@@ -13,14 +13,25 @@
         <script>
             var docModule = angular.module('docModule', ['ui.bootstrap']);
             docModule.value('docData', docDefinition)
-                    .controller('docController', function($scope, $http, docData) {
+                    .value('allTypes', allTypes)
+                    .controller('docController', function($scope, $http, docData, allTypes) {
                         $scope.docData = docData;
+                        $scope.allTypes = allTypes;
                         angular.forEach($scope.docData.services, function(service, key) {
                             service.isCollapsed = true;
                             $http.get("getExample.php?name=" + service.name).success(function(data) {
                                 service.example = data;
                             });
                         });
+                        $scope.camelCase = function(str) { 
+                                   var camelCased = str.replace(/[-_ .]+(.)?/g, function (match, p) {
+        if (p) {
+            return p.toUpperCase();
+        }
+        return '';
+    }).replace(/[^\w]/gi, '');
+    return camelCased;
+                        }
                     })
                     .directive('params', function($compile) {
                         return {
@@ -56,8 +67,24 @@
         <div class="bs-docs-header" id="content">
             <div class="container">
                 <h1>{{docData.apiName}} <span class="version">{{docData.apiVersion}}</span></h1>
+                <div ng-repeat="type in allTypes">
+                    <h2>Dalsi---</h2>
+                    <pre>
+                            <span ng-repeat="field in type.fields">
+                                /**
+                                * {{field.description}}
+                                *   
+                                * @var {{field.dataType}}
+                                */
+                                private ${{camelCase(field.name)}};
+                                
+                            </span>
+                              
+                    </pre>
+                </div>
                 <div ng-repeat="service in docData.services">
                     <a href="#" ng-click="service.isCollapsed = !service.isCollapsed"><h3>{{service.name}}</h3></a>
+
                     <div collapse="service.isCollapsed">
                         <p>{{service.shortDescription}}</p>
                         <p ng-show="!service.parameters">Bez parametrů</p>
