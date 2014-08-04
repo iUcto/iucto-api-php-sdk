@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../IUctoFactory.php';
+require_once __DIR__ . '/../src/IUctoFactory.php';
 
 $iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
 

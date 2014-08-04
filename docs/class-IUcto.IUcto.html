@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class IUcto\IUcto</title>
+
+	<script type="text/javascript" src="resources/combined.js?1800269748"></script>
+	<script type="text/javascript" src="elementlist.js?608688379"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-IUcto.html">IUcto<span></span></a>
+						<ul>
+				<li><a href="namespace-IUcto.Command.html">Command</a>
+						</li>
+				<li><a href="namespace-IUcto.Dto.html">Dto</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-IUcto.CaseInsensitiveArray.html">CaseInsensitiveArray</a></li>
+				<li><a href="class-IUcto.Connector.html">Connector</a></li>
+				<li><a href="class-IUcto.Curl.html">Curl</a></li>
+				<li><a href="class-IUcto.ErrorHandler.html">ErrorHandler</a></li>
+				<li class="active"><a href="class-IUcto.IUcto.html">IUcto</a></li>
+				<li><a href="class-IUcto.IUctoFactory.html">IUctoFactory</a></li>
+				<li><a href="class-IUcto.Parser.html">Parser</a></li>
+				<li><a href="class-IUcto.Utils.html">Utils</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-IUcto.ConnectionException.html">ConnectionException</a></li>
+				<li><a href="class-IUcto.ValidationException.html">ValidationException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-IUcto.html" title="Summary of IUcto"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class IUcto</h1>
+
+
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-IUcto.html">IUcto</a><br />
+		
+
+				<b>Author:</b>
+				IUcto<br />
+		<b>Located at</b> <a href="source-class-IUcto.IUcto.html#40-313" title="Go to source code">IUcto.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#49-53" title="Go to source code">__construct</a>( <span><code><a href="class-IUcto.Connector.html">IUcto\Connector</a></code> <var>$connector</var></span>, <span><code><a href="class-IUcto.Parser.html">IUcto\Parser</a></code> <var>$parser</var></span>, <span><code><a href="class-IUcto.ErrorHandler.html">IUcto\ErrorHandler</a></code> <var>$errorHandler</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAllDocuments" id="_getAllDocuments">
+
+		<td class="attributes"><code>
+			 public 
+			DocumentOverview[][]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAllDocuments">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#64-78" title="Go to source code">getAllDocuments</a>( )</code>
+
+		<div class="description short">
+			
+<p>Zjednodušený výpis všech dostupných dokladů.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Zjednodušený výpis všech dostupných dokladů.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>DocumentOverview[][]</code><br>- 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="createDocument" id="_createDocument">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.DocumentDetail.html">IUcto\Dto\DocumentDetail</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_createDocument">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#80-89" title="Go to source code">createDocument</a>( <span><code><a href="class-IUcto.Command.SaveDocument.html">IUcto\Command\SaveDocument</a></code> <var>$saveDocument</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Vytvoří nový doklad, odpověd obsahuje detail dokladu.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Vytvoří nový doklad, odpověd obsahuje detail dokladu.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$saveDocument</var></dt>
+					<dd><code><code><a href="class-IUcto.Command.SaveDocument.html">IUcto\Command\SaveDocument</a></code></code><br>$saveDocument</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.DocumentDetail.html">IUcto\Dto\DocumentDetail</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDocumentDetail" id="_getDocumentDetail">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.DocumentDetail.html">IUcto\Dto\DocumentDetail</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDocumentDetail">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#91-100" title="Go to source code">getDocumentDetail</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Vrátí kompletní kolekci dat vybraného dokladu.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Vrátí kompletní kolekci dat vybraného dokladu.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.DocumentDetail.html">IUcto\Dto\DocumentDetail</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="updateDocument" id="_updateDocument">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateDocument">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#102-112" title="Go to source code">updateDocument</a>( <span>integer <var>$id</var></span>, <span><code><a href="class-IUcto.Command.SaveDocument.html">IUcto\Command\SaveDocument</a></code> <var>$saveDocument</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Aktulizuje předané parametry vybraného dokladu. Poviné ple jsou stejná
+jako při vkládání nového záznamu.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Aktulizuje předané parametry vybraného dokladu. Poviné ple jsou stejná
+jako při vkládání nového záznamu.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+					<dt><var>$saveDocument</var></dt>
+					<dd><code><code><a href="class-IUcto.Command.SaveDocument.html">IUcto\Command\SaveDocument</a></code></code><br>$saveDocument</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>[]<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="deleteDocument" id="_deleteDocument">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_deleteDocument">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#114-122" title="Go to source code">deleteDocument</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam,
+vrátí chybu a doklad se nasmaže.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam,
+vrátí chybu a doklad se nasmaže.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCustomers" id="_getCustomers">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.CustomerOverview.html">IUcto\Dto\CustomerOverview</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCustomers">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#124-136" title="Go to source code">getCustomers</a>( )</code>
+
+		<div class="description short">
+			
+<p>Zjednodušený výpis všech dostupných zákazníků.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Zjednodušený výpis všech dostupných zákazníků.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.CustomerOverview.html">IUcto\Dto\CustomerOverview</a></code></code><br>[]<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="createCustomer" id="_createCustomer">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.Customer.html">IUcto\Dto\Customer</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_createCustomer">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#138-147" title="Go to source code">createCustomer</a>( <span><code><a href="class-IUcto.Command.SaveCustomer.html">IUcto\Command\SaveCustomer</a></code> <var>$saveCustomer</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Vytvoří nový doklad, odpověd obsahuje detail vytvořeného
+zákazníka.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Vytvoří nový doklad, odpověd obsahuje detail vytvořeného
+zákazníka.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$saveCustomer</var></dt>
+					<dd><code><code><a href="class-IUcto.Command.SaveCustomer.html">IUcto\Command\SaveCustomer</a></code></code><br>$saveCustomer</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.Customer.html">IUcto\Dto\Customer</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCustomerDetail" id="_getCustomerDetail">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.Customer.html">IUcto\Dto\Customer</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCustomerDetail">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#149-158" title="Go to source code">getCustomerDetail</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Vrátí veškerá data k zákazníkovi.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Vrátí veškerá data k zákazníkovi.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.Customer.html">IUcto\Dto\Customer</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="updateCustomer" id="_updateCustomer">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_updateCustomer">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#160-170" title="Go to source code">updateCustomer</a>( <span>integer <var>$id</var></span>, <span><code><a href="class-IUcto.Command.SaveCustomer.html">IUcto\Command\SaveCustomer</a></code> <var>$saveCustomer</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Aktulizuje předané parametry vybraného zákazníka. Poviné ple jsou
+stejná jako při vkládání nového zákazníka.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Aktulizuje předané parametry vybraného zákazníka. Poviné ple jsou
+stejná jako při vkládání nového zákazníka.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+					<dt><var>$saveCustomer</var></dt>
+					<dd><code>mixed</code><br>[] $data</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>[]<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="deleteCustomer" id="_deleteCustomer">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_deleteCustomer">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#172-180" title="Go to source code">deleteCustomer</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný
+záznam (faktury, platba, apod.), vrátí chybu a zákazník se nasmaže.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný
+záznam (faktury, platba, apod.), vrátí chybu a zákazník se nasmaže.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAllAccounts" id="_getAllAccounts">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.BankAccountList.html">IUcto\Dto\BankAccountList</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAllAccounts">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#182-190" title="Go to source code">getAllAccounts</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam dostupných bankovních účtů.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam dostupných bankovních účtů.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.BankAccountList.html">IUcto\Dto\BankAccountList</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCurrencies" id="_getCurrencies">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCurrencies">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#192-199" title="Go to source code">getCurrencies</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam dostupných měn pro použití v dokladech.Dostupnost se může měnit
+v závislosti na aktivaci rozšíření Účtování v cizích měnách.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam dostupných měn pro použití v dokladech.Dostupnost se může měnit
+v závislosti na aktivaci rozšíření Účtování v cizích měnách.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getRoundingTypes" id="_getRoundingTypes">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRoundingTypes">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#201-208" title="Go to source code">getRoundingTypes</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam metod pro zaokrouhlování částek v dokladech.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam metod pro zaokrouhlování částek v dokladech.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMethods" id="_getMethods">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMethods">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#210-217" title="Go to source code">getMethods</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam dostupných metod pro provedení platby používaných v
+dokladech.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam dostupných metod pro provedení platby používaných v
+dokladech.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getVATRatesOn" id="_getVATRatesOn">
+
+		<td class="attributes"><code>
+			 public 
+			int[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getVATRatesOn">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#219-227" title="Go to source code">getVATRatesOn</a>( <span>integer|<code><a href="class-DateTime.html">DateTime</a></code> <var>$date</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Seznam kurzů DPH k danému datu.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam kurzů DPH k danému datu.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$date</var></dt>
+					<dd><code>integer|<code><a href="class-DateTime.html">DateTime</a></code></code><br>$date unix timestamp or DateTime object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>int[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAccountingEntryTypes" id="_getAccountingEntryTypes">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAccountingEntryTypes">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#229-237" title="Go to source code">getAccountingEntryTypes</a>( <span>string <var>$doctype</var> = <span class="php-quote">&quot;FV&quot;</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Odpověd obsahuje pole dostupných účetních položek v závislosti na
+parametru doctype. Formát odpovědi: {"id": "popis"}</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Odpověd obsahuje pole dostupných účetních položek v závislosti na
+parametru doctype. Formát odpovědi: {"id": "popis"}</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$doctype</var></dt>
+					<dd><code>string</code><br>$doctype</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getVATs" id="_getVATs">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getVATs">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#239-247" title="Go to source code">getVATs</a>( <span>string <var>$doctype</var> = <span class="php-quote">&quot;FV&quot;</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru
+doctype. Formát odpovědi: {"id": "popis"}</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru
+doctype. Formát odpovědi: {"id": "popis"}</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$doctype</var></dt>
+					<dd><code>string</code><br>$doctype</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getChartAccounts" id="_getChartAccounts">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getChartAccounts">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#249-256" title="Go to source code">getChartAccounts</a>( )</code>
+
+		<div class="description short">
+			
+<p>Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v
+dokladech.{"id": "popis"}</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v
+dokladech.{"id": "popis"}</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getChartAccountVATs" id="_getChartAccountVATs">
+
+		<td class="attributes"><code>
+			 public 
+			mixed[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getChartAccountVATs">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#258-265" title="Go to source code">getChartAccountVATs</a>( )</code>
+
+		<div class="description short">
+			
+<p>Odpověd obsahuje pole dostupných Účty DPH pro použití v
+dokladech.{"id": "popis"}</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Odpověd obsahuje pole dostupných Účty DPH pro použití v
+dokladech.{"id": "popis"}</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed[]</code><br>klíč (int) označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDepartments" id="_getDepartments">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.Department.html">IUcto\Dto\Department</a>[]</code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDepartments">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#267-279" title="Go to source code">getDepartments</a>( )</code>
+
+		<div class="description short">
+			
+<p>Výpis dostupných středisek.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Výpis dostupných středisek.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.Department.html">IUcto\Dto\Department</a>[]</code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getContracts" id="_getContracts">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-IUcto.Dto.Contract.html">IUcto\Dto\Contract</a>[]</code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getContracts">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#281-293" title="Go to source code">getContracts</a>( )</code>
+
+		<div class="description short">
+			
+<p>Výpis dostupných zakázek.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Výpis dostupných zakázek.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-IUcto.Dto.Contract.html">IUcto\Dto\Contract</a>[]</code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPaymentMethods" id="_getPaymentMethods">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPaymentMethods">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#295-302" title="Go to source code">getPaymentMethods</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam dostupných metod.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam dostupných metod.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getStates" id="_getStates">
+
+		<td class="attributes"><code>
+			 public 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getStates">#</a>
+		<code><a href="source-class-IUcto.IUcto.html#304-311" title="Go to source code">getStates</a>( )</code>
+
+		<div class="description short">
+			
+<p>Seznam dostupných států.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Seznam dostupných států.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br>klíč označení, hodnota popis<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
