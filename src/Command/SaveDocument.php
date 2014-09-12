@@ -19,28 +19,29 @@ class SaveDocument {
     private $variableSymbol;
 
     /**
-     * Datum vystavení (povinné)
-     *   
-     * @var DateTime
+     * Datum vystavení (povinné) (formát YYYY-mm-dd)
+     * 
+     * @var string
      */
     private $date;
 
     /**
-     * Datum zdanitelného plnění (povinné)
+     * Datum zdanitelného plnění (povinné) (formát YYYY-mm-dd)
      *   
-     * @var DateTime
+     * @var string
      */
     private $dateVat;
 
     /**
-     * Datum splatnosti (povinné)
+     * Datum splatnosti (povinné) (formát YYYY-mm-dd)
      *   
-     * @var DateTime
+     * @var string
      */
     private $maturityDate;
 
     /**
      * Měna dokladu (povinné)
+     * @see IUcto\IUcto::getCurrencies()
      *   
      * @var string (3)
      */
@@ -48,6 +49,7 @@ class SaveDocument {
 
     /**
      * Zákazník (povinné)
+     * @see IUcto\IUcto::getCustomers()
      *   
      * @var CustomerOverview
      */
@@ -62,22 +64,24 @@ class SaveDocument {
 
     /**
      * Forma úhrady
-     *   
+     * @see IUcto\IUcto::getPaymentTypes()
+     * 
      * @var int(1)
      */
     private $paymentType;
 
     /**
      * Bankovního účet pro příjem platby (povinné)
+     * @see IUcto\IUcto::getBankAccounts()
      *   
      * @var int
      */
     private $bankAccount;
 
     /**
-     * Datum zdanitelného plnění
+     * Datum zdanitelného plnění (formát YYYY-mm-dd)
      *   
-     * @var DateTime
+     * @var string
      */
     private $dateVatPrev;
 
@@ -90,6 +94,8 @@ class SaveDocument {
 
     /**
      * Způsob zaokrouhlení
+     * 
+     * @see IUcto\IUcto::getRoundingTypes()
      *   
      * @var string
      */
@@ -104,15 +110,15 @@ class SaveDocument {
 
     public function __construct(array $dataArray = array()) {
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
-        $this->date = Utils::getDateTimeFrom($dataArray['date']);
-        $this->dateVat = Utils::getDateTimeFrom($dataArray['date_vat']);
-        $this->maturityDate = Utils::getDateTimeFrom($dataArray['maturity_date']);
+        $this->date = Utils::getValueOrNull($dataArray, 'date');
+        $this->dateVat = Utils::getValueOrNull($dataArray, 'date_vat');
+        $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
         $this->currency = Utils::getValueOrNull($dataArray, 'currency');
         $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
         $this->customerBankAccount = Utils::getValueOrNull($dataArray, 'customer_bank_account');
         $this->paymentType = Utils::getValueOrNull($dataArray, 'payment_type');
         $this->bankAccount = Utils::getValueOrNull($dataArray, 'bank_account');
-        $this->dateVatPrev = Utils::getDateTimeFrom($dataArray['date_vat_prev']);
+        $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
         if (array_key_exists('items', $dataArray)) {
@@ -244,15 +250,15 @@ class SaveDocument {
 
     public function toArray() {
         $array = array('variable_symbol' => $this->variableSymbol,
-            'date' => Utils::getTimestampFrom($this->date),
-            'date_vat' => Utils::getTimestampFrom($this->dateVat),
-            'maturity_date' => Utils::getTimestampFrom($this->maturityDate),
+            'date' => $this->date,
+            'date_vat' => $this->dateVat,
+            'maturity_date' => $this->maturityDate,
             'currency' => $this->currency,
             'customer_id' => $this->customerId,
             'customer_bank_account' => $this->customerBankAccount,
             'payment_type' => $this->paymentType,
             'bank_account' => $this->bankAccount,
-            'date_vat_prev' => Utils::getTimestampFrom($this->dateVatPrev),
+            'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
             'rounding_type' => $this->roundingType
         );

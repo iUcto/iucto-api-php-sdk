@@ -30,10 +30,13 @@ require_once __DIR__ . '/Utils.php';
  */
 class IUctoFactory {
     
-    const DEFAULT_ENDPOINT = 'http://api.gsmobile-novydesign.dev2.datesoft.cz/'; //'https://api.iucto.cz/';
+    const DEFAULT_ENDPOINT = 'https://online.iucto.cz/api';
     
-    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '0.1') {
+    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.0') {
         $curl = new Curl();
+        if (strpos($endpoint, 'https') === 0) {
+            $curl->setOpt(CURLOPT_CAINFO, __DIR__ . '/resources/cacert.pem');
+        }
         $curl->setHeader('X-Auth-Key', $apiKey);
         $curl->setHeader('Content-Type', 'application/json');
         $connector = new Connector($curl, $apiKey, $version, $endpoint);

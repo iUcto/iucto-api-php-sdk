@@ -3,11 +3,11 @@ date_default_timezone_set("Europe/Prague");
 
 require_once __DIR__ . '/../src/IUctoFactory.php';
 
-$iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
+$iUcto = IUcto\IUctoFactory::create('62b905ecb3e0ec6e760f20aacc59f15c'); // přidejte druhý parametr "http://gsmobile-novydesign.dev2.datesoft.cz/api" pro volání testovací verze
 
 
 try {
-    $customer = $iUcto->getCustomerDetail(1638);
+    $customer = $iUcto->getCustomerDetail(285);
     echo '<pre>';
     print_r($customer);
     echo '</pre>';

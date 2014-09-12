@@ -55,19 +55,33 @@ class Connector {
                 $response = $this->curl->delete($url, $data);
                 break;
             default:
-                throw new Exception("Unknown method type ".$method);
+                throw new Exception("Unknown method type " . $method);
         }
         if ($this->curl->curl_error) {
             throw new ConnectionException(sprintf("Error while requesting endpoint. Original message: %s", $this->curl->error_message));
         }
         if ($this->curl->error_code > 205 && $this->curl->response === '') {
-            $prepended = $this->curl->error_message . ' ';
-            if ($this->curl->error_code == 401) {
-                $prepended = 'Unauthorized. Check you api key. ';
+            $appended = "Operaci nelze provest. ";
+            switch ($this->curl->error_code) {
+                case 400:
+                    $appended .= "Vraceny kod 400 muze znamenat tyto moznosti: Komunikace musí probíhat přes protokol HTTPS.|Neplatná verze API, nebo zdroj.|Tělo požadavku je prázdné.|Neplatný JSON formát.|Parametr 'doctype' je povinný.|Parametr 'doctype' není platný.|Parametr 'date' je povinný.|Parametr 'date' není platný.";
+                    break;
+                case 401:
+                    $appended .= 'Zkontrolujte prosím, zda je váš API klíč uveden správně.';
+                    break;
+                case 403:
+                    $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat záznam (má na sobě další závsilosti).| Účetní období, nebo období DPH je uzavřeno.';
+                    break;
+                case 404:
+                    $appended .= 'Záznam nenalezen';
+                    break;
+                default:
+                    $appended .= $this->curl->error_message;
             }
-            throw new ConnectionException(sprintf($prepended . "Error while connecting to %s. Returned code is %s. Body content: %s", $url, $this->curl->error_code, $this->curl->response), $this->curl->error_code);
+
+            throw new ConnectionException(sprintf("Error while connecting to %s. Returned code is %s. Body content: %s. Message: %s", $url, $this->curl->error_code, $this->curl->response, $appended), $this->curl->error_code);
         }
-        
+
         return $response;
     }
 

@@ -161,7 +161,7 @@ class Customer {
         $this->usualMaturity = $arrayData['usual_maturity'];
         $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
         $this->invoiceLanguage = $arrayData['invoice_language'];
-        $this->address = $arrayData['address'];
+        $this->address = new Address($arrayData['address']);
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
         $this->accountNumber2 = $arrayData['account_number2'];

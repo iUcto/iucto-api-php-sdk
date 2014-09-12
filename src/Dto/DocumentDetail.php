@@ -33,23 +33,23 @@ class DocumentDetail {
     private $variableSymbol;
 
     /**
-     * Datum vystavení
+     * Datum vystavení (formát YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $date;
 
     /**
-     * Datum zdanitelného plnění
+     * Datum zdanitelného plnění (formát YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $dateVat;
 
     /**
-     * Datum splatnosti
+     * Datum splatnosti (formát YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $maturityDate;
 
@@ -126,7 +126,7 @@ class DocumentDetail {
     /**
      * Datum zdanitelného plnění
      *   
-     * @var \DateTime
+     * @var string
      */
     private $dateVatPrev;
 

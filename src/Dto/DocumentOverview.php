@@ -33,23 +33,23 @@ class DocumentOverview {
     private $variableSymbol;
 
     /**
-     * Datum vystavení
+     * Datum vystavení (YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $date;
 
     /**
-     * Datum zdanitelného plnění
+     * Datum zdanitelného plnění (YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $dateVat;
 
     /**
-     * Datum splatnosti
+     * Datum splatnosti (YYYY-mm-dd)
      *   
-     * @var \DateTime
+     * @var string
      */
     private $maturityDate;
 
@@ -108,7 +108,7 @@ class DocumentOverview {
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->customer = Utils::getValueOrNull($arrayData, 'customer');
+        $this->customer = new CustomerOverview($arrayData['customer']);
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }

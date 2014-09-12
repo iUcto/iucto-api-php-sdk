@@ -3,14 +3,14 @@ date_default_timezone_set("Europe/Prague");
 
 require_once __DIR__ . '/../src/IUctoFactory.php';
 
-$iUcto = IUcto\IUctoFactory::create('db684cf04efe67e97c5a4d3ceab70ed5');
+$iUcto = IUcto\IUctoFactory::create('62b905ecb3e0ec6e760f20aacc59f15c'); // přidejte druhý parametr "http://gsmobile-novydesign.dev2.datesoft.cz/api" pro volání testovací verze
 try {
     $newDocument = new IUcto\Command\SaveDocument(
             array(
         "variable_symbol" => "20140001",
-        "date" => 1402557951,
-        "date_vat" => 1402557951,
-        "maturity_date" => 1402557951,
+        "date" => "2014-06-01",
+        "date_vat" => "2014-06-01",
+        "maturity_date" => "2014-06-30",
         "currency" => "CZK",
         "customer_id" => 1638,
         "customer_bank_account" => null,

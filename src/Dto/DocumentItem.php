@@ -176,10 +176,6 @@ class DocumentItem {
         return $this->contractId;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
-
     public function setAmount($amount) {
         $this->amount = $amount;
     }

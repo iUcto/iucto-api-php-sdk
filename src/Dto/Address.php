@@ -34,6 +34,7 @@ class Address {
 
     /**
      * (povinné)
+     * @see IUcto\IUcto::getCountries()
      *   
      * @var string
      */

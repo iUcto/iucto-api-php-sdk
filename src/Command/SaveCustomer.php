@@ -83,6 +83,7 @@ class SaveCustomer {
 
     /**
      * Preferovaná metoda platby (povinné)
+     * @see IUcto\IUcto::getPreferedPaymentMethods()
      *
      * @var string
      */

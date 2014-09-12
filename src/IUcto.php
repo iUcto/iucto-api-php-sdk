@@ -153,6 +153,9 @@ class IUcto {
      */
     public function createCustomer(SaveCustomer $saveCustomer) {
         $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
+        if (!$allData) {
+            throw new \InvalidArgumentException("Can't parse the recieved data");
+        }
         return new Customer($allData);
     }
 
@@ -199,7 +202,7 @@ class IUcto {
      * @return BankAccountList
      * @throws IUcto\ConnectionException
      */
-    public function getAllAccounts() {
+    public function getBankAccounts() {
         $allData = $this->handleRequest('bank_account', Connector::GET);
         return new BankAccountList($allData['bank_account']);
     }
@@ -230,19 +233,19 @@ class IUcto {
      * @return string[]  klíč označení, hodnota popis
      * @throws IUcto\ConnectionException
      */
-    public function getMethods() {
+    public function getPaymentTypes() {
         return $this->handleRequest('payment_type', Connector::GET);
     }
 
     /**
      * Seznam kurzů DPH k danému datu.
      * 
-     * @param int|DateTime $date unix timestamp or DateTime object
+     * @param string $date formát (YYYY-mm-dd)
      * @return int[]
      * @throws IUcto\ConnectionException
      */
     public function getVATRatesOn($date) {
-        return $this->handleRequest('vat_rates?date=' . Utils::getTimestampFrom($date), Connector::GET);
+        return $this->handleRequest('vat_rates?date=' . $date, Connector::GET);
     }
 
     /**
@@ -323,7 +326,7 @@ class IUcto {
      * @return string[] klíč označení, hodnota popis
      * @throws IUcto\ConnectionException
      */
-    public function getPaymentMethods() {
+    public function getPreferedPaymentMethods() {
         return $this->handleRequest('preferred_payment_method', Connector::GET);
     }
 
@@ -333,7 +336,7 @@ class IUcto {
      * @return string[] klíč označení, hodnota popis
      * @throws IUcto\ConnectionException
      */
-    public function getStates() {
+    public function getCountries() {
         return $this->handleRequest('country', Connector::GET);
     }
 
