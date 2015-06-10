@@ -51,7 +51,7 @@ class SaveDocument {
      * Zákazník (povinné)
      * @see IUcto\IUcto::getCustomers()
      *   
-     * @var CustomerOverview
+     * @var int
      */
     private $customerId;
 

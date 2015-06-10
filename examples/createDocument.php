@@ -21,7 +21,7 @@ try {
         "rounding_type" => "none",
         "items" => array(
             array(
-                "text" => "Bílé tričko",
+                "text" => "Bílé tričko (lze prát na 60 °C)",
                 "amount" => 5,
                 "price" => 400,
                 "unit" => "ks",

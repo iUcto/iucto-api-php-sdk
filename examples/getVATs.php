@@ -8,7 +8,9 @@ $iUcto = IUcto\IUctoFactory::create('62b905ecb3e0ec6e760f20aacc59f15c'); // při
 
 try {
     $documents = $iUcto->getVATs();
+    echo '<pre>';
     var_dump($documents);
+    echo '</pre>';
 } catch (IUcto\ConnectionException $e) {
     // network layer problem
     // HTTP response code

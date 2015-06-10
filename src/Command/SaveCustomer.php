@@ -42,7 +42,7 @@ class SaveCustomer {
     /**
      * Plátce DPH (ano/ne) (povinné)
      *
-     * @var string
+     * @var bool
      */
     private $vatPayer;
 

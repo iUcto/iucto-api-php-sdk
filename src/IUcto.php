@@ -267,7 +267,7 @@ class IUcto {
      * @throws IUcto\ConnectionException
      */
     public function getVATs($doctype = "FV") {
-        return $this->handleRequest('accountentry_type?doctype=' . $doctype, Connector::GET);
+        return $this->handleRequest('vat_type?doctype=' . $doctype, Connector::GET);
     }
 
     /**

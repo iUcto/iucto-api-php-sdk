@@ -9,8 +9,8 @@ $data = array(
     "name" => "Jan Novák",
     "name_display" => null,
     "comid" => "1234568010",
-    "vatid" => null,
-    "vat_payer" => false,
+    "vatid" => "CZ01234567",
+    "vat_payer" => true,
     "email" =>
     "novak.jan@iucto.cz",
     "phone" => null,
