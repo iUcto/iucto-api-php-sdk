@@ -5,6 +5,8 @@ Pro komunikaci je potřeba vytvořit API klíč, který lze generovat v detailu 
 
 V adresáři __examples__ jsou uvedeny příklady pro volání všech dostupných služeb.
 
+SDK pracuje __výhradně__ s texty v kódování __UTF-8__.
+
 Dokumentace pro PHP je umístěna online na stránkách [iUcto](http://www.iucto.cz/api).
 
 Alternativně lze dokumentaci vygenerovat pomocí aplikace [apigen](http://apigen.org/) příkazem:
