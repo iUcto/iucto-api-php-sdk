@@ -13,6 +13,8 @@ require_once __DIR__ . '/Dto/DocumentDetail.php';
 require_once __DIR__ . '/Dto/Department.php';
 require_once __DIR__ . '/Dto/CustomerOverview.php';
 require_once __DIR__ . '/Dto/Customer.php';
+require_once __DIR__ . '/Dto/SupplierOverview.php';
+require_once __DIR__ . '/Dto/Supplier.php';
 require_once __DIR__ . '/Dto/Contract.php';
 require_once __DIR__ . '/Dto/BankAccount.php';
 require_once __DIR__ . '/Dto/BankAccountOverview.php';
@@ -21,6 +23,7 @@ require_once __DIR__ . '/Dto/Address.php';
 
 require_once __DIR__ . '/Command/SaveCustomer.php';
 require_once __DIR__ . '/Command/SaveDocument.php';
+require_once __DIR__ . '/Command/SaveSupplier.php';
 
 require_once __DIR__ . '/Utils.php';
 

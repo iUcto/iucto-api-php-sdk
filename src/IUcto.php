@@ -12,7 +12,9 @@ require_once __DIR__ . '/Dto/DocumentItem.php';
 require_once __DIR__ . '/Dto/DocumentDetail.php';
 require_once __DIR__ . '/Dto/Department.php';
 require_once __DIR__ . '/Dto/CustomerOverview.php';
-require_once __DIR__ . '/Dto/Customer.php';
+require_once __DIR__ . '/Dto/Customer.php';        
+require_once __DIR__ . '/Dto/SupplierOverview.php';
+require_once __DIR__ . '/Dto/Supplier.php';
 require_once __DIR__ . '/Dto/Contract.php';
 require_once __DIR__ . '/Dto/BankAccount.php';
 require_once __DIR__ . '/Dto/BankAccountOverview.php';
@@ -21,12 +23,14 @@ require_once __DIR__ . '/Dto/Address.php';
 
 require_once __DIR__ . '/Command/SaveCustomer.php';
 require_once __DIR__ . '/Command/SaveDocument.php';
+require_once __DIR__ . '/Command/SaveSupplier.php';
 
 require_once __DIR__ . '/Utils.php';
 
 
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveDocument;
+use IUcto\Command\SaveSupplier;
 
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\Contract;
@@ -34,7 +38,9 @@ use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\Department;
 use IUcto\Dto\DocumentDetail;
-use IUcto\Dto\DocumentOverview;
+use IUcto\Dto\DocumentOverview;  
+use IUcto\Dto\Supplier;
+use IUcto\Dto\SupplierOverview;
 
 
 /**
@@ -194,6 +200,60 @@ class IUcto {
      */
     public function deleteCustomer($id) {
         $this->handleRequest('customer/' . $id, Connector::DELETE);
+    }
+    
+    /**
+     * Pokusi se vytvorit dodavatele
+     * 
+     * @param SaveSupplier $saveSupplier
+     * @return Supplier
+     * @throws IUcto\ConnectionException
+     * @throws IUcto\ValidationException
+     */
+     
+    public function createSupplier(SaveSupplier $saveSupplier) {
+        $allData = $this->handleRequest('supplier', Connector::POST, $saveSupplier->toArray());
+        if (!$allData) {
+            throw new \InvalidArgumentException("Can't parse the recieved data");
+        }
+        return new Supplier($allData);
+    }    
+    
+    /**
+     * Vrátí veškerá data k dodavateli.
+     * 
+     * @param int $id
+     * @return Supplier
+     * @throws IUcto\ConnectionException
+     */
+    public function getSupplierDetail($id) {
+        $allData = $this->handleRequest('supplier/' . $id, Connector::GET);
+        return new Supplier($allData);
+    }
+    
+    /**
+     * Aktulizuje předané parametry vybraného dodavatele. Poviné ple jsou stejná jako při vkládání nového dodavatele.
+     * 
+     * @param int $id
+     * @param SaveSupplier $saveSupplier
+     * @return Supplier
+     * @throws IUcto\ConnectionException
+     * @throws IUcto\ValidationException
+     */
+    public function updateSupplier($id, SaveSupplier $saveSupplier) {
+        $allData = $this->handleRequest('supplier/' . $id, Connector::PUT, $saveSupplier->toArray());
+        return new Customer($allData);
+    }
+    
+    /**
+     * Pokusí se smazat vybraného dodavatele. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a dodavatel se nasmaže.
+     * 
+     * @param int $id
+     * @return void
+     * @throws IUcto\ConnectionException
+     */
+    public function deleteSupplier($id) {
+        $this->handleRequest('supplier/' . $id, Connector::DELETE);
     }
 
     /**
