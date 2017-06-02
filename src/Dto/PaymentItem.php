@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for DocumentItem data
+ * DTO for PaymentItem data
  *
  * @author admin
  */
-class DocumentItem {
+class PaymentItem {
 
     /**
      * ID položky

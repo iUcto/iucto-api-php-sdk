@@ -64,16 +64,16 @@ class Connector {
             $appended = "Operaci nelze provest. ";
             switch ($this->curl->error_code) {
                 case 400:
-                    $appended .= "Vraceny kod 400 muze znamenat tyto moznosti: Komunikace musÃ­ probÃ­hat pÅ™es protokol HTTPS.|NeplatnÃ¡ verze API, nebo zdroj.|TÄ›lo poÅ¾adavku je prÃ¡zdnÃ©.|NeplatnÃ½ JSON formÃ¡t.|Parametr 'doctype' je povinnÃ½.|Parametr 'doctype' nenÃ­ platnÃ½.|Parametr 'date' je povinnÃ½.|Parametr 'date' nenÃ­ platnÃ½.";
+                    $appended .= "Vraceny kod 400 muze znamenat tyto moznosti: Komunikace musí probíhat pøes protokol HTTPS.|Neplatná verze API, nebo zdroj.|Tìlo poadavku je prázdné.|Neplatnı JSON formát.|Parametr 'doctype' je povinnı.|Parametr 'doctype' není platnı.|Parametr 'date' je povinnı.|Parametr 'date' není platnı.";
                     break;
                 case 401:
-                    $appended .= 'Zkontrolujte prosÃ­m, zda je vÃ¡Å¡ API klÃ­Ä uveden sprÃ¡vnÄ›.';
+                    $appended .= 'Zkontrolujte prosím, zda je váš API klíè uveden správnì.';
                     break;
                 case 403:
-                    $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat zÃ¡znam (mÃ¡ na sobÄ› dalÅ¡Ã­ zÃ¡vsilosti).| ÃšÄetnÃ­ obdobÃ­, nebo obdobÃ­ DPH je uzavÅ™eno.';
+                    $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat záznam (má na sobì další závsilosti).| Úèetní období, nebo období DPH je uzavøeno.';
                     break;
                 case 404:
-                    $appended .= 'ZÃ¡znam nenalezen';
+                    $appended .= 'Záznam nenalezen';
                     break;
                 default:
                     $appended .= $this->curl->error_message;

@@ -158,9 +158,6 @@ class Supplier {
         $this->phone = $arrayData['phone'];
         $this->cellphone = $arrayData['cellphone'];
         $this->www = $arrayData['www'];
-        $this->usualMaturity = $arrayData['usual_maturity'];
-        $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
-        $this->invoiceLanguage = $arrayData['invoice_language'];
         $this->address = new Address($arrayData['address']);
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
@@ -207,18 +204,6 @@ class Supplier {
 
     public function getWww() {
         return $this->www;
-    }
-
-    public function getUsualMaturity() {
-        return $this->usualMaturity;
-    }
-
-    public function getPreferredPaymentMethod() {
-        return $this->preferredPaymentMethod;
-    }
-
-    public function getInvoiceLanguage() {
-        return $this->invoiceLanguage;
     }
 
     public function getAddress() {

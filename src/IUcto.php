@@ -15,15 +15,23 @@ require_once __DIR__ . '/Dto/CustomerOverview.php';
 require_once __DIR__ . '/Dto/Customer.php';        
 require_once __DIR__ . '/Dto/SupplierOverview.php';
 require_once __DIR__ . '/Dto/Supplier.php';
+require_once __DIR__ . '/Dto/PaymentItem.php';
+require_once __DIR__ . '/Dto/PaymentDetail.php';
+require_once __DIR__ . '/Dto/PaymentOverview.php';
 require_once __DIR__ . '/Dto/Contract.php';
 require_once __DIR__ . '/Dto/BankAccount.php';
 require_once __DIR__ . '/Dto/BankAccountOverview.php';
 require_once __DIR__ . '/Dto/BankAccountList.php';
 require_once __DIR__ . '/Dto/Address.php';
 
+require_once __DIR__ . '/Dto/CashRegister.php';
+require_once __DIR__ . '/Dto/CashRegisterOverview.php';
+require_once __DIR__ . '/Dto/CashRegisterList.php';
+
 require_once __DIR__ . '/Command/SaveCustomer.php';
 require_once __DIR__ . '/Command/SaveDocument.php';
 require_once __DIR__ . '/Command/SaveSupplier.php';
+require_once __DIR__ . '/Command/SavePayment.php';
 
 require_once __DIR__ . '/Utils.php';
 
@@ -31,16 +39,23 @@ require_once __DIR__ . '/Utils.php';
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveDocument;
 use IUcto\Command\SaveSupplier;
+use IUcto\Command\SavePayment;
 
 use IUcto\Dto\BankAccountList;
+use IUcto\Dto\CashRegisterList;
 use IUcto\Dto\Contract;
 use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\Department;
+use IUcto\Dto\DocumentItem;
 use IUcto\Dto\DocumentDetail;
 use IUcto\Dto\DocumentOverview;  
 use IUcto\Dto\Supplier;
-use IUcto\Dto\SupplierOverview;
+use IUcto\Dto\SupplierOverview;  
+use IUcto\Dto\Payment;  
+use IUcto\Dto\PaymentDetail;   
+use IUcto\Dto\PaymentItem;
+use IUcto\Dto\PaymentOverview;  
 
 
 /**
@@ -142,9 +157,12 @@ class IUcto {
      */
     public function getCustomers() {
         $allData = $this->handleRequest('customer', Connector::GET);
+
         $allCustomers = array();
-        foreach ($allData['customer'] as $customer) {
-            $allCustomers[] = new CustomerOverview($customer);
+        if (isset($allData['customer'])) {       
+          foreach ($allData['customer'] as $customer) {
+              $allCustomers[] = new CustomerOverview($customer);
+          }
         }
         return $allCustomers;
     }
@@ -159,6 +177,7 @@ class IUcto {
      */
     public function createCustomer(SaveCustomer $saveCustomer) {
         $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
+
         if (!$allData) {
             throw new \InvalidArgumentException("Can't parse the recieved data");
         }
@@ -200,6 +219,19 @@ class IUcto {
      */
     public function deleteCustomer($id) {
         $this->handleRequest('customer/' . $id, Connector::DELETE);
+    }
+    
+    
+    public function getSuppliers() {
+        $allData = $this->handleRequest('supplier', Connector::GET);
+        
+        $allSuppliers = array();
+        if (isset($allData['supplier'])) {
+          foreach ($allData['supplier'] as $supplier) {
+              $allSuppliers[] = new SupplierOverview($supplier);
+          }
+        }
+        return $allSuppliers;
     }
     
     /**
@@ -257,6 +289,85 @@ class IUcto {
     }
 
     /**
+     * Zjednodušený výpis všech vydaných plateb.
+     * 
+     * @return DocumentOverview[]
+     * @throws IUcto\ConnectionException
+     */
+    public function getReceivedPayments() {
+        $allData = $this->handleRequest('payment_received', Connector::GET);
+        $allDocuments = array();
+        if (isset($allData["payment_received"])) {       
+          foreach ($allData["payment_received"] as $i => $data) {
+            $allDocuments[] = new PaymentOverview($data);
+          }   
+        }
+        return $allDocuments;
+    }
+    
+    /**
+     * Vytvoří novú platbu, odpověd obsahuje detail platby.
+     * 
+     * @param SaveDocument $saveDocument
+     * @return DocumentDetail
+     * @throws IUcto\ConnectionException
+     * @throws IUcto\ValidationException
+     */
+    public function createReceivedPayment(SavePayment $saveReceivedPayment) {
+      $allData = $this->handleRequest('payment_received', Connector::POST, $saveReceivedPayment->toArray());
+      return new PaymentDetail($allData);
+    }
+    
+    public function updateReceivedPayment($id, SavePayment $saveReceivedPayment) {
+      $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
+      return new PaymentDetail($allData);
+    }
+
+    public function getReceivedPaymentDetail($id) {
+        $allData = $this->handleRequest('payment_received/' . $id, Connector::GET);
+        return new PaymentDetail($allData);
+    }
+    
+    public function deleteReceivedPayment($id) {
+        $this->handleRequest('payment_received/' . $id, Connector::DELETE);
+    }
+    
+    
+   
+    /* ISSUED PAYMENTS */ 
+    public function getIssuedPayments() {
+        $allData = $this->handleRequest('payment_issued', Connector::GET);
+        $allDocuments = array();
+        if (isset($allData["payment_issued"])) {       
+          foreach ($allData["payment_issued"] as $i => $data) {
+            $allDocuments[] = new PaymentOverview($data);
+          }   
+        }
+        return $allDocuments;
+    }
+    
+    public function createIssuedPayment(SavePayment $saveIssuedPayment) {
+      $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
+      return new PaymentDetail($allData);
+    }
+    
+    public function updateIssuedPayment($id, SavePayment $saveIssuedPayment) {
+      $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
+      return new PaymentDetail($allData);
+    }
+
+    public function getIssuedPaymentDetail($id) {
+        $allData = $this->handleRequest('payment_issued/' . $id, Connector::GET);
+        return new PaymentDetail($allData);
+    }
+    
+    public function deleteIssuedPayment($id) {
+        $this->handleRequest('payment_issued/' . $id, Connector::DELETE);
+    }
+    
+    
+    
+    /**
      * Seznam dostupných bankovních účtů.
      * 
      * @return BankAccountList
@@ -264,7 +375,24 @@ class IUcto {
      */
     public function getBankAccounts() {
         $allData = $this->handleRequest('bank_account', Connector::GET);
-        return new BankAccountList($allData['bank_account']);
+ 
+        if (isset($allData['bank_account'])) {
+          return new BankAccountList($allData['bank_account']);
+        }
+        else {
+        	return array();
+        }
+    }
+    
+    public function getCashRegisters() {
+        $allData = $this->handleRequest('cash_register', Connector::GET);
+
+        if (isset($allData['cash_register'])) {
+          return new CashRegisterlist($allData['cash_register']);
+        }
+        else {
+        	return array();
+        }
     }
 
     /**

@@ -158,9 +158,9 @@ class Customer {
         $this->phone = $arrayData['phone'];
         $this->cellphone = $arrayData['cellphone'];
         $this->www = $arrayData['www'];
-        $this->usualMaturity = $arrayData['usual_maturity'];
-        $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
-        $this->invoiceLanguage = $arrayData['invoice_language'];
+        $this->usualMaturity = Utils::getValueOrNull($arrayData, 'usual_maturity');
+        $this->preferredPaymentMethod = Utils::getValueOrNull($arrayData, 'preferred_payment_method');
+        $this->invoiceLanguage = Utils::getValueOrNull($arrayData, 'invoice_language');
         $this->address = new Address($arrayData['address']);
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
