@@ -95,6 +95,9 @@ class IUcto {
         $allDocuments = array();
         foreach ($allData as $type => $typeData) {
             foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
                 $allDocuments[$type][] = new DocumentOverview($data);
             }
         }

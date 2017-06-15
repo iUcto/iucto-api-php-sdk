@@ -101,7 +101,7 @@ class Curl
             foreach ($this->curls as $ch) {
                 $this->exec($ch);
             }
-        } else {
+        } else {                                                   
             $this->setopt(CURLOPT_URL, $this->buildURL($url_mixed, $data));
             $this->setOpt(CURLOPT_CUSTOMREQUEST, 'GET');
             $this->setopt(CURLOPT_HTTPGET, true);
@@ -409,7 +409,7 @@ class Curl
             $ch->raw_response = curl_exec($ch->curl);
             $ch->curl_error_code = curl_errno($ch->curl);
         }
-
+        
         $ch->curl_error_message = curl_error($ch->curl);
         $ch->curl_error = !($ch->curl_error_code === 0);
         $ch->http_status_code = curl_getinfo($ch->curl, CURLINFO_HTTP_CODE);

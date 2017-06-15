@@ -2,7 +2,6 @@
 
 namespace IUcto\Command;
 
-use IUcto\Dto\BankAccount;
 use IUcto\Utils;
 use IUcto\Dto\DocumentItem;
 /**
@@ -18,6 +17,12 @@ class SaveDocument {
      * @var string (42)
      */
     private $variableSymbol;
+
+    /**
+     * Číslo dokladu
+     * @var string (45)
+     */
+    private $sequenceCode;
 
     /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
@@ -42,7 +47,7 @@ class SaveDocument {
 
     /**
      * Měna dokladu (povinné)
-     * @see IUcto\IUcto::getCurrencies()
+     * @see \IUcto\IUcto::getCurrencies()
      *   
      * @var string (3)
      */
@@ -50,7 +55,7 @@ class SaveDocument {
 
     /**
      * Zákazník (povinné)
-     * @see IUcto\IUcto::getCustomers()
+     * @see \IUcto\IUcto::getCustomers()
      *   
      * @var int
      */
@@ -65,7 +70,7 @@ class SaveDocument {
 
     /**
      * Forma úhrady
-     * @see IUcto\IUcto::getPaymentTypes()
+     * @see \IUcto\IUcto::getPaymentTypes()
      * 
      * @var int(1)
      */
@@ -73,7 +78,7 @@ class SaveDocument {
 
     /**
      * Bankovního účet pro příjem platby (povinné)
-     * @see IUcto\IUcto::getBankAccounts()
+     * @see \IUcto\IUcto::getBankAccounts()
      *   
      * @var int
      */
@@ -96,7 +101,7 @@ class SaveDocument {
     /**
      * Způsob zaokrouhlení
      * 
-     * @see IUcto\IUcto::getRoundingTypes()
+     * @see \IUcto\IUcto::getRoundingTypes()
      *   
      * @var string
      */
@@ -111,6 +116,7 @@ class SaveDocument {
 
     public function __construct(array $dataArray = array()) {
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
+        $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
         $this->dateVat = Utils::getValueOrNull($dataArray, 'date_vat');
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
@@ -187,7 +193,7 @@ class SaveDocument {
 
     /**
      * 
-     * @param int|DateTime $input unix timestamp or DateTime object
+     * @param int|\DateTime $input unix timestamp or DateTime object
      */
     public function setDate($input) {
         $this->date = Utils::getDateTimeFrom($input)->format('Y-m-d');
@@ -195,7 +201,7 @@ class SaveDocument {
 
     /**
      * 
-     * @param int|DateTime $input unix timestamp or DateTime object
+     * @param int|\DateTime $input unix timestamp or DateTime object
      */
     public function setDateVat($input) {
         $this->dateVat = Utils::getDateTimeFrom($input)->format('Y-m-d');
@@ -203,7 +209,7 @@ class SaveDocument {
 
     /**
      * 
-     * @param int|DateTime $input unix timestamp or DateTime object
+     * @param int|\DateTime $input unix timestamp or DateTime object
      */
     public function setMaturityDate($input) {
         $this->maturityDate = Utils::getDateTimeFrom($input)->format('Y-m-d');
@@ -231,7 +237,7 @@ class SaveDocument {
 
     /**
      * 
-     * @param int|DateTime $input unix timestamp or DateTime object
+     * @param int|\DateTime $input unix timestamp or DateTime object
      */
     public function setDateVatPrev($input) {
         $this->dateVatPrev = Utils::getDateTimeFrom($input);
@@ -249,8 +255,25 @@ class SaveDocument {
         $this->items = $items;
     }
 
+    /**
+     * @return string
+     */
+    public function getSequenceCode()
+    {
+        return $this->sequenceCode;
+    }
+
+    /**
+     * @param string $sequenceCode
+     */
+    public function setSequenceCode($sequenceCode)
+    {
+        $this->sequenceCode = $sequenceCode;
+    }
+
     public function toArray() {
         $array = array('variable_symbol' => $this->variableSymbol,
+            'sequence_code' => $this->sequenceCode,
             'date' => $this->date,
             'date_vat' => $this->dateVat,
             'maturity_date' => $this->maturityDate,

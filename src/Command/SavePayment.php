@@ -2,6 +2,7 @@
 
 namespace IUcto\Command;
 
+use IUcto\Dto\DocumentItem;
 use IUcto\Utils;
 use IUcto\Dto\PaymentItem;
 /**
@@ -18,6 +19,12 @@ class SavePayment {
      */
     private $variableSymbol;
 
+    /**
+     * Číslo dokladu
+     * @var string (45)
+     */
+    private $sequenceCode;
+    
     /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
      * 
@@ -41,7 +48,7 @@ class SavePayment {
 
     /**
      * Měna dokladu (povinné)
-     * @see IUcto\IUcto::getCurrencies()
+     * @see \IUcto\IUcto::getCurrencies()
      *   
      * @var string (3)
      */
@@ -49,7 +56,7 @@ class SavePayment {
 
     /**
      * Zákazník (povinné)
-     * @see IUcto\IUcto::getCustomers()
+     * @see \IUcto\IUcto::getCustomers()
      *   
      * @var int
      */
@@ -67,7 +74,7 @@ class SavePayment {
 
     /**
      * Forma úhrady
-     * @see IUcto\IUcto::getPaymentTypes()
+     * @see \IUcto\IUcto::getPaymentTypes()
      * 
      * @var int(1)
      */
@@ -75,7 +82,7 @@ class SavePayment {
 
     /**
      * Bankovního účet pro příjem platby (povinné)
-     * @see IUcto\IUcto::getBankAccounts()
+     * @see \IUcto\IUcto::getBankAccounts()
      *   
      * @var int
      */
@@ -99,7 +106,7 @@ class SavePayment {
     /**
      * Způsob zaokrouhlení
      * 
-     * @see IUcto\IUcto::getRoundingTypes()
+     * @see \IUcto\IUcto::getRoundingTypes()
      *   
      * @var string
      */
@@ -114,6 +121,7 @@ class SavePayment {
 
     public function __construct(array $dataArray = array()) {
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
+        $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
         $this->dateVat = Utils::getValueOrNull($dataArray, 'date_vat');
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
@@ -263,8 +271,26 @@ class SavePayment {
         $this->items = $items;
     }
 
+    /**
+     * @return string
+     */
+    public function getSequenceCode()
+    {
+        return $this->sequenceCode;
+    }
+
+    /**
+     * @param string $sequenceCode
+     */
+    public function setSequenceCode($sequenceCode)
+    {
+        $this->sequenceCode = $sequenceCode;
+    }
+
+
     public function toArray() {
         $array = array('variable_symbol' => $this->variableSymbol,
+            'sequence_code' => $this->sequenceCode,
             'date' => $this->date,
             'date_vat' => $this->dateVat,
             'maturity_date' => $this->maturityDate,
