@@ -27,7 +27,7 @@ class SaveSupplier {
 
     /**
      * IČ
-     * 
+     *
      * @var string
      */
     private $comid;
@@ -151,7 +151,7 @@ class SaveSupplier {
         $this->usualMaturity = $arrayData['usual_maturity'];
         $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
         $this->invoiceLanguage = $arrayData['invoice_language'];
-        $this->address = new Address($arrayData['address']);
+        $this->address = isset($arrayData['address']) ? new Address($arrayData['address']) : null;
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
         $this->accountNumber2 = $arrayData['account_number2'];

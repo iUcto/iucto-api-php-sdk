@@ -2,6 +2,7 @@
 
 namespace IUcto\Command;
 
+use IUcto\Dto\BankAccount;
 use IUcto\Utils;
 use IUcto\Dto\DocumentItem;
 /**
@@ -189,7 +190,7 @@ class SaveDocument {
      * @param int|DateTime $input unix timestamp or DateTime object
      */
     public function setDate($input) {
-        $this->date = Utils::getDateTimeFrom($input);
+        $this->date = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
     /**
@@ -197,7 +198,7 @@ class SaveDocument {
      * @param int|DateTime $input unix timestamp or DateTime object
      */
     public function setDateVat($input) {
-        $this->dateVat = Utils::getDateTimeFrom($input);
+        $this->dateVat = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
     /**
@@ -205,7 +206,7 @@ class SaveDocument {
      * @param int|DateTime $input unix timestamp or DateTime object
      */
     public function setMaturityDate($input) {
-        $this->maturityDate = Utils::getDateTimeFrom($input);
+        $this->maturityDate = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
     public function setCurrency($currency) {
@@ -224,7 +225,7 @@ class SaveDocument {
         $this->paymentType = $paymentType;
     }
 
-    public function setBankAccount(BankAccount $bankAccount) {
+    public function setBankAccount($bankAccount) {
         $this->bankAccount = $bankAccount;
     }
 

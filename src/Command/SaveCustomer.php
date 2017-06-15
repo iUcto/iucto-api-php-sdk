@@ -139,7 +139,9 @@ class SaveCustomer {
     private $accountNumber4;
 
     function __construct(array $arrayData) {
-        $this->name = $arrayData['name'];
+        if(empty($arrayData)) return;
+
+        $this->name = $arrayData['name'] ?: null;
         $this->nameDisplay = $arrayData['name_display'];
         $this->comid = $arrayData['comid'];
         $this->vatid = $arrayData['vatid'];
@@ -151,7 +153,7 @@ class SaveCustomer {
         $this->usualMaturity = $arrayData['usual_maturity'];
         $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
         $this->invoiceLanguage = $arrayData['invoice_language'];
-        $this->address = new Address($arrayData['address']);
+        $this->address = isset($arrayData['address']) ? new Address($arrayData['address']) : null;
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
         $this->accountNumber2 = $arrayData['account_number2'];

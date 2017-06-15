@@ -44,6 +44,8 @@ class Address {
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData) {
+        if(empty($arrayData)) return;
+
         $this->street = $arrayData['street'];
         $this->city = $arrayData['city'];
         $this->postalcode = $arrayData['postalcode'];

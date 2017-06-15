@@ -104,8 +104,8 @@ class IUcto {
      * 
      * @param SaveDocument $saveDocument
      * @return DocumentDetail
-     * @throws IUcto\ConnectionException
-     * @throws IUcto\ValidationException
+     * @throws \IUcto\ConnectionException
+     * @throws \IUcto\ValidationException
      */
     public function createDocument(SaveDocument $saveDocument) {
         $allData = $this->handleRequest('invoice_issued', Connector::POST, $saveDocument->toArray());
@@ -172,8 +172,8 @@ class IUcto {
      * 
      * @param SaveCustomer $saveCustomer
      * @return Customer
-     * @throws IUcto\ConnectionException
-     * @throws IUcto\ValidationException
+     * @throws \IUcto\ConnectionException
+     * @throws \IUcto\ValidationException
      */
     public function createCustomer(SaveCustomer $saveCustomer) {
         $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
