@@ -1,6 +1,8 @@
 <?php
 namespace IUcto;
 
+use Composer\CaBundle\CaBundle;
+
 require_once __DIR__.'/IUcto.php';
 require_once __DIR__.'/Curl.php';
 require_once __DIR__.'/Connector.php';
@@ -38,7 +40,7 @@ class IUctoFactory {
     public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.0') {
         $curl = new Curl();
         if (strpos($endpoint, 'https') === 0) {
-            $curl->setOpt(CURLOPT_CAINFO, __DIR__ . '/resources/cacert.pem');
+            $curl->setOpt(CURLOPT_CAINFO, CaBundle::getBundledCaBundlePath());
         }
         $curl->setHeader('X-Auth-Key', $apiKey);
         $curl->setHeader('Content-Type', 'application/json');
