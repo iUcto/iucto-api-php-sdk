@@ -2,8 +2,6 @@
 
 namespace IUcto;
 
-require_once __DIR__ . '/ConnectionException.php';
-
 /**
  * Description of Connector
  *
@@ -37,28 +35,31 @@ class Connector
      * @param string $method
      * @param mixed[] $data
      * @return mixed[]
-     * @throws Exception
      * @throws ConnectionException
      */
     public function request($address, $method, $data)
     {
         $response = null;
         $url = $this->endpoint . "/" . $this->version . "/" . $address;
-        switch ($method) {
-            case self::GET:
-                $response = $this->curl->get($url, $data);
-                break;
-            case self::POST:
-                $response = $this->curl->post($url, $data);
-                break;
-            case self::PUT:
-                $response = $this->curl->put($url, $data);
-                break;
-            case self::DELETE:
-                $response = $this->curl->delete($url, $data);
-                break;
-            default:
-                throw new Exception("Unknown method type " . $method);
+        try {
+            switch ($method) {
+                case self::GET:
+                    $response = $this->curl->get($url, $data);
+                    break;
+                case self::POST:
+                    $response = $this->curl->post($url, $data);
+                    break;
+                case self::PUT:
+                    $response = $this->curl->put($url, $data);
+                    break;
+                case self::DELETE:
+                    $response = $this->curl->delete($url, $data);
+                    break;
+                default:
+                    throw new \ErrorException("Unknown method type " . $method);
+            }
+        } catch (\ErrorException $ex) {
+            throw new ConnectionException('Error while creating connection', $ex->getCode(), $ex);
         }
         if ($this->curl->curl_error) {
             throw new ConnectionException(sprintf("Error while requesting endpoint. Original message: %s", $this->curl->error_message));

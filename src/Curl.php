@@ -21,6 +21,7 @@ class Curl
     private $complete_function = null;
 
     public $curl;
+    /** @var Curl[] */
     public $curls;
 
     public $error = false;
@@ -40,6 +41,10 @@ class Curl
     public $response = null;
     public $raw_response = null;
 
+    /**
+     * Curl constructor.
+     * @throws \ErrorException
+     */
     public function __construct()
     {
         if (!extension_loaded('curl')) {
@@ -53,6 +58,12 @@ class Curl
         $this->setOpt(CURLOPT_RETURNTRANSFER, true);
     }
 
+    /**
+     * @param $url_mixed
+     * @param array $data
+     * @return mixed|null
+     * @throws \ErrorException
+     */
     public function get($url_mixed, $data = array())
     {
         if (is_array($url_mixed)) {
@@ -101,6 +112,7 @@ class Curl
             foreach ($this->curls as $ch) {
                 $this->exec($ch);
             }
+            return null;
         } else {
             $this->setopt(CURLOPT_URL, $this->buildURL($url_mixed, $data));
             $this->setOpt(CURLOPT_CUSTOMREQUEST, 'GET');
@@ -318,6 +330,7 @@ class Curl
         $raw_response = $response;
         if (!(strpos($response, "\r\n\r\n") === false)) {
             $response_array = explode("\r\n\r\n", $response);
+            $response_header = null;
             for ($i = count($response_array) - 1; $i >= 0; $i--) {
                 if (stripos($response_array[$i], 'HTTP/') === 0) {
                     $response_header = $response_array[$i];
@@ -362,41 +375,6 @@ class Curl
             $response_headers[$key] = $value;
         }
         return $response_headers;
-    }
-
-    private function postfields($data)
-    {
-        if (is_array($data)) {
-            if (self::is_array_multidim($data)) {
-                $data = self::http_build_multi_query($data);
-            } else {
-                $binary_data = false;
-                foreach ($data as $key => $value) {
-                    // Fix "Notice: Array to string conversion" when $value in
-                    // curl_setopt($ch, CURLOPT_POSTFIELDS, $value) is an array
-                    // that contains an empty array.
-                    if (is_array($value) && empty($value)) {
-                        $data[$key] = '';
-                        // Fix "curl_setopt(): The usage of the @filename API for
-                        // file uploading is deprecated. Please use the CURLFile
-                        // class instead".
-                    } elseif (is_string($value) && strpos($value, '@') === 0) {
-                        $binary_data = true;
-                        if (class_exists('CURLFile')) {
-                            $data[$key] = new \CURLFile(substr($value, 1));
-                        }
-                    } elseif ($value instanceof \CURLFile) {
-                        $binary_data = true;
-                    }
-                }
-
-                if (!$binary_data) {
-                    $data = http_build_query($data);
-                }
-            }
-        }
-
-        return $data;
     }
 
     protected function exec($_ch = null)

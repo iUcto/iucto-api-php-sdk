@@ -23,7 +23,8 @@ use IUcto\Dto\InvoiceIssuedDetail;
 use IUcto\Dto\InvoiceReceivedDetail;
 use IUcto\Dto\InvoiceReceivedOverview;
 use IUcto\Dto\PaymentDetail;
-use IUcto\Dto\PaymentOverview;
+use IUcto\Dto\PaymentIssuedOverview;
+use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierOverview;
 
@@ -71,7 +72,8 @@ class IUcto
      * Zjednodušený výpis všech dostupných dokladů.
      *
      * @return InvoiceIsseudOverview[] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getAllInvoiceIssued()
     {
@@ -107,7 +109,8 @@ class IUcto
      *
      * @param int $id
      * @return InvoiceIssuedDetail
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getInvoiceIssuedDetail($id)
     {
@@ -121,8 +124,8 @@ class IUcto
      * @param int $id
      * @param SaveInvoiceIssued $saveDocument
      * @return InvoiceIssuedDetail
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function updateInvoiceIssued($id, SaveInvoiceIssued $saveDocument)
     {
@@ -135,7 +138,8 @@ class IUcto
      *
      * @param int $id
      * @return void
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function deleteInvoiceIssued($id)
     {
@@ -147,7 +151,8 @@ class IUcto
      * Zjednodušený výpis všech dostupných dokladů.
      *
      * @return InvoiceReceivedOverview[] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getAllInvoiceReceived()
     {
@@ -169,8 +174,8 @@ class IUcto
      *
      * @param SaveInvoiceReceived $saveDocument
      * @return InvoiceReceivedDetail
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function createInvoiceReceived(SaveInvoiceReceived $saveDocument)
     {
@@ -183,7 +188,8 @@ class IUcto
      *
      * @param int $id
      * @return InvoiceReceivedDetail
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getInvoiceReceivedDetail($id)
     {
@@ -197,8 +203,8 @@ class IUcto
      * @param int $id
      * @param SaveInvoiceReceived $saveDocument
      * @return InvoiceReceivedDetail
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function updateInvoiceReceived($id, SaveInvoiceReceived $saveDocument)
     {
@@ -211,7 +217,8 @@ class IUcto
      *
      * @param int $id
      * @return void
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function deleteInvoiceReceived($id)
     {
@@ -222,7 +229,8 @@ class IUcto
      * Zjednodušený výpis všech dostupných zákazníků.
      *
      * @return CustomerOverview []
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getCustomers()
     {
@@ -242,8 +250,8 @@ class IUcto
      *
      * @param SaveCustomer $saveCustomer
      * @return Customer
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function createCustomer(SaveCustomer $saveCustomer)
     {
@@ -260,7 +268,8 @@ class IUcto
      *
      * @param int $id
      * @return Customer
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getCustomerDetail($id)
     {
@@ -274,8 +283,8 @@ class IUcto
      * @param int $id
      * @param SaveCustomer $saveCustomer
      * @return Customer
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function updateCustomer($id, SaveCustomer $saveCustomer)
     {
@@ -288,7 +297,8 @@ class IUcto
      *
      * @param int $id
      * @return void
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function deleteCustomer($id)
     {
@@ -296,6 +306,11 @@ class IUcto
     }
 
 
+    /**
+     * @return array
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getSuppliers()
     {
         $allData = $this->handleRequest('supplier', Connector::GET);
@@ -314,8 +329,8 @@ class IUcto
      *
      * @param SaveSupplier $saveSupplier
      * @return Supplier
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
 
     public function createSupplier(SaveSupplier $saveSupplier)
@@ -332,7 +347,8 @@ class IUcto
      *
      * @param int $id
      * @return Supplier
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getSupplierDetail($id)
     {
@@ -346,8 +362,8 @@ class IUcto
      * @param int $id
      * @param SaveSupplier $saveSupplier
      * @return Supplier
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function updateSupplier($id, SaveSupplier $saveSupplier)
     {
@@ -360,7 +376,8 @@ class IUcto
      *
      * @param int $id
      * @return void
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function deleteSupplier($id)
     {
@@ -370,8 +387,9 @@ class IUcto
     /**
      * Zjednodušený výpis všech vydaných plateb.
      *
-     * @return InvoiceIsseudOverview[]
-     * @throws \IUcto\ConnectionException
+     * @return PaymentReceivedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getReceivedPayments()
     {
@@ -379,7 +397,7 @@ class IUcto
         $allDocuments = array();
         if (isset($allData["payment_received"])) {
             foreach ($allData["payment_received"] as $i => $data) {
-                $allDocuments[] = new PaymentOverview($data);
+                $allDocuments[] = new PaymentReceivedOverview($data);
             }
         }
         return $allDocuments;
@@ -390,8 +408,8 @@ class IUcto
      *
      * @param SavePayment $saveReceivedPayment
      * @return PaymentDetail
-     * @throws \IUcto\ConnectionException
-     * @throws \IUcto\ValidationException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function createReceivedPayment(SavePayment $saveReceivedPayment)
     {
@@ -399,55 +417,101 @@ class IUcto
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @param SavePayment $saveReceivedPayment
+     * @return PaymentDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function updateReceivedPayment($id, SavePayment $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @return PaymentDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getReceivedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::GET);
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function deleteReceivedPayment($id)
     {
         $this->handleRequest('payment_received/' . $id, Connector::DELETE);
     }
 
 
-    /* ISSUED PAYMENTS */
+    /**
+     * @return PaymentIssuedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getIssuedPayments()
     {
         $allData = $this->handleRequest('payment_issued', Connector::GET);
         $allDocuments = array();
         if (isset($allData["payment_issued"])) {
             foreach ($allData["payment_issued"] as $i => $data) {
-                $allDocuments[] = new PaymentOverview($data);
+                $allDocuments[] = new PaymentIssuedOverview($data);
             }
         }
         return $allDocuments;
     }
 
+    /**
+     * @param SavePayment $saveIssuedPayment
+     * @return PaymentDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function createIssuedPayment(SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @param SavePayment $saveIssuedPayment
+     * @return PaymentDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function updateIssuedPayment($id, SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @return PaymentDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getIssuedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::GET);
         return new PaymentDetail($allData);
     }
 
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function deleteIssuedPayment($id)
     {
         $this->handleRequest('payment_issued/' . $id, Connector::DELETE);
@@ -458,7 +522,8 @@ class IUcto
      * Seznam dostupných bankovních účtů.
      *
      * @return BankAccountList|array
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getBankAccounts()
     {
@@ -471,29 +536,58 @@ class IUcto
         }
     }
 
+    /**
+     * @param SaveBankAccount $saveBankAccount
+     * @return BankAccount
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function createBankAccount(SaveBankAccount $saveBankAccount)
     {
         $allData = $this->handleRequest('bank_account', Connector::POST, $saveBankAccount->toArray());
         return new BankAccount($allData);
     }
 
+    /**
+     * @param $id
+     * @param SaveBankAccount $saveBankAccount
+     * @return BankAccount
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function updateBankAccount($id, SaveBankAccount $saveBankAccount)
     {
         $allData = $this->handleRequest('bank_account/' . $id, Connector::PUT, $saveBankAccount->toArray());
         return new BankAccount($allData);
     }
 
+    /**
+     * @param $id
+     * @return BankAccount
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getBankAccounttDetail($id)
     {
         $allData = $this->handleRequest('bank_account/' . $id, Connector::GET);
         return new BankAccount($allData);
     }
 
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function deleteBankAccount($id)
     {
         $this->handleRequest('bank_account/' . $id, Connector::DELETE);
     }
 
+    /**
+     * @return array|CashRegisterList
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
     public function getCashRegisters()
     {
         $allData = $this->handleRequest('cash_register', Connector::GET);
@@ -509,7 +603,8 @@ class IUcto
      * Seznam dostupných měn pro použití v dokladech.Dostupnost se může měnit v závislosti na aktivaci rozšíření Účtování v cizích měnách.
      *
      * @return string[]
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getCurrencies()
     {
@@ -520,7 +615,8 @@ class IUcto
      * Seznam metod pro zaokrouhlování částek v dokladech.
      *
      * @return string[]  klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getRoundingTypes()
     {
@@ -531,7 +627,8 @@ class IUcto
      * Seznam dostupných metod pro provedení platby používaných v dokladech.
      *
      * @return string[]  klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getPaymentTypes()
     {
@@ -543,7 +640,8 @@ class IUcto
      *
      * @param string $date formát (YYYY-mm-dd)
      * @return int[]
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getVATRatesOn($date)
     {
@@ -555,7 +653,8 @@ class IUcto
      *
      * @param string $doctype
      * @return string[] klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getAccountingEntryTypes($doctype = "FV")
     {
@@ -567,7 +666,8 @@ class IUcto
      *
      * @param string $doctype
      * @return string[] klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getVATs($doctype = "FV")
     {
@@ -578,7 +678,8 @@ class IUcto
      * Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.{"id": "popis"}
      *
      * @return string[] klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getChartAccounts()
     {
@@ -589,7 +690,8 @@ class IUcto
      * Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.{"id": "popis"}
      *
      * @return mixed[] klíč (int) označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getChartAccountVATs()
     {
@@ -600,7 +702,8 @@ class IUcto
      * Výpis dostupných středisek.
      *
      * @return Department[]
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getDepartments()
     {
@@ -616,7 +719,8 @@ class IUcto
      * Výpis dostupných zakázek.
      *
      * @return Contract[]
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getContracts()
     {
@@ -632,7 +736,8 @@ class IUcto
      * Seznam dostupných metod.
      *
      * @return string[] klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getPreferedPaymentMethods()
     {
@@ -643,7 +748,8 @@ class IUcto
      * Seznam dostupných států.
      *
      * @return string[] klíč označení, hodnota popis
-     * @throws \IUcto\ConnectionException
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getCountries()
     {
@@ -653,6 +759,8 @@ class IUcto
     /**
      * Seznam bankovních transakcí
      * @return BankTransactionList[]
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getBankTransactionList()
     {
@@ -669,6 +777,8 @@ class IUcto
     /**
      * @param SaveBankTransaction $saveBankTransaction
      * @return BankTransactionOverview
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function createBankTransaction(SaveBankTransaction $saveBankTransaction)
     {
@@ -680,6 +790,8 @@ class IUcto
      * @param $id
      * @param SaveBankTransaction $bankTransaction
      * @return BankTransactionOverview
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function updateBankTransaction($id, SaveBankTransaction $bankTransaction)
     {
@@ -690,6 +802,8 @@ class IUcto
     /**
      * @param $id
      * @return BankTransactionOverview
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function getBankTransactionDetail($id)
     {
@@ -699,6 +813,8 @@ class IUcto
 
     /**
      * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
      */
     public function deleteBankTransaction($id)
     {

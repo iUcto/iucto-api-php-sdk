@@ -33,7 +33,7 @@ class Address
 
     /**
      * (povinné)
-     * @see IUcto\IUcto::getCountries()
+     * @see IUcto::getCountries()
      *
      * @var string
      */

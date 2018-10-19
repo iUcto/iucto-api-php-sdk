@@ -81,27 +81,6 @@ class Supplier
     private $www;
 
     /**
-     * Obvyklá splatnost [dny]
-     *
-     * @var string
-     */
-    private $usualMaturity;
-
-    /**
-     * Preferovaná metoda platby
-     *
-     * @var string
-     */
-    private $preferredPaymentMethod;
-
-    /**
-     * Jazyk faktury [cs, sk, en]
-     *
-     * @var string
-     */
-    private $invoiceLanguage;
-
-    /**
      * Adresa
      *
      * @var Address

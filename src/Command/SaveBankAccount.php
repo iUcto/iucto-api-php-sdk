@@ -266,7 +266,7 @@ class SaveBankAccount
     }
 
     /**
-     * @param string $chart_account_valid_from
+     * @param \DateTime $chart_account_valid_from
      */
     public function setChartAccountValidFrom(\DateTime $chart_account_valid_from)
     {

@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class PaymentOverview
+abstract class PaymentOverview
 {
 
     /**
@@ -83,6 +83,20 @@ class PaymentOverview
     private $customer;
 
     /**
+     * Doodavatel
+     *
+     * @var SupplierOverview
+     */
+    private $supplier;
+
+    /**
+     * Bankovní účet
+     *
+     * @var BankAccountOverview
+     */
+    private $bankAccount;
+
+    /**
      * Doklad je smazaný
      *
      * @var bool
@@ -112,12 +126,7 @@ class PaymentOverview
             $this->customer = new CustomerOverview($arrayData['customer']);
         }
 
-        if (!is_null($arrayData['invoice'])) {
-            $this->invoice = new DocumentOverview($arrayData['invoice']);
-        } else {
-            $this->invoice = null;
-        }
-        $this->bankAccount = new BankAccountOverview($arrayData, 'bank_account');
+        $this->bankAccount = new BankAccountOverview($arrayData);
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 

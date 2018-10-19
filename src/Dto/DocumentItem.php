@@ -22,7 +22,7 @@ class DocumentItem
     /**
      * Počet (povinné)
      *
-     * @var decimal(12,2)
+     * @var float(12,2)
      */
     private $amount;
 
@@ -36,7 +36,7 @@ class DocumentItem
     /**
      * Cena za jednotku (povinné)
      *
-     * @var decimal(12,2)
+     * @var float(12,2)
      */
     private $price;
 
@@ -50,7 +50,7 @@ class DocumentItem
     /**
      * DPH
      *
-     * @var decimal(5,2)
+     * @var float(5,2)
      */
     private $vat;
 

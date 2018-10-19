@@ -84,7 +84,7 @@ class SaveSupplier
 
     /**
      * Preferovaná metoda platby (povinné)
-     * @see IUcto\IUcto::getPreferedPaymentMethods()
+     * @see IUcto::getPreferedPaymentMethods()
      *
      * @var string
      */

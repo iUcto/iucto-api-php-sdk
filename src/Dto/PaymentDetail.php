@@ -104,6 +104,14 @@ class PaymentDetail
     private $customer;
 
     /**
+     * Dodavatel
+     *
+     * @var Supplier
+     */
+    private $supplier;
+
+
+    /**
      * Bankovní účet zákazníka
      *
      * @var string (45)
@@ -123,6 +131,13 @@ class PaymentDetail
      * @var BankAccount
      */
     private $bankAccount;
+
+    /**
+     * Pokladna
+     *
+     * @var CashRegister
+     */
+    private $cash_register;
 
     /**
      * Datum zdanitelného plnění
