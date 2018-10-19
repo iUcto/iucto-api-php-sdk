@@ -7,27 +7,28 @@ use IUcto\Utils;
 /**
  * DTO for BankAccountOverview data
  *
- * @author odehnal@iprogress.cz
+ * @author iucto.cz
  */
-class CashRegisterOverview {
+class CashRegisterOverview
+{
 
     /**
      * ID bankovního účtu
-     *   
+     *
      * @var int
      */
     private $id;
 
     /**
      * Název
-     *   
+     *
      * @var string
      */
     private $name;
-    
+
     /**
      * Měna
-     *   
+     *
      * @var string
      */
     private $currency;
@@ -40,7 +41,7 @@ class CashRegisterOverview {
 
     /**
      *
-     * @var int 
+     * @var int
      */
     private $initialState;
 
@@ -48,7 +49,8 @@ class CashRegisterOverview {
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
@@ -56,24 +58,29 @@ class CashRegisterOverview {
         $this->initialState = Utils::getValueOrNull($arrayData, 'initial_state');
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getCurrency() {
+    public function getCurrency()
+    {
         return $this->currency;
     }
 
-    public function getIsdefault() {
+    public function getIsdefault()
+    {
         return $this->isdefault;
     }
 
-    public function getInitialState() {
+    public function getInitialState()
+    {
         return $this->initialState;
     }
-    
+
 }

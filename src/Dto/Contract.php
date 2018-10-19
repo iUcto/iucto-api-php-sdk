@@ -7,57 +7,63 @@ use IUcto\Utils;
 /**
  * DTO for Contract data
  *
- * @author odehnal@iprogress.cz
+ * @author iucto.cz
  */
-class Contract {
+class Contract
+{
 
     /**
      *
-     * @var int 
+     * @var int
      */
     private $id;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private $code;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private $name;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private $description;
 
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->code = Utils::getValueOrNull($arrayData, 'code');
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->description = Utils::getValueOrNull($arrayData, 'description');
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 

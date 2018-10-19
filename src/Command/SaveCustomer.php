@@ -7,9 +7,10 @@ use IUcto\Dto\Address;
 /**
  * Description of SaveCustomer
  *
- * @author odehnal@iprogress.cz
+ * @author iucto.cz
  */
-class SaveCustomer {
+class SaveCustomer
+{
 
     /**
      * Jméno zákazníka (povinné)
@@ -27,7 +28,7 @@ class SaveCustomer {
 
     /**
      * IČ
-     * 
+     *
      * @var string
      */
     private $comid;
@@ -138,8 +139,9 @@ class SaveCustomer {
      */
     private $accountNumber4;
 
-    function __construct(array $arrayData) {
-        if(empty($arrayData)) return;
+    function __construct(array $arrayData)
+    {
+        if (empty($arrayData)) return;
 
         $this->name = $arrayData['name'] ?: null;
         $this->nameDisplay = $arrayData['name_display'];
@@ -161,151 +163,188 @@ class SaveCustomer {
         $this->accountNumber4 = $arrayData['account_number4'];
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getNameDisplay() {
+    public function getNameDisplay()
+    {
         return $this->nameDisplay;
     }
 
-    public function getComid() {
+    public function getComid()
+    {
         return $this->comid;
     }
 
-    public function getVatid() {
+    public function getVatid()
+    {
         return $this->vatid;
     }
 
-    public function getVatPayer() {
+    public function getVatPayer()
+    {
         return $this->vatPayer;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->phone;
     }
 
-    public function getCellphone() {
+    public function getCellphone()
+    {
         return $this->cellphone;
     }
 
-    public function getWww() {
+    public function getWww()
+    {
         return $this->www;
     }
 
-    public function getUsualMaturity() {
+    public function getUsualMaturity()
+    {
         return $this->usualMaturity;
     }
 
-    public function getPreferredPaymentMethod() {
+    public function getPreferredPaymentMethod()
+    {
         return $this->preferredPaymentMethod;
     }
 
-    public function getInvoiceLanguage() {
+    public function getInvoiceLanguage()
+    {
         return $this->invoiceLanguage;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
-    public function getNote() {
+    public function getNote()
+    {
         return $this->note;
     }
 
-    public function getAccountNumber1() {
+    public function getAccountNumber1()
+    {
         return $this->accountNumber1;
     }
 
-    public function getAccountNumber2() {
+    public function getAccountNumber2()
+    {
         return $this->accountNumber2;
     }
 
-    public function getAccountNumber3() {
+    public function getAccountNumber3()
+    {
         return $this->accountNumber3;
     }
 
-    public function getAccountNumber4() {
+    public function getAccountNumber4()
+    {
         return $this->accountNumber4;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setNameDisplay($nameDisplay) {
+    public function setNameDisplay($nameDisplay)
+    {
         $this->nameDisplay = $nameDisplay;
     }
 
-    public function setComid($comid) {
+    public function setComid($comid)
+    {
         $this->comid = $comid;
     }
 
-    public function setVatid($vatid) {
+    public function setVatid($vatid)
+    {
         $this->vatid = $vatid;
     }
 
-    public function setVatPayer($vatPayer) {
+    public function setVatPayer($vatPayer)
+    {
         $this->vatPayer = $vatPayer;
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function setPhone($phone) {
+    public function setPhone($phone)
+    {
         $this->phone = $phone;
     }
 
-    public function setCellphone($cellphone) {
+    public function setCellphone($cellphone)
+    {
         $this->cellphone = $cellphone;
     }
 
-    public function setWww($www) {
+    public function setWww($www)
+    {
         $this->www = $www;
     }
 
-    public function setUsualMaturity($usualMaturity) {
+    public function setUsualMaturity($usualMaturity)
+    {
         $this->usualMaturity = $usualMaturity;
     }
 
-    public function setPreferredPaymentMethod($preferredPaymentMethod) {
+    public function setPreferredPaymentMethod($preferredPaymentMethod)
+    {
         $this->preferredPaymentMethod = $preferredPaymentMethod;
     }
 
-    public function setInvoiceLanguage($invoiceLanguage) {
+    public function setInvoiceLanguage($invoiceLanguage)
+    {
         $this->invoiceLanguage = $invoiceLanguage;
     }
 
-    public function setAddress(Address $address) {
+    public function setAddress(Address $address)
+    {
         $this->address = $address;
     }
 
-    public function setNote($note) {
+    public function setNote($note)
+    {
         $this->note = $note;
     }
 
-    public function setAccountNumber1($accountNumber1) {
+    public function setAccountNumber1($accountNumber1)
+    {
         $this->accountNumber1 = $accountNumber1;
     }
 
-    public function setAccountNumber2($accountNumber2) {
+    public function setAccountNumber2($accountNumber2)
+    {
         $this->accountNumber2 = $accountNumber2;
     }
 
-    public function setAccountNumber3($accountNumber3) {
+    public function setAccountNumber3($accountNumber3)
+    {
         $this->accountNumber3 = $accountNumber3;
     }
 
-    public function setAccountNumber4($accountNumber4) {
+    public function setAccountNumber4($accountNumber4)
+    {
         $this->accountNumber4 = $accountNumber4;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'name' => $this->name,
             'name_display' => $this->nameDisplay,

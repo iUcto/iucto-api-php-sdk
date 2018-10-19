@@ -1,9 +1,11 @@
 <?php
+
 namespace IUcto;
 /**
  * Description of ConnectionException
  *
- * @author admin
+ * @author iucto.cz
  */
-class ConnectionException extends \Exception {
+class ConnectionException extends \Exception
+{
 }

@@ -2,18 +2,17 @@
 
 namespace IUcto\Dto;
 
-use IUcto\Utils;
-
 /**
  * DTO for Customer data
  *
- * @author admin
+ * @author iucto.cz
  */
-class Supplier {
+class Supplier
+{
 
     /**
      * Id zákazníka
-     * 
+     *
      * @var int
      */
     private $id;
@@ -34,7 +33,7 @@ class Supplier {
 
     /**
      * IČ
-     * 
+     *
      * @var string
      */
     private $comid;
@@ -147,7 +146,8 @@ class Supplier {
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];
         $this->nameDisplay = $arrayData['name_display'];
@@ -166,67 +166,83 @@ class Supplier {
         $this->accountNumber4 = $arrayData['account_number4'];
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getNameDisplay() {
+    public function getNameDisplay()
+    {
         return $this->nameDisplay;
     }
 
-    public function getComid() {
+    public function getComid()
+    {
         return $this->comid;
     }
 
-    public function getVatid() {
+    public function getVatid()
+    {
         return $this->vatid;
     }
 
-    public function getVatPayer() {
+    public function getVatPayer()
+    {
         return $this->vatPayer;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->phone;
     }
 
-    public function getCellphone() {
+    public function getCellphone()
+    {
         return $this->cellphone;
     }
 
-    public function getWww() {
+    public function getWww()
+    {
         return $this->www;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
-    public function getNote() {
+    public function getNote()
+    {
         return $this->note;
     }
 
-    public function getAccountNumber1() {
+    public function getAccountNumber1()
+    {
         return $this->accountNumber1;
     }
 
-    public function getAccountNumber2() {
+    public function getAccountNumber2()
+    {
         return $this->accountNumber2;
     }
 
-    public function getAccountNumber3() {
+    public function getAccountNumber3()
+    {
         return $this->accountNumber3;
     }
 
-    public function getAccountNumber4() {
+    public function getAccountNumber4()
+    {
         return $this->accountNumber4;
     }
 

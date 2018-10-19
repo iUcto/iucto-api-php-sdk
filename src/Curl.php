@@ -101,7 +101,7 @@ class Curl
             foreach ($this->curls as $ch) {
                 $this->exec($ch);
             }
-        } else {                                                   
+        } else {
             $this->setopt(CURLOPT_URL, $this->buildURL($url_mixed, $data));
             $this->setOpt(CURLOPT_CUSTOMREQUEST, 'GET');
             $this->setopt(CURLOPT_HTTPGET, true);
@@ -225,8 +225,8 @@ class Curl
         $ch = is_null($_ch) ? $this->curl : $_ch;
 
         $required_options = array(
-            CURLINFO_HEADER_OUT    => 'CURLINFO_HEADER_OUT',
-            CURLOPT_HEADER         => 'CURLOPT_HEADER',
+            CURLINFO_HEADER_OUT => 'CURLINFO_HEADER_OUT',
+            CURLOPT_HEADER => 'CURLOPT_HEADER',
             CURLOPT_RETURNTRANSFER => 'CURLOPT_RETURNTRANSFER',
         );
 
@@ -339,9 +339,9 @@ class Curl
                         $response = $json_obj;
                     }
                 } elseif (preg_match('/^application\/atom\+xml/i', $response_headers['Content-Type']) ||
-                          preg_match('/^application\/rss\+xml/i', $response_headers['Content-Type']) ||
-                          preg_match('/^application\/xml/i', $response_headers['Content-Type']) ||
-                          preg_match('/^text\/xml/i', $response_headers['Content-Type'])) {
+                    preg_match('/^application\/rss\+xml/i', $response_headers['Content-Type']) ||
+                    preg_match('/^application\/xml/i', $response_headers['Content-Type']) ||
+                    preg_match('/^text\/xml/i', $response_headers['Content-Type'])) {
                     $xml_obj = @simplexml_load_string($response);
                     if (!($xml_obj === false)) {
                         $response = $xml_obj;
@@ -377,9 +377,9 @@ class Curl
                     // that contains an empty array.
                     if (is_array($value) && empty($value)) {
                         $data[$key] = '';
-                    // Fix "curl_setopt(): The usage of the @filename API for
-                    // file uploading is deprecated. Please use the CURLFile
-                    // class instead".
+                        // Fix "curl_setopt(): The usage of the @filename API for
+                        // file uploading is deprecated. Please use the CURLFile
+                        // class instead".
                     } elseif (is_string($value) && strpos($value, '@') === 0) {
                         $binary_data = true;
                         if (class_exists('CURLFile')) {
@@ -409,7 +409,7 @@ class Curl
             $ch->raw_response = curl_exec($ch->curl);
             $ch->curl_error_code = curl_errno($ch->curl);
         }
-        
+
         $ch->curl_error_message = curl_error($ch->curl);
         $ch->curl_error = !($ch->curl_error_code === 0);
         $ch->http_status_code = curl_getinfo($ch->curl, CURLINFO_HTTP_CODE);

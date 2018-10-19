@@ -2,61 +2,61 @@
 
 namespace IUcto\Dto;
 
-use IUcto\Utils;
-
 /**
  * DTO for SupplierOverview data
  *
- * @author admin
+ * @author iucto.cz
  */
-class SupplierOverview {
+class SupplierOverview
+{
 
     /**
      * Id zákazníka
      *
-     * @var int 
+     * @var int
      */
     private $id;
 
     /**
      * Jméno zákazníka
      *
-     * @var string 
+     * @var string
      */
     private $name;
 
     /**
      * IČ
      *
-     * @var string 
+     * @var string
      */
     private $comid;
 
     /**
      * DIČ
      *
-     * @var string 
+     * @var string
      */
     private $vatid;
 
     /**
      * Plátce DPH (ano/ne)
      *
-     * @var bool 
+     * @var bool
      */
     private $vatPayer;
 
     /**
      * Email
      *
-     * @var string 
+     * @var string
      */
     private $email;
 
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];
         $this->comid = $arrayData['comid'];
@@ -65,27 +65,33 @@ class SupplierOverview {
         $this->email = $arrayData['email'];
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getComid() {
+    public function getComid()
+    {
         return $this->comid;
     }
 
-    public function getVatid() {
+    public function getVatid()
+    {
         return $this->vatid;
     }
 
-    public function getVatPayer() {
+    public function getVatPayer()
+    {
         return $this->vatPayer;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 

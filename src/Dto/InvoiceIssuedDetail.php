@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for PaymentDetail data
+ * DTO for DocumentDetail data
  *
  * @author iucto.cz
  */
-class PaymentDetail
+class InvoiceIssuedDetail
 {
 
     /**
@@ -176,27 +176,20 @@ class PaymentDetail
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
         $this->date = Utils::getDateTimeFrom($arrayData['date']);
         $this->dateVat = Utils::getDateTimeFrom($arrayData['date_vat']);
-        //$this->maturityDate = Utils::getDateTimeFrom($arrayData['maturity_date']);
+        $this->maturityDate = Utils::getDateTimeFrom($arrayData['maturity_date']);
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->price = Utils::getValueOrNull($arrayData, 'price');
         $this->priceCzk = Utils::getValueOrNull($arrayData, 'price_czk');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->priceIncVatCzk = Utils::getValueOrNull($arrayData, 'price_inc_vat_czk');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        if (isset($arrayData['customer']) AND $arrayData['customer'] !== null) {
+        if (array_key_exists('customer', $arrayData)) {
             $this->customer = new Customer($arrayData['customer']);
-        }
-        if (isset($arrayData['supplier']) AND $arrayData['supplier'] !== null) {
-            $this->supplier = new Supplier($arrayData['supplier']);
         }
         $this->customerBankAccount = Utils::getValueOrNull($arrayData, 'customer_bank_account');
         $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
-        if (array_key_exists('bank_account', $arrayData) AND is_array($arrayData['bank_account'])) {
+        if (array_key_exists('bank_account', $arrayData)) {
             $this->bankAccount = new BankAccount($arrayData['bank_account']);
-        }
-
-        if (array_key_exists('cash_register', $arrayData) AND is_array($arrayData['cash_register'])) {
-            $this->cash_register = new CashRegister($arrayData['cash_register']);
         }
 
         $this->dateVatPrev = Utils::getDateTimeFrom($arrayData['date_vat_prev']);
@@ -274,11 +267,6 @@ class PaymentDetail
     public function getCustomer()
     {
         return $this->customer;
-    }
-
-    public function getSupplier()
-    {
-        return $this->supplier;
     }
 
     public function getCustomerBankAccount()

@@ -7,34 +7,35 @@ use IUcto\Utils;
 /**
  * DTO for BankAccountOverview data
  *
- * @author odehnal@iprogress.cz
+ * @author iucto.cz
  */
-class BankAccountOverview {
+class BankAccountOverview
+{
 
     /**
      * ID bankovního účtu
-     *   
+     *
      * @var int
      */
     private $id;
 
     /**
      * Název
-     *   
+     *
      * @var string
      */
     private $name;
 
     /**
      * Číslo účtu
-     *   
+     *
      * @var string
      */
     private $number;
 
     /**
      * Měna
-     *   
+     *
      * @var string
      */
     private $currency;
@@ -47,7 +48,7 @@ class BankAccountOverview {
 
     /**
      *
-     * @var int 
+     * @var int
      */
     private $initialState;
 
@@ -60,7 +61,8 @@ class BankAccountOverview {
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->number = Utils::getValueOrNull($arrayData, 'number');
@@ -70,31 +72,38 @@ class BankAccountOverview {
         $this->visible = Utils::getValueOrNull($arrayData, 'visible');
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getNumber() {
+    public function getNumber()
+    {
         return $this->number;
     }
 
-    public function getCurrency() {
+    public function getCurrency()
+    {
         return $this->currency;
     }
 
-    public function getIsdefault() {
+    public function getIsdefault()
+    {
         return $this->isdefault;
     }
 
-    public function getInitialState() {
+    public function getInitialState()
+    {
         return $this->initialState;
     }
 
-    public function getVisible() {
+    public function getVisible()
+    {
         return $this->visible;
     }
 

@@ -2,33 +2,27 @@
 
 namespace IUcto\Dto;
 
-use IUcto\Utils;
-
 /**
  * DTO for CashRegisterlist data
  *
- * @author admin
+ * @author iucto.cz
  */
-class CashRegisterlist {
+class CashRegisterlist
+{
 
-    /**
-     *
-     * @var $defaultCashRegister
-     */
+    /** @var CashRegisterOverview */
     private $defaultCashRegister;
 
-    /**
-     *
-     * @var $cashRegisters[] 
-     */
+    /** @var CashRegisterOverview[] */
     private $cashRegisters = array();
 
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         foreach ($arrayData as $data) {
-            $cashRegister = new cashRegisterOverview($data);
+            $cashRegister = new CashRegisterOverview($data);
             $this->cashRegisters[] = $cashRegister;
             if ($data['isdefault']) {
                 $this->defaultCashRegister = $cashRegister;
@@ -36,11 +30,19 @@ class CashRegisterlist {
         }
     }
 
-    public function getDefaultCashRegister() {
+    /**
+     * @return CashRegisterOverview
+     */
+    public function getDefaultCashRegister()
+    {
         return $this->defaultCashRegister;
     }
 
-    public function getCashRegister() {
+    /**
+     * @return CashRegisterOverview[]
+     */
+    public function getCashRegister()
+    {
         return $this->cashRegisters;
     }
 

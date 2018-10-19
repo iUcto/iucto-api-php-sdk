@@ -2,18 +2,20 @@
 
 namespace IUcto\Command;
 
-use IUcto\Utils;
 use IUcto\Dto\DocumentItem;
+use IUcto\Utils;
+
 /**
  * Comman object pro uložení dokumentu
  *
- * @author admin
+ * @author iucto.cz
  */
-class SaveDocument {
+class SaveInvoiceIssued
+{
 
     /**
      * Variabilní symbol (povinné)
-     *   
+     *
      * @var string (42)
      */
     private $variableSymbol;
@@ -26,21 +28,21 @@ class SaveDocument {
 
     /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
-     * 
+     *
      * @var string
      */
     private $date;
 
     /**
      * Datum zdanitelného plnění (povinné) (formát YYYY-mm-dd)
-     *   
+     *
      * @var string
      */
     private $dateVat;
 
     /**
      * Datum splatnosti (povinné) (formát YYYY-mm-dd)
-     *   
+     *
      * @var string
      */
     private $maturityDate;
@@ -48,7 +50,7 @@ class SaveDocument {
     /**
      * Měna dokladu (povinné)
      * @see \IUcto\IUcto::getCurrencies()
-     *   
+     *
      * @var string (3)
      */
     private $currency;
@@ -56,14 +58,14 @@ class SaveDocument {
     /**
      * Zákazník (povinné)
      * @see \IUcto\IUcto::getCustomers()
-     *   
+     *
      * @var int
      */
     private $customerId;
 
     /**
      * Bankovní účet zákazníka
-     *   
+     *
      * @var string (45)
      */
     private $customerBankAccount;
@@ -71,7 +73,7 @@ class SaveDocument {
     /**
      * Forma úhrady
      * @see \IUcto\IUcto::getPaymentTypes()
-     * 
+     *
      * @var int(1)
      */
     private $paymentType;
@@ -79,42 +81,43 @@ class SaveDocument {
     /**
      * Bankovního účet pro příjem platby (povinné)
      * @see \IUcto\IUcto::getBankAccounts()
-     *   
+     *
      * @var int
      */
     private $bankAccount;
 
     /**
      * Datum zdanitelného plnění (formát YYYY-mm-dd)
-     *   
+     *
      * @var string
      */
     private $dateVatPrev;
 
     /**
      * Poznámka
-     *   
+     *
      * @var string
      */
     private $description;
 
     /**
      * Způsob zaokrouhlení
-     * 
+     *
      * @see \IUcto\IUcto::getRoundingTypes()
-     *   
+     *
      * @var string
      */
     private $roundingType;
 
     /**
      * Položky dokladu (povinné)
-     *   
+     *
      * @var DocumentItem[]
      */
     private $items = array();
 
-    public function __construct(array $dataArray = array()) {
+    public function __construct(array $dataArray = array())
+    {
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
@@ -135,123 +138,149 @@ class SaveDocument {
         }
     }
 
-    public function getVariableSymbol() {
+    public function getVariableSymbol()
+    {
         return $this->variableSymbol;
     }
 
-    public function getDate() {
+    public function getDate()
+    {
         return $this->date;
     }
 
-    public function getDateVat() {
+    public function getDateVat()
+    {
         return $this->dateVat;
     }
 
-    public function getMaturityDate() {
+    public function getMaturityDate()
+    {
         return $this->maturityDate;
     }
 
-    public function getCurrency() {
+    public function getCurrency()
+    {
         return $this->currency;
     }
 
-    public function getCustomerId() {
+    public function getCustomerId()
+    {
         return $this->customerId;
     }
 
-    public function getCustomerBankAccount() {
+    public function getCustomerBankAccount()
+    {
         return $this->customerBankAccount;
     }
 
-    public function getPaymentType() {
+    public function getPaymentType()
+    {
         return $this->paymentType;
     }
 
-    public function getBankAccount() {
+    public function getBankAccount()
+    {
         return $this->bankAccount;
     }
 
-    public function getDateVatPrev() {
+    public function getDateVatPrev()
+    {
         return $this->dateVatPrev;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function getRoundingType() {
+    public function getRoundingType()
+    {
         return $this->roundingType;
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         return $this->items;
     }
 
-    public function setVariableSymbol($variableSymbol) {
+    public function setVariableSymbol($variableSymbol)
+    {
         $this->variableSymbol = $variableSymbol;
     }
 
     /**
-     * 
+     *
      * @param int|\DateTime $input unix timestamp or DateTime object
      */
-    public function setDate($input) {
+    public function setDate($input)
+    {
         $this->date = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
     /**
-     * 
+     *
      * @param int|\DateTime $input unix timestamp or DateTime object
      */
-    public function setDateVat($input) {
+    public function setDateVat($input)
+    {
         $this->dateVat = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
     /**
-     * 
+     *
      * @param int|\DateTime $input unix timestamp or DateTime object
      */
-    public function setMaturityDate($input) {
+    public function setMaturityDate($input)
+    {
         $this->maturityDate = Utils::getDateTimeFrom($input)->format('Y-m-d');
     }
 
-    public function setCurrency($currency) {
+    public function setCurrency($currency)
+    {
         $this->currency = $currency;
     }
 
-    public function setCustomerId($customerId) {
+    public function setCustomerId($customerId)
+    {
         $this->customerId = $customerId;
     }
 
-    public function setCustomerBankAccount($customerBankAccount) {
+    public function setCustomerBankAccount($customerBankAccount)
+    {
         $this->customerBankAccount = $customerBankAccount;
     }
 
-    public function setPaymentType($paymentType) {
+    public function setPaymentType($paymentType)
+    {
         $this->paymentType = $paymentType;
     }
 
-    public function setBankAccount($bankAccount) {
+    public function setBankAccount($bankAccount)
+    {
         $this->bankAccount = $bankAccount;
     }
 
     /**
-     * 
+     *
      * @param int|\DateTime $input unix timestamp or DateTime object
      */
-    public function setDateVatPrev($input) {
+    public function setDateVatPrev($input)
+    {
         $this->dateVatPrev = Utils::getDateTimeFrom($input);
     }
 
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
 
-    public function setRoundingType($roundingType) {
+    public function setRoundingType($roundingType)
+    {
         $this->roundingType = $roundingType;
     }
 
-    public function setItems(array $items) {
+    public function setItems(array $items)
+    {
         $this->items = $items;
     }
 
@@ -271,7 +300,8 @@ class SaveDocument {
         $this->sequenceCode = $sequenceCode;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         $array = array('variable_symbol' => $this->variableSymbol,
             'sequence_code' => $this->sequenceCode,
             'date' => $this->date,

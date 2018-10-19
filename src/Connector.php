@@ -7,9 +7,10 @@ require_once __DIR__ . '/ConnectionException.php';
 /**
  * Description of Connector
  *
- * @author admin
+ * @author iucto.cz
  */
-class Connector {
+class Connector
+{
 
     const GET = 'GET';
     const PUT = 'PUT';
@@ -21,7 +22,8 @@ class Connector {
     private $version;
     private $endpoint;
 
-    public function __construct(Curl $curl, $apiKey, $version, $endpoint) {
+    public function __construct(Curl $curl, $apiKey, $version, $endpoint)
+    {
         $this->curl = $curl;
         $this->apiKey = $apiKey;
         $this->version = $version;
@@ -30,7 +32,7 @@ class Connector {
 
     /**
      * Request the server
-     * 
+     *
      * @param string $address
      * @param string $method
      * @param mixed[] $data
@@ -38,7 +40,8 @@ class Connector {
      * @throws Exception
      * @throws ConnectionException
      */
-    public function request($address, $method, $data) {
+    public function request($address, $method, $data)
+    {
         $response = null;
         $url = $this->endpoint . "/" . $this->version . "/" . $address;
         switch ($method) {
@@ -64,16 +67,16 @@ class Connector {
             $appended = "Operaci nelze provest. ";
             switch ($this->curl->error_code) {
                 case 400:
-                    $appended .= "Vraceny kod 400 muze znamenat tyto moznosti: Komunikace musí probíhat pøes protokol HTTPS.|Neplatná verze API, nebo zdroj.|Tìlo poadavku je prázdné.|Neplatnı JSON formát.|Parametr 'doctype' je povinnı.|Parametr 'doctype' není platnı.|Parametr 'date' je povinnı.|Parametr 'date' není platnı.";
+                    $appended .= "VracenÃ½ kÃ³d 400 muÅ¾e znamenat tyto moÅ¾nosti: Komunikace musÃ­ probÃ­hat pÅ™es protokol HTTPS.|NeplatnÃ¡ verze API, nebo zdroj.|TÄ›lo poÅ¾adavku je prÃ¡zdnÃ©.|NeplatnÃ½ JSON formÃ¡t.|Parametr 'doctype' je povinnÃ½.|Parametr 'doctype' nenÃ­ platnÃ½.|Parametr 'date' je povinnÃ½.|Parametr 'date' nenÃ­ platnÃ½.";
                     break;
                 case 401:
-                    $appended .= 'Zkontrolujte prosím, zda je váš API klíè uveden správnì.';
+                    $appended .= 'Zkontrolujte prosÃ­m, zda je API klÃ­Ä uveden sprÃ¡vnÄ›.';
                     break;
                 case 403:
-                    $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat záznam (má na sobì další závsilosti).| Úèetní období, nebo období DPH je uzavøeno.';
+                    $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat zÃ¡znam (mÃ¡ na sobÄ› dalÅ¡Ã­ zÃ¡vsilosti).|ÃšÄetnÃ­ obdobÃ­, nebo obdobÃ­ DPH je uzavÅ™eno.';
                     break;
                 case 404:
-                    $appended .= 'Záznam nenalezen';
+                    $appended .= 'ZÃ¡znam nenalezen';
                     break;
                 default:
                     $appended .= $this->curl->error_message;

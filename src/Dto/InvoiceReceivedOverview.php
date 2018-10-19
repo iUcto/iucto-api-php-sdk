@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for PaymentOverview data
+ * DTO for DocumentOverview data
  *
  * @author iucto.cz
  */
-class PaymentOverview
+class InvoiceReceivedOverview
 {
 
     /**
@@ -78,9 +78,16 @@ class PaymentOverview
     /**
      * Zákazník
      *
-     * @var CustomerOverview
+     * @var SupplierOverview
      */
-    private $customer;
+    private $supplier;
+
+    /**
+     * Doklad je zaúčtován
+     *
+     * @var bool
+     */
+    private $accounted;
 
     /**
      * Doklad je smazaný
@@ -94,7 +101,6 @@ class PaymentOverview
      */
     public function __construct(array $arrayData)
     {
-        //print_r($arrayData);
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
@@ -104,20 +110,8 @@ class PaymentOverview
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-
-        if (isset($arrayData['supplier']) AND $arrayData['supplier'] !== null) {
-            $this->supplier = new SupplierOverview($arrayData['supplier']);
-        }
-        if (isset($arrayData['customer']) AND $arrayData['customer'] !== null) {
-            $this->customer = new CustomerOverview($arrayData['customer']);
-        }
-
-        if (!is_null($arrayData['invoice'])) {
-            $this->invoice = new DocumentOverview($arrayData['invoice']);
-        } else {
-            $this->invoice = null;
-        }
-        $this->bankAccount = new BankAccountOverview($arrayData, 'bank_account');
+        $this->supplier = new SupplierOverview($arrayData['supplier']);
+        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
@@ -166,14 +160,14 @@ class PaymentOverview
         return $this->toBePaid;
     }
 
-    public function getCustomer()
+    public function getSupplier()
     {
-        return $this->customer;
+        return $this->supplier;
     }
 
-    public function getBankAccount()
+    public function getAccounted()
     {
-        return $this->bankAccount;
+        return $this->accounted;
     }
 
     public function getDeleted()

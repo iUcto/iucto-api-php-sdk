@@ -7,7 +7,7 @@ use IUcto\Utils;
 /**
  * Description of SaveCustomer
  *
- * @author odehnal@iprogress.cz
+ * @author iucto.cz
  */
 class SaveBankAccount
 {

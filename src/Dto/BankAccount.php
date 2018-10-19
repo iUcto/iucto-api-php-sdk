@@ -6,35 +6,36 @@ use IUcto\Utils;
 
 /**
  * DTO for BankAccount data
- * 
- * @author admin
+ *
+ * @author iucto.cz
  */
-class BankAccount {
+class BankAccount
+{
 
     /**
      * ID bankovního účtu
-     *   
+     *
      * @var int
      */
     private $id;
 
     /**
      * Název
-     *   
+     *
      * @var string
      */
     private $name;
 
     /**
      * Číslo účtu
-     *   
+     *
      * @var string
      */
     private $number;
 
     /**
      * Měna
-     *   
+     *
      * @var string
      */
     private $currency;
@@ -88,7 +89,8 @@ class BankAccount {
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->number = Utils::getValueOrNull($arrayData, 'number');
@@ -103,19 +105,23 @@ class BankAccount {
         $this->chart_account_valid_from = $arrayData['chart_account_valid_from'];
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getNumber() {
+    public function getNumber()
+    {
         return $this->number;
     }
 
-    public function getCurrency() {
+    public function getCurrency()
+    {
         return $this->currency;
     }
 
@@ -182,7 +188,6 @@ class BankAccount {
     {
         return $this->chart_account_valid_from;
     }
-
 
 
 }
