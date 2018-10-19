@@ -6,7 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $iUcto = IUcto\IUctoFactory::create('your-secret-key');
 
 try {
-    $documents = $iUcto->getCurrencies();
+    $documents = $iUcto->deleteInvoiceIssued(13353);
     var_dump($documents);
 } catch (IUcto\ConnectionException $e) {
     // network layer problem
@@ -15,3 +15,5 @@ try {
     // Message from the server
     echo $e->getMessage();
 }
+
+

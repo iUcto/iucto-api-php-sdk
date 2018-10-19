@@ -1,16 +1,16 @@
 <?php
 date_default_timezone_set("Europe/Prague");
 
-require_once __DIR__ . '/../src/IUctoFactory.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-$iUcto = IUcto\IUctoFactory::create('62b905ecb3e0ec6e760f20aacc59f15c'); // přidejte druhý parametr "http://gsmobile-novydesign.dev2.datesoft.cz/api" pro volání testovací verze
-try {
-    $newDocument = new IUcto\Command\SaveDocument(
-            array(
-        "variable_symbol" => "20140001",
+$iUcto = IUcto\IUctoFactory::create('your-secret-key');
+
+$updatedDocument = new IUcto\Command\SaveInvoiceIssued(
+    array(
+        "variable_symbol" => "20130001",
         "date" => "2014-06-01",
         "date_vat" => "2014-06-01",
-        "maturity_date" => "2014-06-30",
+        "maturity_date" => "2014-06-25",
         "currency" => "CZK",
         "customer_id" => 1638,
         "customer_bank_account" => null,
@@ -21,7 +21,7 @@ try {
         "rounding_type" => "none",
         "items" => array(
             array(
-                "text" => "Bílé tričko (lze prát na 60 °C)",
+                "text" => "Bílé tričko",
                 "amount" => 5,
                 "price" => 400,
                 "unit" => "ks",
@@ -31,7 +31,7 @@ try {
                 "department_id" => 0,
                 "contract_id" => 0,
                 "chart_account_id" => 309,
-                "vat_chart_id" => 302), 
+                "vat_chart_id" => 302),
             array(
                 "text" => "doprava",
                 "amount" => 1,
@@ -45,14 +45,12 @@ try {
                 "chart_account_id" => 272,
                 "vat_chart_id" => 302)
         )
-            )
-    );
+    )
+);
 
-    $document = $iUcto->createDocument($newDocument);
-
-    echo '<pre>';
-    print_r($document);
-    echo '</pre>';
+try {
+    $documents = $iUcto->updateInvoiceIssued(286, $updatedDocument);
+    var_dump($documents);
 } catch (IUcto\ValidationException $e) {
     echo '<p>Validation errors:</p>';
     var_dump($e->getErrors());
