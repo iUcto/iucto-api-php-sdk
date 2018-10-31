@@ -109,8 +109,12 @@ class SaveInvoiceReceived
      */
     private $items = array();
 
-    public function __construct(array $dataArray = array())
+    public function __construct(array $dataArray = [])
     {
+        if (empty($dataArray)) {
+            return;
+        }
+
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');

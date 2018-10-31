@@ -75,8 +75,11 @@ class SaveOrderReceived
      */
     private $invoiceId;
 
-    public function __construct(array $dataArray = array())
+    public function __construct(array $dataArray = [])
     {
+        if (empty($dataArray)) {
+            return;
+        }
 
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');

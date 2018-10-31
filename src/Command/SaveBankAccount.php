@@ -78,9 +78,11 @@ class SaveBankAccount
      */
     private $isDefault;
 
-    function __construct(array $arrayData)
+    function __construct(array $arrayData = [])
     {
-        if (empty($arrayData)) return;
+        if (empty($arrayData)) {
+            return;
+        }
 
         $this->name = $arrayData['name'];
         $this->currency = $arrayData['currency'];

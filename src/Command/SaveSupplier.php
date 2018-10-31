@@ -139,8 +139,12 @@ class SaveSupplier
      */
     private $accountNumber4;
 
-    function __construct(array $arrayData)
+    function __construct(array $arrayData = [])
     {
+        if (empty($arrayData)) {
+            return;
+        }
+
         $this->name = $arrayData['name'];
         $this->nameDisplay = $arrayData['name_display'];
         $this->comid = $arrayData['comid'];

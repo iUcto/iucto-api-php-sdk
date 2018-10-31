@@ -118,8 +118,12 @@ class SavePayment
      */
     private $invoiceId;
 
-    public function __construct(array $dataArray = array())
+    public function __construct(array $dataArray = [])
     {
+        if (empty($dataArray)) {
+            return;
+        }
+
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->date = isset($dataArray['date']) ? Utils::getDateTimeFrom($dataArray['date']) : null;
         $this->dateVat = isset($dataArray['date_vat']) ? Utils::getDateTimeFrom($dataArray['date_vat']) : null;
