@@ -42,7 +42,7 @@ class Address
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData)
+    public function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) return;
 
