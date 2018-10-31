@@ -7,6 +7,8 @@ use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
+use IUcto\Command\SaveOrderIssued;
+use IUcto\Command\SaveOrderReceived;
 use IUcto\Command\SavePayment;
 use IUcto\Command\SaveSupplier;
 use IUcto\Dto\BankAccount;
@@ -22,6 +24,10 @@ use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
 use IUcto\Dto\InvoiceReceivedDetail;
 use IUcto\Dto\InvoiceReceivedOverview;
+use IUcto\Dto\OrderIssuedDetail;
+use IUcto\Dto\OrderIssuedOverview;
+use IUcto\Dto\OrderReceivedDetail;
+use IUcto\Dto\OrderReceivedOverview;
 use IUcto\Dto\PaymentDetail;
 use IUcto\Dto\PaymentIssuedOverview;
 use IUcto\Dto\PaymentReceivedOverview;
@@ -819,6 +825,136 @@ class IUcto
     public function deleteBankTransaction($id)
     {
         $this->handleRequest('bank_transaction/' . $id, Connector::DELETE);
+    }
+
+    /**
+     * Seznam objednávek vydaných
+     * @return OrderIssuedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getOrderIssuedList()
+    {
+        $allData = $this->handleRequest('order_issued', Connector::GET);
+        $ordersIssued = [];
+        if (isset($allData["order_issued"])) {
+            foreach ($allData["order_issued"] as $i => $data) {
+                $ordersIssued[] = new OrderIssuedOverview($data);
+            }
+        }
+        return $ordersIssued;
+    }
+
+    /**
+     * @param SaveOrderIssued $saveOrderIssued
+     * @return OrderIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createOrderIssued(SaveOrderIssued $saveOrderIssued)
+    {
+        $allData = $this->handleRequest('order_issued', Connector::POST, $saveOrderIssued->toArray());
+        return new OrderIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveOrderIssued $saveOrderIssued
+     * @return OrderIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateOrderIssued($id, SaveOrderIssued $saveOrderIssued)
+    {
+        $allData = $this->handleRequest('order_issued/' . $id, Connector::PUT, $saveOrderIssued->toArray());
+        return new OrderIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return OrderIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getOrderIssuedDetail($id)
+    {
+        $allData = $this->handleRequest('order_issued/' . $id, Connector::GET);
+        return new OrderIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteOrderIssued($id)
+    {
+        $this->handleRequest('order_issued/' . $id, Connector::DELETE);
+    }
+
+    /**
+     * Seznam objednávek vydaných
+     * @return OrderIssuedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getOrderReceivedList()
+    {
+        $allData = $this->handleRequest('order_received', Connector::GET);
+        $ordersIssued = [];
+        if (isset($allData["order_received"])) {
+            foreach ($allData["order_received"] as $i => $data) {
+                $ordersIssued[] = new OrderReceivedOverview($data);
+            }
+        }
+        return $ordersIssued;
+    }
+
+    /**
+     * @param SaveOrderReceived $saveOrderReceived
+     * @return OrderReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createOrderReceived(SaveOrderReceived $saveOrderReceived)
+    {
+        $allData = $this->handleRequest('order_received', Connector::POST, $saveOrderReceived->toArray());
+        return new OrderReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveOrderReceived $saveOrderReceived
+     * @return OrderReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateOrderReceived($id, SaveOrderReceived $saveOrderReceived)
+    {
+        $allData = $this->handleRequest('order_received/' . $id, Connector::PUT, $saveOrderReceived->toArray());
+        return new OrderReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return OrderReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getOrderReceivedDetail($id)
+    {
+        $allData = $this->handleRequest('order_received/' . $id, Connector::GET);
+        return new OrderReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteOrderReceived($id)
+    {
+        $this->handleRequest('order_received/' . $id, Connector::DELETE);
     }
 
 
