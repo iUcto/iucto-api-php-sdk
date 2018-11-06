@@ -99,8 +99,11 @@ class DocumentItem
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData)
+    public function __construct(array $arrayData = [])
     {
+        if(empty($arrayData)){
+            return;
+        }
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->amount = Utils::getValueOrNull($arrayData, 'amount');
         $this->unit = Utils::getValueOrNull($arrayData, 'unit');

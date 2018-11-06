@@ -110,7 +110,7 @@ class SaveBankAccount
             'account_number' => $this->account_number,
             'bank_code' => $this->bank_code,
             'chart_account_id' => $this->chart_account_id,
-            'chart_account_valid_from' => $this->chart_account_valid_from->format('Y-m-d'),
+            'chart_account_valid_from' => !empty($this->chart_account_valid_from) ? $this->chart_account_valid_from->format('Y-m-d') : null,
             'isdefault' => $this->isDefault,
         ];
     }

@@ -188,7 +188,7 @@ class InvoiceIssuedDetail
         }
         $this->customerBankAccount = Utils::getValueOrNull($arrayData, 'customer_bank_account');
         $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
-        if (array_key_exists('bank_account', $arrayData)) {
+        if (isset($arrayData['bank_account']) && !empty($arrayData['bank_account'])) {
             $this->bankAccount = new BankAccount($arrayData['bank_account']);
         }
 
