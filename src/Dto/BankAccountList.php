@@ -12,13 +12,13 @@ class BankAccountList
 
     /**
      *
-     * @var BankAccount
+     * @var BankAccountOverview
      */
     private $defaultBankAccount;
 
     /**
      *
-     * @var BankAccount[]
+     * @var BankAccountOverview[]
      */
     private $bankAccounts = array();
 
@@ -36,11 +36,17 @@ class BankAccountList
         }
     }
 
+    /**
+     * @return BankAccountOverview
+     */
     public function getDefaultBankAccount()
     {
         return $this->defaultBankAccount;
     }
 
+    /**
+     * @return BankAccountOverview[]
+     */
     public function getBankAccounts()
     {
         return $this->bankAccounts;
