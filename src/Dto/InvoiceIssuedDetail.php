@@ -166,6 +166,13 @@ class InvoiceIssuedDetail
      */
     private $deleted;
 
+
+    /**
+     * Id objednávky
+     * @var int|null
+     */
+    private $orderId;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -202,6 +209,7 @@ class InvoiceIssuedDetail
         }
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
+        $this->orderId = Utils::getValueOrNull($arrayData, 'order_id');
     }
 
     public function getId()
@@ -312,6 +320,14 @@ class InvoiceIssuedDetail
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
     }
 
 }
