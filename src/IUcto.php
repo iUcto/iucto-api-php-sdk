@@ -4,6 +4,7 @@ namespace IUcto;
 
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
+use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
@@ -17,6 +18,8 @@ use IUcto\Dto\BankTransactionList;
 use IUcto\Dto\BankTransactionOverview;
 use IUcto\Dto\CashRegisterList;
 use IUcto\Dto\Contract;
+use IUcto\Dto\CreditNoteIsseudOverview;
+use IUcto\Dto\CreditNoteIssuedDetail;
 use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\Department;
@@ -957,5 +960,70 @@ class IUcto
         $this->handleRequest('order_received/' . $id, Connector::DELETE);
     }
 
+
+    /**
+     * Seznam dobropisů vydaných
+     * @return CreditNoteIsseudOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteIssuedList()
+    {
+        $allData = $this->handleRequest('creditnote_issued', Connector::GET);
+        $creditNoteIssued = [];
+        if (isset($allData["creditnote_issued"])) {
+            foreach ($allData["creditnote_issued"] as $i => $data) {
+                $creditNoteIssued[] = new CreditNoteIsseudOverview($data);
+            }
+        }
+        return $creditNoteIssued;
+    }
+
+    /**
+     * @param SaveCreditNoteIssued $saveCreditNoteIssued
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createCreditNoteIssued(SaveCreditNoteIssued $saveCreditNoteIssued)
+    {
+        $allData = $this->handleRequest('creditnote_issued', Connector::POST, $saveCreditNoteIssued->toArray());
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveCreditNoteIssued $saveCreditNoteIssued
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateCreditNoteIssued($id, SaveCreditNoteIssued $saveCreditNoteIssued)
+    {
+        $allData = $this->handleRequest('creditnote_issued/' . $id, Connector::PUT, $saveCreditNoteIssued->toArray());
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteIssuedDetail($id)
+    {
+        $allData = $this->handleRequest('creditnote_issued/' . $id, Connector::GET);
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteCreditNoteIssued($id)
+    {
+        $this->handleRequest('creditnote_issued/' . $id, Connector::DELETE);
+    }
 
 }
