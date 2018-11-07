@@ -25,7 +25,7 @@ class Utils
         if ($input instanceof DateTime) {
             return $input;
         }
-        return DateTime::createFromFormat("U", $input);
+        return DateTime::createFromFormat("Y-m-d", $input);
     }
 
     public static function getTimestampFrom($input)
