@@ -64,7 +64,7 @@ class Connector
         if ($this->curl->curl_error) {
             throw new ConnectionException(sprintf("Error while requesting endpoint. Original message: %s", $this->curl->error_message));
         }
-        if ($this->curl->error_code > 205 && $this->curl->response === '') {
+        if ($this->curl->error_code >= 400) {
             $appended = "Operaci nelze provest. ";
             switch ($this->curl->error_code) {
                 case 400:
