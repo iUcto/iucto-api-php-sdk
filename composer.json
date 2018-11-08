@@ -11,9 +11,6 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^5.6 || ^7.0",
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-simplexml": "*",
     "composer/ca-bundle": "^1.0",
     "guzzlehttp/guzzle": "^6.3"
   },
