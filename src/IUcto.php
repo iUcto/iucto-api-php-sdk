@@ -70,6 +70,7 @@ class IUcto
         if ($method == Connector::DELETE) {
             return $response;
         }
+
         $data = $this->parser->parse($response);
         if (isset($data['errors']) && is_array($data['errors'])) {
             $this->errorHandler->handleErrors($data['errors']);

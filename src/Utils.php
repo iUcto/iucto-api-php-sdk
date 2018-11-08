@@ -20,6 +20,10 @@ class Utils
         return null;
     }
 
+    /**
+     * @param $input
+     * @return bool|DateTime
+     */
     public static function getDateTimeFrom($input)
     {
         if ($input instanceof DateTime) {
@@ -28,6 +32,10 @@ class Utils
         return DateTime::createFromFormat("Y-m-d", $input);
     }
 
+    /**
+     * @param $input
+     * @return string
+     */
     public static function getTimestampFrom($input)
     {
         if ($input instanceof DateTime) {

@@ -14,7 +14,8 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-simplexml": "*",
-    "composer/ca-bundle": "^1.0"
+    "composer/ca-bundle": "^1.0",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "autoload": {
     "psr-4": {

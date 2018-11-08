@@ -101,7 +101,7 @@ class DocumentItem
      */
     public function __construct(array $arrayData = [])
     {
-        if(empty($arrayData)){
+        if (empty($arrayData)) {
             return;
         }
         $this->id = Utils::getValueOrNull($arrayData, 'id');

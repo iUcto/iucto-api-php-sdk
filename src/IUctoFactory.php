@@ -3,6 +3,8 @@
 namespace IUcto;
 
 use Composer\CaBundle\CaBundle;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @author iucto.cz
@@ -17,17 +19,20 @@ class IUctoFactory
      * @param string $endpoint
      * @param string $version
      * @return IUcto
-     * @throws \ErrorException
      */
-    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.0')
+    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.1')
     {
-        $curl = new Curl();
-        if (strpos($endpoint, 'https') === 0) {
-            $curl->setOpt(CURLOPT_CAINFO, CaBundle::getBundledCaBundlePath());
-        }
-        $curl->setHeader('X-Auth-Key', $apiKey);
-        $curl->setHeader('Content-Type', 'application/json');
-        $connector = new Connector($curl, $apiKey, $version, $endpoint);
+        $options = [
+            RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
+            'headers' => [
+                'X-Auth-Key' => $apiKey,
+                'Content-Type' => 'application/json',
+            ],
+        ];
+        $httpClient = new Client($options);
+
+
+        $connector = new Connector($httpClient, $version, $endpoint);
 
         $parser = new Parser();
 
