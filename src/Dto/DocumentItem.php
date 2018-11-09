@@ -97,6 +97,12 @@ class DocumentItem
     private $contractId;
 
     /**
+     * Příznak, zda je cena za kus zadaná včetně DPH
+     * @var bool
+     */
+    private $unitPriceIncVat = false;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData = [])
@@ -116,6 +122,7 @@ class DocumentItem
         $this->vatChartId = Utils::getValueOrNull($arrayData, 'vat_chart_id');
         $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
+        $this->unitPriceIncVat = (bool)Utils::getValueOrNull($arrayData, 'unit_price_inc_vat');
     }
 
     public function toArray()
@@ -131,7 +138,8 @@ class DocumentItem
             'chart_account_id' => $this->chartAccountId,
             'vat_chart_id' => $this->vatChartId,
             'department_id' => $this->departmentId,
-            'contract_id' => $this->contractId);
+            'contract_id' => $this->contractId,
+            'unit_price_inc_vat' => $this->unitPriceIncVat);
     }
 
     public function getId()
@@ -248,5 +256,22 @@ class DocumentItem
     {
         $this->contractId = $contractId;
     }
+
+    /**
+     * @return bool
+     */
+    public function getUnitPriceIncVat()
+    {
+        return $this->unitPriceIncVat;
+    }
+
+    /**
+     * @param bool $unitPriceIncVat
+     */
+    public function setUnitPriceIncVat($unitPriceIncVat)
+    {
+        $this->unitPriceIncVat = $unitPriceIncVat;
+    }
+
 
 }
