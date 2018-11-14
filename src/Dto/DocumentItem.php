@@ -103,6 +103,12 @@ class DocumentItem
     private $unitPriceIncVat = false;
 
     /**
+     * Celková částka DPH za položku
+     * @var float
+     */
+    private $vatTotal;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData = [])
@@ -123,6 +129,7 @@ class DocumentItem
         $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
         $this->unitPriceIncVat = (bool)Utils::getValueOrNull($arrayData, 'unit_price_inc_vat');
+        $this->vatTotal = Utils::getValueOrNull($arrayData, 'vat_total');
     }
 
     public function toArray()
@@ -139,7 +146,8 @@ class DocumentItem
             'vat_chart_id' => $this->vatChartId,
             'department_id' => $this->departmentId,
             'contract_id' => $this->contractId,
-            'unit_price_inc_vat' => $this->unitPriceIncVat);
+            'unit_price_inc_vat' => $this->unitPriceIncVat,
+            'vat_total' => $this->vatTotal);
     }
 
     public function getId()
@@ -272,6 +280,16 @@ class DocumentItem
     {
         $this->unitPriceIncVat = $unitPriceIncVat;
     }
+
+    /**
+     * @return float
+     */
+    public function getVatTotal()
+    {
+        return $this->vatTotal;
+    }
+
+
 
 
 }
