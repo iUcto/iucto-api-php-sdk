@@ -289,7 +289,12 @@ class DocumentItem
         return $this->vatTotal;
     }
 
-
-
+    /**
+     * @param float $vatTotal
+     */
+    public function setVatTotal($vatTotal)
+    {
+        $this->vatTotal = $vatTotal;
+    }
 
 }
