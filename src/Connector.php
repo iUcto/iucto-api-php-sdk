@@ -74,7 +74,7 @@ class Connector
                 $appended = "Operaci nelze provest. ";
                 switch ($result->getStatusCode()) {
                     case 400:
-                        if(!empty($responseBody)){
+                        if (!empty($responseBody)) {
                             return $responseBody;
                         }
                         $appended .= "Vracený kód 400 muže znamenat tyto možnosti: Komunikace musí probíhat přes protokol HTTPS.|Neplatná verze API, nebo zdroj.|Tělo požadavku je prázdné.|Neplatný JSON formát.|Parametr 'doctype' je povinný.|Chybý povinný parametr.";
