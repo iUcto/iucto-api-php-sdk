@@ -7,13 +7,14 @@ use IUcto\Utils;
 /**
  * DTO for Customer data
  *
- * @author admin
+ * @author iucto.cz
  */
-class Customer {
+class Customer
+{
 
     /**
      * Id zákazníka
-     * 
+     *
      * @var int
      */
     private $id;
@@ -34,7 +35,7 @@ class Customer {
 
     /**
      * IČ
-     * 
+     *
      * @var string
      */
     private $comid;
@@ -147,7 +148,8 @@ class Customer {
     /**
      * @param mixed[] $arrayData input data
      */
-    public function __construct(array $arrayData) {
+    public function __construct(array $arrayData)
+    {
         $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];
         $this->nameDisplay = $arrayData['name_display'];
@@ -158,9 +160,9 @@ class Customer {
         $this->phone = $arrayData['phone'];
         $this->cellphone = $arrayData['cellphone'];
         $this->www = $arrayData['www'];
-        $this->usualMaturity = $arrayData['usual_maturity'];
-        $this->preferredPaymentMethod = $arrayData['preferred_payment_method'];
-        $this->invoiceLanguage = $arrayData['invoice_language'];
+        $this->usualMaturity = Utils::getValueOrNull($arrayData, 'usual_maturity');
+        $this->preferredPaymentMethod = Utils::getValueOrNull($arrayData, 'preferred_payment_method');
+        $this->invoiceLanguage = Utils::getValueOrNull($arrayData, 'invoice_language');
         $this->address = new Address($arrayData['address']);
         $this->note = $arrayData['note'];
         $this->accountNumber1 = $arrayData['account_number1'];
@@ -169,79 +171,98 @@ class Customer {
         $this->accountNumber4 = $arrayData['account_number4'];
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getNameDisplay() {
+    public function getNameDisplay()
+    {
         return $this->nameDisplay;
     }
 
-    public function getComid() {
+    public function getComid()
+    {
         return $this->comid;
     }
 
-    public function getVatid() {
+    public function getVatid()
+    {
         return $this->vatid;
     }
 
-    public function getVatPayer() {
+    public function getVatPayer()
+    {
         return $this->vatPayer;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->phone;
     }
 
-    public function getCellphone() {
+    public function getCellphone()
+    {
         return $this->cellphone;
     }
 
-    public function getWww() {
+    public function getWww()
+    {
         return $this->www;
     }
 
-    public function getUsualMaturity() {
+    public function getUsualMaturity()
+    {
         return $this->usualMaturity;
     }
 
-    public function getPreferredPaymentMethod() {
+    public function getPreferredPaymentMethod()
+    {
         return $this->preferredPaymentMethod;
     }
 
-    public function getInvoiceLanguage() {
+    public function getInvoiceLanguage()
+    {
         return $this->invoiceLanguage;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
-    public function getNote() {
+    public function getNote()
+    {
         return $this->note;
     }
 
-    public function getAccountNumber1() {
+    public function getAccountNumber1()
+    {
         return $this->accountNumber1;
     }
 
-    public function getAccountNumber2() {
+    public function getAccountNumber2()
+    {
         return $this->accountNumber2;
     }
 
-    public function getAccountNumber3() {
+    public function getAccountNumber3()
+    {
         return $this->accountNumber3;
     }
 
-    public function getAccountNumber4() {
+    public function getAccountNumber4()
+    {
         return $this->accountNumber4;
     }
 

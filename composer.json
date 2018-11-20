@@ -1,0 +1,23 @@
+{
+  "name": "iucto/api-php-sdk",
+  "type": "library",
+  "description": "iÚčto PHP SDK library",
+  "keywords": [
+    "iucto",
+    "api"
+  ],
+  "homepage": "https://online.iucto.cz",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "composer/ca-bundle": "^1.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "IUcto\\": "src"
+    }
+  }
+}

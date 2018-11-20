@@ -2,12 +2,14 @@
 
 namespace IUcto;
 
-class Parser {
+class Parser
+{
 
     const EMBEDED_KEY = '_embedded';
     const LINKS = '_links';
 
-    public function parse($json) {
+    public function parse($json)
+    {
         if (!$json) {
             return null;
         }
@@ -22,7 +24,8 @@ class Parser {
         return $array;
     }
 
-    function filter(&$input) {
+    function filter(&$input)
+    {
         if (array_key_exists(self::LINKS, $input)) {
             unset($input[self::LINKS]);
         }
