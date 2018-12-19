@@ -832,6 +832,16 @@ class IUcto
     }
 
     /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function bankTransactionAccount($id)
+    {
+        $this->handleRequest('bank_transaction/' . $id . '/account', Connector::PUT);
+    }
+
+    /**
      * Seznam objednávek vydaných
      * @return OrderIssuedOverview[]
      * @throws ConnectionException
