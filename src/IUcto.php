@@ -101,6 +101,41 @@ class IUcto
     }
 
     /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return InvoiceIsseudOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceIssued($page = null, $pageSize = null)
+    {
+        $params = [];
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('invoice_issued', Connector::GET, $params);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new InvoiceIsseudOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
      * Vytvoří nový doklad, odpověd obsahuje detail dokladu.
      *
      * @param SaveInvoiceIssued $saveDocument
@@ -168,6 +203,41 @@ class IUcto
     {
         $allData = $this->handleRequest('invoice_received', Connector::GET);
         $allDocuments = array();
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new InvoiceReceivedOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return InvoiceReceivedOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceReceived($page = null, $pageSize = null)
+    {
+        $params = [];
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('invoice_received', Connector::GET, $params);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
         foreach ($allData as $type => $typeData) {
             foreach ($typeData as $data) {
                 if (isset($data['href'])) {
