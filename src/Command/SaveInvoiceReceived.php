@@ -103,6 +103,11 @@ class SaveInvoiceReceived
     private $roundingType;
 
     /**
+     * @var string
+     */
+    private $externalCode;
+
+    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -117,6 +122,7 @@ class SaveInvoiceReceived
 
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($dataArray, 'external_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
         $this->dateVat = Utils::getValueOrNull($dataArray, 'date_vat');
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
@@ -286,10 +292,29 @@ class SaveInvoiceReceived
         $this->sequenceCode = $sequenceCode;
     }
 
+    /**
+     * @return string
+     */
+    public function getExternalCode()
+    {
+        return $this->externalCode;
+    }
+
+    /**
+     * @param string $externalCode
+     */
+    public function setExternalCode($externalCode)
+    {
+        $this->externalCode = $externalCode;
+    }
+
+
+
     public function toArray()
     {
         $array = array('variable_symbol' => $this->variableSymbol,
             'sequence_code' => $this->sequenceCode,
+            'external_code' => $this->externalCode,
             'date' => $this->date,
             'date_vat' => $this->dateVat,
             'maturity_date' => $this->maturityDate,
