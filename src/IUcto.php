@@ -79,6 +79,19 @@ class IUcto
     }
 
     /**
+     * @param $address
+     * @param $method
+     * @param array $data
+     * @return array|mixed|mixed[]|null
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    private function handleDownloadRequest($address, $method, array $data = array())
+    {
+        return  $this->connector->request($address, $method, $data);
+    }
+
+    /**
      * Zjednodušený výpis všech dostupných dokladů.
      *
      * @return InvoiceIsseudOverview[] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.
@@ -133,6 +146,16 @@ class IUcto
             }
         }
         return $allDocuments;
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceIssuedPdf($id)
+    {
+        return $this->handleDownloadRequest('invoice_issued/' . $id . '/pdf', Connector::GET);
     }
 
     /**
