@@ -6,6 +6,8 @@ use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCustomer;
+use IUcto\Command\SaveDepartment;
+use IUcto\Command\SaveContact;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
 use IUcto\Command\SaveOrderIssued;
@@ -817,6 +819,41 @@ class IUcto
         }
         return $departments;
     }
+    
+    /**
+     * @param SaveDepartment $saveDepartment
+     * @return Department
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createDepartment(SaveDepartment $saveDepartment)
+    {
+        $allData = $this->handleRequest('department', Connector::POST, $saveDepartment->toArray());
+        return new Department($allData);
+    }
+    
+    /**
+     * @param $id
+     * @param SaveDepartment $saveDepartment
+     * @return Department
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateDepartment($id, SaveDepartment $saveDepartment)
+    {
+        $allData = $this->handleRequest('department/' . $id, Connector::PUT, $saveDepartment->toArray());
+        return new Department($allData);
+    }
+            
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteDepartment($id)
+    {
+        $this->handleRequest('department/' . $id, Connector::DELETE);
+    }    
 
     /**
      * Výpis dostupných zakázek.
@@ -834,6 +871,41 @@ class IUcto
         }
         return $contracts;
     }
+    
+    /**
+     * @param SaveContract $saveContract
+     * @return Contract
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createContract(SaveContract $saveContract)
+    {
+        $allData = $this->handleRequest('contract', Connector::POST, $saveContract->toArray());
+        return new Contract($allData);
+    }
+    
+    /**
+     * @param $id
+     * @param SaveContract $saveContract
+     * @return Contract
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateContract($id, SaveContract $saveContract)
+    {
+        $allData = $this->handleRequest('contract/' . $id, Connector::PUT, $saveContract->toArray());
+        return new Contract($allData);
+    }
+            
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteContract($id)
+    {
+        $this->handleRequest('contract/' . $id, Connector::DELETE);
+    } 
 
     /**
      * Seznam dostupných metod.
