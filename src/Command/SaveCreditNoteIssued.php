@@ -110,6 +110,13 @@ class SaveCreditNoteIssued
     private $roundingType;
 
     /**
+     * Datum kurzu cizí měny (formát YYYY-mm-dd)
+     *
+     * @var string
+     */
+    private $currencyDate;
+
+    /**
      * Id faktury
      * @var int|null
      */
@@ -141,6 +148,7 @@ class SaveCreditNoteIssued
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
+        $this->currencyDate = Utils::getValueOrNull($dataArray, 'currency_date');
         $this->invoiceIssuedId = Utils::getValueOrNull($dataArray, 'invoice_issued_id');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
@@ -207,6 +215,11 @@ class SaveCreditNoteIssued
     public function getRoundingType()
     {
         return $this->roundingType;
+    }
+
+    public function getCurrencyDate()
+    {
+        return $this->currencyDate;
     }
 
     public function getItems()
@@ -290,6 +303,11 @@ class SaveCreditNoteIssued
         $this->roundingType = $roundingType;
     }
 
+    public function setCurrencyDate($currencyDate)
+    {
+        $this->currencyDate = $currencyDate;
+    }
+
     public function setItems(array $items)
     {
         $this->items = $items;
@@ -343,6 +361,7 @@ class SaveCreditNoteIssued
             'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
+            'currency_date' => $this->currencyDate,
             'invoice_issued_id' => $this->invoiceIssuedId,
         );
         $array['items'] = array();
