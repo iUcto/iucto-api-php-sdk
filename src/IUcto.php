@@ -79,6 +79,19 @@ class IUcto
     }
 
     /**
+     * @param $address
+     * @param $method
+     * @param array $data
+     * @return array|mixed|mixed[]|null
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    private function handleDownloadRequest($address, $method, array $data = array())
+    {
+        return  $this->connector->request($address, $method, $data);
+    }
+
+    /**
      * Zjednodušený výpis všech dostupných dokladů.
      *
      * @return InvoiceIsseudOverview[] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.
@@ -98,6 +111,51 @@ class IUcto
             }
         }
         return $allDocuments;
+    }
+
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return InvoiceIsseudOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceIssued($page = null, $pageSize = null)
+    {
+        $params = [];
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('invoice_issued', Connector::GET, $params);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new InvoiceIsseudOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceIssuedPdf($id)
+    {
+        return $this->handleDownloadRequest('invoice_issued/' . $id . '/pdf', Connector::GET);
     }
 
     /**
@@ -168,6 +226,41 @@ class IUcto
     {
         $allData = $this->handleRequest('invoice_received', Connector::GET);
         $allDocuments = array();
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new InvoiceReceivedOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return InvoiceReceivedOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceReceived($page = null, $pageSize = null)
+    {
+        $params = [];
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('invoice_received', Connector::GET, $params);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
         foreach ($allData as $type => $typeData) {
             foreach ($typeData as $data) {
                 if (isset($data['href'])) {
@@ -829,6 +922,16 @@ class IUcto
     public function deleteBankTransaction($id)
     {
         $this->handleRequest('bank_transaction/' . $id, Connector::DELETE);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function bankTransactionAccount($id)
+    {
+        $this->handleRequest('bank_transaction/' . $id . '/account', Connector::PUT);
     }
 
     /**
