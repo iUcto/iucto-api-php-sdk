@@ -10,3 +10,6 @@ SDK pracuje __výhradně__ s texty v kódování __UTF-8__.
 Dokumentace pro PHP je umístěna online na stránkách [iUcto](http://www.iucto.cz/api).
 
 Dokumentaci k samotnému API naleznete na serveru [apiary](http://docs.iucto.apiary.io/).
+
+
+ docker exec -it  iucto-php-fpm php -d xdebug.remote_autostart=1 ./vendor/bin/codecept run acceptance
