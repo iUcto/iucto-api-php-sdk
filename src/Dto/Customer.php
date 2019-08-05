@@ -146,6 +146,13 @@ class Customer
     private $accountNumber4;
 
     /**
+     * ID skupiny zákazníků
+     *
+     * @var int
+     */
+    private $customerGroupId;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -169,6 +176,7 @@ class Customer
         $this->accountNumber2 = $arrayData['account_number2'];
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
+        $this->customerGroupId = Utils::getValueOrNull($arrayData, 'customer_group_id');
     }
 
     public function getId()
@@ -264,6 +272,14 @@ class Customer
     public function getAccountNumber4()
     {
         return $this->accountNumber4;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCustomerGroupId()
+    {
+        return $this->customerGroupId;
     }
 
 }
