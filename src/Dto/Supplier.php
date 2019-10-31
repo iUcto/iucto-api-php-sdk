@@ -2,6 +2,8 @@
 
 namespace IUcto\Dto;
 
+use IUcto\Utils;
+
 /**
  * DTO for Customer data
  *
@@ -123,6 +125,13 @@ class Supplier
     private $accountNumber4;
 
     /**
+     * ID skupiny dodavatelů
+     *
+     * @var int
+     */
+    private $supplierGroupId;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -143,6 +152,7 @@ class Supplier
         $this->accountNumber2 = $arrayData['account_number2'];
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
+        $this->supplierGroupId = Utils::getValueOrNull($arrayData, 'supplier_group_id');
     }
 
     public function getId()
@@ -223,6 +233,14 @@ class Supplier
     public function getAccountNumber4()
     {
         return $this->accountNumber4;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSupplierGroupId()
+    {
+        return $this->supplierGroupId;
     }
 
 }
