@@ -153,6 +153,27 @@ class IUcto
     }
 
     /**
+     * Výpis dostupných dokladů vyhovujích filtru.
+     *
+     * @param array $params
+     * @return InvoiceIsseudOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInvoiceIssuedFilter($params)
+    {
+        $allData = $this->handleRequest('invoice_issued', Connector::GET, $params);
+
+        $invoice_issued = array();
+        if (!empty($allData['invoice_issued'])){
+            foreach ($allData['invoice_issued'] as $data) {
+                $invoice_issued[] = new InvoiceIsseudOverview($data);
+            }
+        }
+        return $invoice_issued;
+    }
+
+    /**
      * @param $id
      * @throws ConnectionException
      * @throws ValidationException
