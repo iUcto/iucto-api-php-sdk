@@ -24,6 +24,7 @@ use IUcto\Dto\CreditNoteIsseudOverview;
 use IUcto\Dto\CreditNoteIssuedDetail;
 use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
+use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
 use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
@@ -38,6 +39,7 @@ use IUcto\Dto\PaymentIssuedOverview;
 use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierOverview;
+use IUcto\Dto\SupplierGroup;
 
 
 /**
@@ -410,6 +412,23 @@ class IUcto
         $this->handleRequest('customer/' . $id, Connector::DELETE);
     }
 
+    /**
+     * Výpis dostupných skupin zakázníku.
+     *
+     * @return CustomerGroup[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCustomersGroup()
+    {        
+        $allData = $this->handleRequest('customer_group', Connector::GET);
+
+        $customers = array();
+        foreach ($allData['customer_group'] as $data) {
+            $customers[] = new CustomerGroup($data);
+        }
+        return $customers;
+    }
 
     /**
      * @return array
@@ -427,6 +446,24 @@ class IUcto
             }
         }
         return $allSuppliers;
+    }
+
+    /**
+     * Výpis dostupných skupin dodavatelů.
+     *
+     * @return SupplierGroup[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getSuppliersGroup()
+    {
+        $allData = $this->handleRequest('supplier_group', Connector::GET);
+
+        $suppliers = array();
+        foreach ($allData['supplier_group'] as $data) {
+            $suppliers[] = new SupplierGroup($data);
+        }
+        return $suppliers;
     }
 
     /**
