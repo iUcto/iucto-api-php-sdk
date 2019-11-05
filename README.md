@@ -1,12 +1,64 @@
-# iUcto PHP SDK
-Toto je SDK pro komunikaci s aplikací [iUcto](http://www.iucto.cz/). 
+# iÚčto PHP SDK
 
-Pro komunikaci je potřeba vytvořit API klíč, který lze generovat v detailu profilu uživatele.
+Officiální SDK knihovna v PHP pro apliakaci [https://www.iucto.cz](https://www.iucto.cz).
 
-V adresáři __examples__ jsou uvedeny příklady pro volání všech dostupných služeb.
+Dokumentace je k dispozici na [https://iucto.docs.apiary.io](https://iucto.docs.apiary.io/)
 
-SDK pracuje __výhradně__ s texty v kódování __UTF-8__.
+## Instalace knihovny
+```bash
+composer require iucto/iucto-api-php-sdk
+```
 
-Dokumentace pro PHP je umístěna online na stránkách [iUcto](http://www.iucto.cz/api).
+## Příklad použití
 
-Dokumentaci k samotnému API naleznete na serveru [apiary](http://docs.iucto.apiary.io/).
+### Naštení seznamu faktur vydaných
+```php
+require __DIR__ . '/../vendor/autoload.php';
+
+$iUcto = IUcto\IUctoFactory::create('your-secret-key');
+
+try {
+    $invoiceList = $iUcto->getInvoiceIssued();
+    foreach ($invoiceList as $invoice) {
+        var_dump($invoice->getId());
+    }
+} catch (IUcto\ConnectionException $e) {
+    // handle connection exception
+} catch (\IUcto\ValidationException $e) {
+    //handle validation exception
+}
+```
+
+### Vytvoření kontaktu
+```php
+require __DIR__ . '/../vendor/autoload.php';
+
+$iUcto = IUcto\IUctoFactory::create('your-secret-key');
+
+try {
+    $customer = new \IUcto\Command\SaveCustomer();
+    $customer->setName('Jan Novák');
+    $customer->setComid('123456');
+    $customer->setVatid('CZ123456');
+    $customer->setVatPayer(true);
+    $customer->setPhone('+420123123123');
+    $customer->setUsualMaturity(14);
+    $customer->setPreferredPaymentMethod('transfer');
+    $customer->setInvoiceLanguage('cs');
+
+    $address = new \IUcto\Dto\Address();
+    $address->setCountry('CZ');
+    $address->setStreet('Lanova 52/12');
+    $address->setCity('Praha');
+    $address->setPostalcode('21005');
+
+    // Přiřazení adresy k zákazníkovi
+    $customer->setAddress($address);
+
+    $iUcto->createCustomer($customer);
+} catch (IUcto\ConnectionException $e) {
+    // handle connection exception
+} catch (\IUcto\ValidationException $e) {
+    //handle validation exception
+}
+```
