@@ -127,14 +127,13 @@ class IUcto
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getInvoiceIssued($page = null, $pageSize = null)
-    {
-        $params = [];
+    public function getInvoiceIssued($page = null, $pageSize = null, $filters = [])
+    {        
         if (isset($page) && isset($pageSize)) {
-            $params['page'] = $page;
-            $params['pageSize'] = $pageSize;
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        $allData = $this->handleRequest('invoice_issued', Connector::GET, $params);
+        $allData = $this->handleRequest('invoice_issued', Connector::GET, $filters);
         $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
         if (isset($allData[Parser::PAGE_COUNT])) {
             unset($allData[Parser::PAGE_COUNT]);
@@ -150,27 +149,6 @@ class IUcto
             }
         }
         return $allDocuments;
-    }
-
-    /**
-     * Výpis dostupných dokladů vyhovujích filtru.
-     *
-     * @param array $params
-     * @return InvoiceIsseudOverview[]
-     * @throws ConnectionException
-     * @throws ValidationException
-     */
-    public function getInvoiceIssuedFilter($params)
-    {
-        $allData = $this->handleRequest('invoice_issued', Connector::GET, $params);
-
-        $invoice_issued = array();
-        if (!empty($allData['invoice_issued'])){
-            foreach ($allData['invoice_issued'] as $data) {
-                $invoice_issued[] = new InvoiceIsseudOverview($data);
-            }
-        }
-        return $invoice_issued;
     }
 
     /**
