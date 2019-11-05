@@ -11,7 +11,7 @@ composer require iucto/iucto-api-php-sdk
 
 ## Příklad použití
 
-### Naštení seznamu faktur vydaných
+### Načtení seznamu faktur vydaných
 ```php
 require __DIR__ . '/../vendor/autoload.php';
 
