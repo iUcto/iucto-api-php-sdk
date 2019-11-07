@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class InvoiceIssuedDetail
+class ProformaInvoiceIssuedDetail
 {
 
     /**
@@ -153,32 +153,24 @@ class InvoiceIssuedDetail
     private $items = array();
 
     /**
-     * Doklad je zaúčtován
-     *
-     * @var bool
-     */
-    private $accounted;
-
-    /**
      * Doklad je smazaný
      *
      * @var bool
      */
     private $deleted;
 
+    /**
+     * Zbývající částka k doplacení
+     *
+     * @var int
+     */
+    private $toBeInvoiced;
 
     /**
      * Id objednávky
      * @var int|null
      */
     private $orderId;
-
-    /**
-     * ID zálohových faktur
-     *
-     * @var array
-     */
-    private $proforma_invoice;
 
     /**
      * @param mixed[] $arrayData input data
@@ -196,6 +188,7 @@ class InvoiceIssuedDetail
         $this->priceCzk = Utils::getValueOrNull($arrayData, 'price_czk');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->priceIncVatCzk = Utils::getValueOrNull($arrayData, 'price_inc_vat_czk');
+        $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
         if (array_key_exists('customer', $arrayData)) {
             $this->customer = new Customer($arrayData['customer']);
@@ -214,14 +207,8 @@ class InvoiceIssuedDetail
                 $this->items[] = new DocumentItem($itemData);
             }
         }
-        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
         $this->orderId = Utils::getValueOrNull($arrayData, 'order_id');
-        if (array_key_exists('proforma_invoice', $arrayData)) {
-            foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proforma_invoice[] = $itemData;
-            }
-        }
     }
 
     public function getId()
@@ -279,6 +266,11 @@ class InvoiceIssuedDetail
         return $this->priceIncVatCzk;
     }
 
+    public function getToBeInvoiced()
+    {
+        return $this->toBeInvoiced;
+    }
+
     public function getToBePaid()
     {
         return $this->toBePaid;
@@ -324,11 +316,6 @@ class InvoiceIssuedDetail
         return $this->items;
     }
 
-    public function getAccounted()
-    {
-        return $this->accounted;
-    }
-
     public function getDeleted()
     {
         return $this->deleted;
@@ -342,8 +329,4 @@ class InvoiceIssuedDetail
         return $this->orderId;
     }
 
-    public function getProformaInvoiceID()
-    {
-        return $this->proforma_invoice;
-    }
 }

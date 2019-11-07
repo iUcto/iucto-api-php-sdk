@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class InvoiceIsseudOverview
+class ProformaInvoiceIssuedOverview
 {
 
     /**
@@ -83,13 +83,6 @@ class InvoiceIsseudOverview
     private $customer;
 
     /**
-     * Doklad je zaúčtován
-     *
-     * @var bool
-     */
-    private $accounted;
-
-    /**
      * Doklad je smazaný
      *
      * @var bool
@@ -97,11 +90,11 @@ class InvoiceIsseudOverview
     private $deleted;
 
     /**
-     * ID zálohových faktur
+     * Zbývající částka k odečtení
      *
-     * @var array
+     * @var double
      */
-    private $proforma_invoice;
+    private $toBeInvoiced;
 
     /**
      * @param mixed[] $arrayData input data
@@ -117,14 +110,9 @@ class InvoiceIsseudOverview
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
+        $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
         $this->customer = new CustomerOverview($arrayData['customer']);
-        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        if (array_key_exists('proforma_invoice', $arrayData)) {
-            foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proforma_invoice[] = $itemData;
-            }
-        }
     }
 
     public function getId()
@@ -177,9 +165,9 @@ class InvoiceIsseudOverview
         return $this->customer;
     }
 
-    public function getAccounted()
+    public function getToBeInvoiced()
     {
-        return $this->accounted;
+        return $this->toBeInvoiced;
     }
 
     public function getDeleted()
@@ -187,8 +175,4 @@ class InvoiceIsseudOverview
         return $this->deleted;
     }
 
-    public function getProformaInvoiceID()
-    {
-        return $this->proforma_invoice;
-    }
 }

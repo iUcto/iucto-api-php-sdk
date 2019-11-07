@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for DocumentOverview data
+ * DTO for ProformaInvoiceReceivedOverview data
  *
  * @author iucto.cz
  */
-class InvoiceIsseudOverview
+class ProformaInvoiceReceivedOverview
 {
 
     /**
@@ -25,6 +25,13 @@ class InvoiceIsseudOverview
      * @var string (45)
      */
     private $sequenceCode;
+
+    /**
+     * External code
+     *
+     * @var string (45)
+     */
+    private $externalCode;
 
     /**
      * Variabilní symbol
@@ -76,18 +83,18 @@ class InvoiceIsseudOverview
     private $toBePaid;
 
     /**
-     * Zákazník
+     * Zbývající částka k odečtení
      *
-     * @var CustomerOverview
+     * @var int
      */
-    private $customer;
+    private $toBeInvoiced;
 
     /**
-     * Doklad je zaúčtován
+     * Dodavatel
      *
-     * @var bool
+     * @var SupplierOverview
      */
-    private $accounted;
+    private $supplier;
 
     /**
      * Doklad je smazaný
@@ -97,19 +104,13 @@ class InvoiceIsseudOverview
     private $deleted;
 
     /**
-     * ID zálohových faktur
-     *
-     * @var array
-     */
-    private $proforma_invoice;
-
-    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
     {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($arrayData, 'external_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
@@ -117,14 +118,9 @@ class InvoiceIsseudOverview
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->customer = new CustomerOverview($arrayData['customer']);
-        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
+        $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
+        $this->supplier = new SupplierOverview($arrayData['supplier']);
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        if (array_key_exists('proforma_invoice', $arrayData)) {
-            foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proforma_invoice[] = $itemData;
-            }
-        }
     }
 
     public function getId()
@@ -135,6 +131,11 @@ class InvoiceIsseudOverview
     public function getSequenceCode()
     {
         return $this->sequenceCode;
+    }
+
+    public function getExternalCode()
+    {
+        return $this->externalCode;
     }
 
     public function getVariableSymbol()
@@ -172,23 +173,18 @@ class InvoiceIsseudOverview
         return $this->toBePaid;
     }
 
-    public function getCustomer()
+    public function getToBeInvoiced()
     {
-        return $this->customer;
+        return $this->toBeInvoiced;
     }
 
-    public function getAccounted()
+    public function getSupplier()
     {
-        return $this->accounted;
+        return $this->supplier;
     }
 
     public function getDeleted()
     {
         return $this->deleted;
-    }
-
-    public function getProformaInvoiceID()
-    {
-        return $this->proforma_invoice;
     }
 }
