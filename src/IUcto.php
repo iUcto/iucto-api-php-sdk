@@ -66,16 +66,21 @@ class IUcto
      */
     private function handleRequest($address, $method, array $data = array())
     {
-        $response = $this->connector->request($address, $method, $data);
-        if ($method == Connector::DELETE) {
-            return $response;
+        try{
+            $response = $this->connector->request($address, $method, $data);
+            if ($method == Connector::DELETE) {
+                return $response;
+            }
+            return $this->parser->parse($response);
+        }catch (BadRequestException $ex){
+            if(!empty($ex->getResponseData())){
+                $data = $this->parser->parse($ex->getResponseData());
+                if (isset($data['errors']) && is_array($data['errors'])) {
+                    throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
+                }
+            }
+            throw $ex;
         }
-
-        $data = $this->parser->parse($response);
-        if (isset($data['errors']) && is_array($data['errors'])) {
-            $this->errorHandler->handleErrors($data['errors']);
-        }
-        return $data;
     }
 
     /**
@@ -88,7 +93,17 @@ class IUcto
      */
     private function handleDownloadRequest($address, $method, array $data = array())
     {
-        return  $this->connector->request($address, $method, $data);
+        try{
+            return  $this->connector->request($address, $method, $data);
+        }catch (BadRequestException $ex){
+            if(!empty($ex->getResponseData())){
+                $data = $this->parser->parse($ex->getResponseData());
+                if (isset($data['errors']) && is_array($data['errors'])) {
+                    throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
+                }
+            }
+            throw $ex;
+        }
     }
 
     /**
