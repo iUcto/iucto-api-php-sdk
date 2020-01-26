@@ -51,7 +51,7 @@ class SaveProduct
     }
 
     /**
-     * @return string
+     * @return mixed|null
      */
     public function getName()
     {
@@ -59,28 +59,221 @@ class SaveProduct
     }
 
     /**
-     * @param string $name
+     * @param mixed|null $name
      */
-    public function setName($name)
+    public function setName( $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return bool
+     * @return mixed|null
      */
-    public function isDefault()
+    public function getAmount()
     {
-        return $this->is_default;
+        return $this->amount;
     }
 
     /**
-     * @param bool $is_default
+     * @param mixed|null $amount
      */
-    public function setAsDefault($is_default)
+    public function setAmount( $amount): void
     {
-        $this->is_default = $is_default;
+        $this->amount = $amount;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param mixed|null $unit
+     */
+    public function setUnit( $unit): void
+    {
+        $this->unit = $unit;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed|null $price
+     */
+    public function setPrice( $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getIsVatPrice()
+    {
+        return $this->is_vat_price;
+    }
+
+    /**
+     * @param mixed|null $is_vat_price
+     */
+    public function setIsVatPrice( $is_vat_price): void
+    {
+        $this->is_vat_price = $is_vat_price;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getVatRate()
+    {
+        return $this->vat_rate;
+    }
+
+    /**
+     * @param mixed|null $vat_rate
+     */
+    public function setVatRate( $vat_rate): void
+    {
+        $this->vat_rate = $vat_rate;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed|null $currency
+     */
+    public function setCurrency( $currency): void
+    {
+        $this->currency = $currency;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getBarCode()
+    {
+        return $this->bar_code;
+    }
+
+    /**
+     * @param mixed|null $bar_code
+     */
+    public function setBarCode( $bar_code): void
+    {
+        $this->bar_code = $bar_code;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getAccountentryTypeId()
+    {
+        return $this->accountentry_type_id;
+    }
+
+    /**
+     * @param mixed|null $accountentry_type_id
+     */
+    public function setAccountentryTypeId( $accountentry_type_id): void
+    {
+        $this->accountentry_type_id = $accountentry_type_id;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getChartAccountId()
+    {
+        return $this->chart_account_id;
+    }
+
+    /**
+     * @param mixed|null $chart_account_id
+     */
+    public function setChartAccountId( $chart_account_id): void
+    {
+        $this->chart_account_id = $chart_account_id;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getVattypeId()
+    {
+        return $this->vattype_id;
+    }
+
+    /**
+     * @param mixed|null $vattype_id
+     */
+    public function setVattypeId( $vattype_id): void
+    {
+        $this->vattype_id = $vattype_id;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getVatChartId()
+    {
+        return $this->vat_chart_id;
+    }
+
+    /**
+     * @param mixed|null $vat_chart_id
+     */
+    public function setVatChartId( $vat_chart_id): void
+    {
+        $this->vat_chart_id = $vat_chart_id;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getDepartmentId()
+    {
+        return $this->department_id;
+    }
+
+    /**
+     * @param mixed|null $department_id
+     */
+    public function setDepartmentId( $department_id): void
+    {
+        $this->department_id = $department_id;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getContractId()
+    {
+        return $this->contract_id;
+    }
+
+    /**
+     * @param mixed|null $contract_id
+     */
+    public function setContractId( $contract_id): void
+    {
+        $this->contract_id = $contract_id;
+    }
+
 
 
     public function toArray()

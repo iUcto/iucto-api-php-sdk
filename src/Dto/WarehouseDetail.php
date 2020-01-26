@@ -10,6 +10,9 @@ namespace IUcto\Dto;
 class WarehouseDetail
 {
 
+    /** @var int */
+    private $id;
+
     /**
      * (povinné)
      *
@@ -31,6 +34,7 @@ class WarehouseDetail
     {
         if (empty($arrayData)) return;
 
+        $this->id = $arrayData['id'];
         $this->name = $arrayData['name'];
         $this->is_default = $arrayData['is_default'];
     }
@@ -51,10 +55,19 @@ class WarehouseDetail
         return $this->is_default;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
 
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'is_default' => $this->is_default,
         ];

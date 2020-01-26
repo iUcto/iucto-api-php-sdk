@@ -12,6 +12,7 @@ use IUcto\Utils;
 class InventoryDetail
 {
 
+    private $id;
     private $product_id;
     private $warehouse_id;
     private $initial_balance;
@@ -28,6 +29,7 @@ class InventoryDetail
     {
         if (empty($arrayData)) return;
 
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->product_id = Utils::getValueOrNull($arrayData, 'product_id');
         $this->warehouse_id = Utils::getValueOrNull($arrayData, 'warehouse_id');
         $this->initial_balance = Utils::getValueOrNull($arrayData, 'initial_balance');
@@ -102,10 +104,20 @@ class InventoryDetail
         return $this->date_last_movement;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
             'initial_balance' => $this->initial_balance,

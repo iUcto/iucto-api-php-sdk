@@ -1188,11 +1188,12 @@ class IUcto
         unset($allData[Parser::PAGE_COUNT]);
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['warehouse'] = [];
         foreach ($allData['warehouse'] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['warehouse'] = new WarehouseDetail($data);
+            $allRows['warehouse'][] = new WarehouseDetail($data);
         }
 
         return $allRows;
@@ -1268,11 +1269,12 @@ class IUcto
         unset($allData[Parser::PAGE_COUNT]);
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['inventory'] = [];
         foreach ($allData['inventory'] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['inventory'] = new InventoryDetail($data);
+            $allRows['inventory'][] = new InventoryDetail($data);
         }
 
         return $allRows;
@@ -1337,11 +1339,12 @@ class IUcto
         unset($allData[Parser::PAGE_COUNT]);
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['stock_movement'] = [];
         foreach ($allData['stock_movement'] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['stock_movement'] = new StockMovementDetail($data);
+            $allRows['stock_movement'][] = new StockMovementDetail($data);
         }
 
         return $allRows;
@@ -1383,38 +1386,39 @@ class IUcto
         unset($allData[Parser::PAGE_COUNT]);
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['price_list'] = [];
         foreach ($allData['price_list'] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['price_list'] = new ProductOverview($data);
+            $allRows['price_list'][] = new ProductOverview($data);
         }
 
         return $allRows;
     }
 
     /**
-     * @param SaveProduct $saveWarehouse
+     * @param SaveProduct $saveProduct
      * @return ProductDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function createProduct(SaveProduct $saveWarehouse)
+    public function createProduct(SaveProduct $saveProduct)
     {
-        $allData = $this->handleRequest('price_list', Connector::POST, $saveWarehouse->toArray());
+        $allData = $this->handleRequest('price_list', Connector::POST, $saveProduct->toArray());
         return new ProductDetail($allData);
     }
 
     /**
      * @param $id
-     * @param SaveProduct $saveWarehouse
+     * @param SaveProduct $saveProduct
      * @return ProductDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function updateProduct($id, SaveProduct $saveWarehouse)
+    public function updateProduct($id, SaveProduct $saveProduct)
     {
-        $allData = $this->handleRequest('price_list/' . $id, Connector::PUT, $saveWarehouse->toArray());
+        $allData = $this->handleRequest('price_list/' . $id, Connector::PUT, $saveProduct->toArray());
         return new ProductDetail($allData);
     }
 

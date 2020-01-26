@@ -12,11 +12,8 @@ use IUcto\Utils;
 class ProductOverview
 {
 
-    /**
-     * (povinné)
-     *
-     * @var string
-     */
+
+    private $id;
     private $name;
     private $amount;
     private $unit;
@@ -35,6 +32,7 @@ class ProductOverview
     {
         if (empty($arrayData)) return;
 
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->name = Utils::getValueOrNull($arrayData, 'name');
         $this->amount = Utils::getValueOrNull($arrayData, 'amount');
         $this->unit = Utils::getValueOrNull($arrayData, 'unit');
@@ -127,10 +125,16 @@ class ProductOverview
         return $this->contract_id;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'amount' => $this->amount,
             'unit' => $this->unit,
