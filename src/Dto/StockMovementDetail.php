@@ -26,6 +26,9 @@ class StockMovementDetail
     /** @var string */
     private $date;
 
+    /** @var string */
+    private $identification;
+
 
     /**
      * @param mixed[] $arrayData input data
@@ -39,6 +42,7 @@ class StockMovementDetail
         $this->amount = Utils::getValueOrNull($arrayData, 'amount');
         $this->note = Utils::getValueOrNull($arrayData, 'note');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
+        $this->identification = Utils::getValueOrNull($arrayData, 'identification');
     }
 
     /**
@@ -81,6 +85,14 @@ class StockMovementDetail
         return $this->date;
     }
 
+    /**
+     * @return string
+     */
+    public function getIdentification()
+    {
+        return $this->identification;
+    }
+
 
     public function toArray()
     {
@@ -90,6 +102,7 @@ class StockMovementDetail
             'amount' => $this->amount,
             'note' => $this->note,
             'date' => $this->date,
+            'identification' => $this->identification,
         ];
     }
 

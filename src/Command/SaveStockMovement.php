@@ -25,6 +25,9 @@ class SaveStockMovement
     /** @var string */
     private $date;
 
+    /** @var string */
+    private $identification;
+
     function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) {
@@ -36,6 +39,7 @@ class SaveStockMovement
         $this->amount = $arrayData['amount'];
         $this->note = $arrayData['note'];
         $this->date = $arrayData['date'];
+        $this->identification = $arrayData['identification'];
     }
 
 
@@ -47,6 +51,7 @@ class SaveStockMovement
             'amount' => $this->amount,
             'note' => $this->note,
             'date' => $this->date,
+            'identification' => $this->identification,
         ];
     }
 
@@ -129,6 +134,24 @@ class SaveStockMovement
     {
         $this->date = $date;
     }
+
+    /**
+     * @return string
+     */
+    public function getIdentification()
+    {
+        return $this->identification;
+    }
+
+    /**
+     * @param string $identification
+     */
+    public function setIdentification($identification)
+    {
+        $this->identification = $identification;
+    }
+
+
 
 
 }
