@@ -13,17 +13,18 @@ class ProductOverview
 {
 
 
-    private $id;
-    private $name;
-    private $amount;
-    private $unit;
-    private $price;
-    private $is_vat_price;
-    private $vat_rate;
-    private $currency;
-    private $bar_code;
-    private $department_id;
-    private $contract_id;
+    protected $id;
+    protected $name;
+    protected $amount;
+    protected $unit;
+    protected $price;
+    protected $is_vat_price;
+    protected $vat_rate;
+    protected $currency;
+    protected $bar_code;
+    protected $department_id;
+    protected $contract_id;
+    protected $external_code;
 
     /**
      * @param mixed[] $arrayData input data
@@ -43,6 +44,7 @@ class ProductOverview
         $this->bar_code = Utils::getValueOrNull($arrayData, 'bar_code');
         $this->department_id = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contract_id = Utils::getValueOrNull($arrayData, 'contract_id');
+        $this->external_code = Utils::getValueOrNull($arrayData, 'external_code');
     }
 
     /**
@@ -130,6 +132,14 @@ class ProductOverview
         return $this->id;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function getExternalCode()
+    {
+        return $this->external_code;
+    }
+
 
     public function toArray()
     {
@@ -145,6 +155,7 @@ class ProductOverview
             'bar_code' => $this->bar_code,
             'department_id' => $this->department_id,
             'contract_id' => $this->contract_id,
+            'external_code' => $this->external_code,
         ];
     }
 
