@@ -276,6 +276,22 @@ class SaveProduct
         $this->contract_id = $contract_id;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function getExternalCode()
+    {
+        return $this->external_code;
+    }
+
+    /**
+     * @param mixed|null $external_code
+     */
+    public function setExternalCode($external_code)
+    {
+        $this->external_code = $external_code;
+    }
+
 
 
     public function toArray()
