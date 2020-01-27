@@ -26,6 +26,7 @@ class SaveProduct
     private $vat_chart_id;
     private $department_id;
     private $contract_id;
+    private $external_code;
 
     /**
      * @param mixed[] $arrayData input data
@@ -48,6 +49,7 @@ class SaveProduct
         $this->vat_chart_id = Utils::getValueOrNull($arrayData, 'vat_chart_id');
         $this->department_id = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contract_id = Utils::getValueOrNull($arrayData, 'contract_id');
+        $this->external_code = Utils::getValueOrNull($arrayData, 'external_code');
     }
 
     /**
@@ -61,7 +63,7 @@ class SaveProduct
     /**
      * @param mixed|null $name
      */
-    public function setName( $name): void
+    public function setName( $name)
     {
         $this->name = $name;
     }
@@ -77,7 +79,7 @@ class SaveProduct
     /**
      * @param mixed|null $amount
      */
-    public function setAmount( $amount): void
+    public function setAmount( $amount)
     {
         $this->amount = $amount;
     }
@@ -93,7 +95,7 @@ class SaveProduct
     /**
      * @param mixed|null $unit
      */
-    public function setUnit( $unit): void
+    public function setUnit( $unit)
     {
         $this->unit = $unit;
     }
@@ -109,7 +111,7 @@ class SaveProduct
     /**
      * @param mixed|null $price
      */
-    public function setPrice( $price): void
+    public function setPrice( $price)
     {
         $this->price = $price;
     }
@@ -125,7 +127,7 @@ class SaveProduct
     /**
      * @param mixed|null $is_vat_price
      */
-    public function setIsVatPrice( $is_vat_price): void
+    public function setIsVatPrice( $is_vat_price)
     {
         $this->is_vat_price = $is_vat_price;
     }
@@ -141,7 +143,7 @@ class SaveProduct
     /**
      * @param mixed|null $vat_rate
      */
-    public function setVatRate( $vat_rate): void
+    public function setVatRate( $vat_rate)
     {
         $this->vat_rate = $vat_rate;
     }
@@ -157,7 +159,7 @@ class SaveProduct
     /**
      * @param mixed|null $currency
      */
-    public function setCurrency( $currency): void
+    public function setCurrency( $currency)
     {
         $this->currency = $currency;
     }
@@ -173,7 +175,7 @@ class SaveProduct
     /**
      * @param mixed|null $bar_code
      */
-    public function setBarCode( $bar_code): void
+    public function setBarCode( $bar_code)
     {
         $this->bar_code = $bar_code;
     }
@@ -189,7 +191,7 @@ class SaveProduct
     /**
      * @param mixed|null $accountentry_type_id
      */
-    public function setAccountentryTypeId( $accountentry_type_id): void
+    public function setAccountentryTypeId( $accountentry_type_id)
     {
         $this->accountentry_type_id = $accountentry_type_id;
     }
@@ -205,7 +207,7 @@ class SaveProduct
     /**
      * @param mixed|null $chart_account_id
      */
-    public function setChartAccountId( $chart_account_id): void
+    public function setChartAccountId( $chart_account_id)
     {
         $this->chart_account_id = $chart_account_id;
     }
@@ -221,7 +223,7 @@ class SaveProduct
     /**
      * @param mixed|null $vattype_id
      */
-    public function setVattypeId( $vattype_id): void
+    public function setVattypeId( $vattype_id)
     {
         $this->vattype_id = $vattype_id;
     }
@@ -237,7 +239,7 @@ class SaveProduct
     /**
      * @param mixed|null $vat_chart_id
      */
-    public function setVatChartId( $vat_chart_id): void
+    public function setVatChartId( $vat_chart_id)
     {
         $this->vat_chart_id = $vat_chart_id;
     }
@@ -253,7 +255,7 @@ class SaveProduct
     /**
      * @param mixed|null $department_id
      */
-    public function setDepartmentId( $department_id): void
+    public function setDepartmentId( $department_id)
     {
         $this->department_id = $department_id;
     }
@@ -269,7 +271,7 @@ class SaveProduct
     /**
      * @param mixed|null $contract_id
      */
-    public function setContractId( $contract_id): void
+    public function setContractId( $contract_id)
     {
         $this->contract_id = $contract_id;
     }
@@ -293,6 +295,7 @@ class SaveProduct
             'vat_chart_id' => $this->vat_chart_id,
             'department_id' => $this->department_id,
             'contract_id' => $this->contract_id,
+            'external_code' => $this->external_code,
         ];
     }
 
