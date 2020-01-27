@@ -27,6 +27,7 @@ class SaveProduct
     private $department_id;
     private $contract_id;
     private $external_code;
+    private $is_hidden;
 
     /**
      * @param mixed[] $arrayData input data
@@ -50,6 +51,7 @@ class SaveProduct
         $this->department_id = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contract_id = Utils::getValueOrNull($arrayData, 'contract_id');
         $this->external_code = Utils::getValueOrNull($arrayData, 'external_code');
+        $this->is_hidden = Utils::getValueOrNull($arrayData, 'is_hidden');
     }
 
     /**
@@ -292,6 +294,22 @@ class SaveProduct
         $this->external_code = $external_code;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function isHidden()
+    {
+        return $this->is_hidden;
+    }
+
+    /**
+     * @param mixed|null $is_hidden
+     */
+    public function setHidden($is_hidden)
+    {
+        $this->is_hidden = $is_hidden;
+    }
+
 
 
     public function toArray()
@@ -312,6 +330,7 @@ class SaveProduct
             'department_id' => $this->department_id,
             'contract_id' => $this->contract_id,
             'external_code' => $this->external_code,
+            'is_hidden' => $this->is_hidden,
         ];
     }
 
