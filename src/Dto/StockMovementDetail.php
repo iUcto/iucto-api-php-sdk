@@ -12,6 +12,9 @@ use IUcto\Utils;
 class StockMovementDetail
 {
     /** @var int */
+    private $id;
+
+    /** @var int */
     private $product_id;
 
     /** @var int */
@@ -37,6 +40,7 @@ class StockMovementDetail
     {
         if (empty($arrayData)) return;
 
+        $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->product_id = Utils::getValueOrNull($arrayData, 'product_id');
         $this->warehouse_id = Utils::getValueOrNull($arrayData, 'warehouse_id');
         $this->amount = Utils::getValueOrNull($arrayData, 'amount');
@@ -93,10 +97,19 @@ class StockMovementDetail
         return $this->identification;
     }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
             'amount' => $this->amount,
