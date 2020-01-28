@@ -1250,16 +1250,22 @@ class IUcto
     /**
      * Seznam skladů.
      *
+     * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
      * @return InventoryDetail[] - 2-úrovňové pole.
      *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
-    public function getInventoryList($page = null, $pageSize = null)
+    public function getInventoryList($params = [], $page = null, $pageSize = null)
     {
-        $params = [];
         if (isset($page) && isset($pageSize)) {
             $params['page'] = $page;
             $params['pageSize'] = $pageSize;
@@ -1320,16 +1326,22 @@ class IUcto
     /**
      * Seznam skladů.
      *
+     * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
      * @return StockMovementDetail[] - 2-úrovňové pole.
      *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
-    public function getStockMovementList($page = null, $pageSize = null)
+    public function getStockMovementList($params = [], $page = null, $pageSize = null)
     {
-        $params = [];
         if (isset($page) && isset($pageSize)) {
             $params['page'] = $page;
             $params['pageSize'] = $pageSize;
