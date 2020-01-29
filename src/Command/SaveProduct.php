@@ -28,6 +28,7 @@ class SaveProduct
     private $contract_id;
     private $external_code;
     private $is_hidden;
+    private $is_stock;
 
     /**
      * @param mixed[] $arrayData input data
@@ -52,6 +53,7 @@ class SaveProduct
         $this->contract_id = Utils::getValueOrNull($arrayData, 'contract_id');
         $this->external_code = Utils::getValueOrNull($arrayData, 'external_code');
         $this->is_hidden = Utils::getValueOrNull($arrayData, 'is_hidden');
+        $this->is_stock = Utils::getValueOrNull($arrayData, 'is_stock');
     }
 
     /**
@@ -310,6 +312,23 @@ class SaveProduct
         $this->is_hidden = $is_hidden;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function isStock()
+    {
+        return $this->is_stock;
+    }
+
+    /**
+     * @param mixed|null $is_stock
+     */
+    public function setIsStock($is_stock)
+    {
+        $this->is_stock = $is_stock;
+    }
+
+
 
 
     public function toArray()
@@ -331,6 +350,7 @@ class SaveProduct
             'contract_id' => $this->contract_id,
             'external_code' => $this->external_code,
             'is_hidden' => $this->is_hidden,
+            'is_stock' => $this->is_stock,
         ];
     }
 
