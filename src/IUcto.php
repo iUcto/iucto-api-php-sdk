@@ -1194,7 +1194,8 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['warehouse'][] = new WarehouseDetail($data);
+            $warehoueDetail = new WarehouseDetail($data);
+            $allRows['warehouse'][$warehoueDetail->getId()] = $warehoueDetail;
         }
 
         return $allRows;
@@ -1281,7 +1282,8 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['inventory'][] = new InventoryDetail($data);
+            $inventoryDetail = new InventoryDetail($data);
+            $allRows['inventory'][$inventoryDetail->getId()] = $inventoryDetail;
         }
 
         return $allRows;
@@ -1357,7 +1359,8 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['stock_movement'][] = new StockMovementOverview($data);
+            $movementOverview = new StockMovementOverview($data);
+            $allRows['stock_movement'][$movementOverview->getId()] = $movementOverview;
         }
 
         return $allRows;
@@ -1428,7 +1431,8 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['price_list'][] = new ProductOverview($data);
+            $productDetail = new ProductOverview($data);
+            $allRows['price_list'][$productDetail->getId()] = $productDetail;
         }
 
         return $allRows;
