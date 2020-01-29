@@ -42,6 +42,7 @@ use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\ProductDetail;
 use IUcto\Dto\ProductOverview;
 use IUcto\Dto\StockMovementDetail;
+use IUcto\Dto\StockMovementOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\WarehouseDetail;
@@ -81,14 +82,14 @@ class IUcto
      */
     private function handleRequest($address, $method, array $data = array())
     {
-        try{
+        try {
             $response = $this->connector->request($address, $method, $data);
             if ($method == Connector::DELETE) {
                 return $response;
             }
             return $this->parser->parse($response);
-        }catch (BadRequestException $ex){
-            if(!empty($ex->getResponseData())){
+        } catch (BadRequestException $ex) {
+            if (!empty($ex->getResponseData())) {
                 $data = $this->parser->parse($ex->getResponseData());
                 if (isset($data['errors']) && is_array($data['errors'])) {
                     throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
@@ -114,10 +115,10 @@ class IUcto
      */
     private function handleDownloadRequest($address, $method, array $data = array())
     {
-        try{
-            return  $this->connector->request($address, $method, $data);
-        }catch (BadRequestException $ex){
-            if(!empty($ex->getResponseData())){
+        try {
+            return $this->connector->request($address, $method, $data);
+        } catch (BadRequestException $ex) {
+            if (!empty($ex->getResponseData())) {
                 $data = $this->parser->parse($ex->getResponseData());
                 if (isset($data['errors']) && is_array($data['errors'])) {
                     throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
@@ -1329,7 +1330,7 @@ class IUcto
      * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
-     * @return StockMovementDetail[] - 2-úrovňové pole.
+     * @return StockMovementOverview[] - 2-úrovňové pole.
      *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
      * @throws BadRequestException
      * @throws ConnectionException
@@ -1356,7 +1357,7 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $allRows['stock_movement'][] = new StockMovementDetail($data);
+            $allRows['stock_movement'][] = new StockMovementOverview($data);
         }
 
         return $allRows;
@@ -1371,6 +1372,25 @@ class IUcto
     public function createStockMovement(SaveStockMovement $saveStockMovement)
     {
         $allData = $this->handleRequest('stock_movement', Connector::POST, $saveStockMovement->toArray());
+        return new StockMovementDetail($allData);
+    }
+
+
+    /**
+     * @param $id
+     * @return StockMovementDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getStockMovementDetail($id)
+    {
+        $allData = $this->handleRequest('stock_movement/' . $id, Connector::GET);
         return new StockMovementDetail($allData);
     }
 
@@ -1460,8 +1480,6 @@ class IUcto
     {
         $this->handleRequest('price_list/' . $id, Connector::DELETE);
     }
-
-
 
 
 }

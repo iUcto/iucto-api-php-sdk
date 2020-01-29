@@ -9,28 +9,10 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class StockMovementDetail
+class StockMovementDetail extends StockMovementOverview
 {
-    /** @var int */
-    private $id;
-
-    /** @var int */
-    private $product_id;
-
-    /** @var int */
-    private $warehouse_id;
-
     /** @var float */
-    private $amount;
-
-    /** @var string */
-    private $note;
-
-    /** @var string */
-    private $date;
-
-    /** @var string */
-    private $identification;
+    private $real_amount;
 
 
     /**
@@ -38,85 +20,20 @@ class StockMovementDetail
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
+
         if (empty($arrayData)) return;
 
-        $this->id = Utils::getValueOrNull($arrayData, 'id');
-        $this->product_id = Utils::getValueOrNull($arrayData, 'product_id');
-        $this->warehouse_id = Utils::getValueOrNull($arrayData, 'warehouse_id');
-        $this->amount = Utils::getValueOrNull($arrayData, 'amount');
-        $this->note = Utils::getValueOrNull($arrayData, 'note');
-        $this->date = Utils::getValueOrNull($arrayData, 'date');
-        $this->identification = Utils::getValueOrNull($arrayData, 'identification');
-    }
-
-    /**
-     * @return int
-     */
-    public function getProductId()
-    {
-        return $this->product_id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getWarehouseId()
-    {
-        return $this->warehouse_id;
-    }
-
-    /**
-     * @return float
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdentification()
-    {
-        return $this->identification;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->real_amount = Utils::getValueOrNull($arrayData, 'real_amount');
     }
 
 
     public function toArray()
     {
-        return [
-            'id' => $this->id,
-            'product_id' => $this->product_id,
-            'warehouse_id' => $this->warehouse_id,
-            'amount' => $this->amount,
-            'note' => $this->note,
-            'date' => $this->date,
-            'identification' => $this->identification,
-        ];
+        $array = parent::toArray();
+        return $array + [
+                'real_amount' => $this->real_amount,
+            ];
     }
 
 }

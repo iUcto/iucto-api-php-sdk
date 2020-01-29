@@ -19,6 +19,9 @@ class SaveStockMovement
     /** @var float */
     private $amount;
 
+    /** @var float */
+    private $real_amount;
+
     /** @var string */
     private $note;
 
@@ -37,6 +40,7 @@ class SaveStockMovement
         $this->product_id = $arrayData['product_id'];
         $this->warehouse_id = $arrayData['warehouse_id'];
         $this->amount = $arrayData['amount'];
+        $this->real_amount = $arrayData['real_amount'];
         $this->note = $arrayData['note'];
         $this->date = $arrayData['date'];
         $this->identification = $arrayData['identification'];
@@ -49,6 +53,7 @@ class SaveStockMovement
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
             'amount' => $this->amount,
+            'real_amount' => $this->real_amount,
             'note' => $this->note,
             'date' => $this->date,
             'identification' => $this->identification,
@@ -102,6 +107,23 @@ class SaveStockMovement
     {
         $this->amount = $amount;
     }
+
+    /**
+     * @return float
+     */
+    public function getRealAmount()
+    {
+        return $this->real_amount;
+    }
+
+    /**
+     * @param float $real_amount
+     */
+    public function setRealAmount($real_amount)
+    {
+        $this->real_amount = $real_amount;
+    }
+
 
     /**
      * @return string
