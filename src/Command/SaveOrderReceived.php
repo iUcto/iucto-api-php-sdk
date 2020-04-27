@@ -22,6 +22,12 @@ class SaveOrderReceived
     private $sequenceCode;
 
     /**
+     * Externí číslo dokladu
+     * @var string (45)
+     */
+    private $externalCode;
+
+    /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
      *
      * @var string
@@ -82,6 +88,7 @@ class SaveOrderReceived
         }
 
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($dataArray, 'external_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
         $this->currency = Utils::getValueOrNull($dataArray, 'currency');
         $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
@@ -189,6 +196,22 @@ class SaveOrderReceived
     }
 
     /**
+     * @return string
+     */
+    public function getExternalCode()
+    {
+        return $this->externalCode;
+    }
+
+    /**
+     * @param string $externalCode
+     */
+    public function setExternalCode($externalCode)
+    {
+        $this->externalCode = $externalCode;
+    }
+
+    /**
      * @param InvoiceIsseudOverview $invoiceId
      */
     public function setInvoiceId($invoiceId)
@@ -203,6 +226,7 @@ class SaveOrderReceived
     {
         $array = array(
             'sequence_code' => $this->sequenceCode,
+            'external_code' => $this->externalCode,
             'date' => $this->date,
             'currency' => $this->currency,
             'customer_id' => $this->customerId,
