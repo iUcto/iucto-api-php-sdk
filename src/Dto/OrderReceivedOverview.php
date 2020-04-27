@@ -101,6 +101,11 @@ class OrderReceivedOverview
         return $this->sequenceCode;
     }
 
+    public function getExternalCode()
+    {
+        return $this->externalCode;
+    }
+
     public function getDate()
     {
         return $this->date;
