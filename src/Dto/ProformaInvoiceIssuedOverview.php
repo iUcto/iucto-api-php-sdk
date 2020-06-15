@@ -15,65 +15,65 @@ class ProformaInvoiceIssuedOverview
     /**
      * ID dokladu
      *
-     * @var int(11)
+     * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * Číslo dokladu
      *
-     * @var string (45)
+     * @var string
      */
-    private $sequenceCode;
+    protected $sequenceCode;
 
     /**
      * Variabilní symbol
      *
-     * @var string (42)
+     * @var string
      */
-    private $variableSymbol;
+    protected $variableSymbol;
 
     /**
-     * Datum vystavení (YYYY-mm-dd)
+     * Datum vystavení (formát YYYY-mm-dd)
      *
      * @var string
      */
-    private $date;
+    protected $date;
 
     /**
-     * Datum zdanitelného plnění (YYYY-mm-dd)
+     * Datum zdanitelného plnění (formát YYYY-mm-dd)
      *
      * @var string
      */
-    private $dateVat;
+    protected $dateVat;
 
     /**
-     * Datum splatnosti (YYYY-mm-dd)
+     * Datum splatnosti (formát YYYY-mm-dd)
      *
      * @var string
      */
-    private $maturityDate;
+    protected $maturityDate;
 
     /**
      * Měna dokladu
      *
      * @var string (3)
      */
-    private $currency;
+    protected $currency;
 
     /**
-     * Celková částka v CZK s DPH
+     * Celková částka s DPH
      *
      * @var int(11)
      */
-    private $priceIncVat;
+    protected $priceIncVat;
 
     /**
      * Zbývající částka k úhradě (v měně dokladu)
      *
      * @var int
      */
-    private $toBePaid;
+    protected $toBePaid;
 
     /**
      * Zákazník
@@ -87,14 +87,15 @@ class ProformaInvoiceIssuedOverview
      *
      * @var bool
      */
-    private $deleted;
+    protected $deleted;
 
     /**
-     * Zbývající částka k odečtení
+     * Zbývající částka k fakturaci
      *
-     * @var double
+     * @var int
      */
-    private $toBeInvoiced;
+    protected $toBeInvoiced;
+
 
     /**
      * @param mixed[] $arrayData input data
@@ -104,14 +105,16 @@ class ProformaInvoiceIssuedOverview
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
-        $this->date = Utils::getValueOrNull($arrayData, 'date');
-        $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
-        $this->maturityDate = Utils::getValueOrNull($arrayData, 'maturity_date');
+        $this->date = Utils::getDateTimeFrom($arrayData['date']);
+        $this->dateVat = Utils::getDateTimeFrom($arrayData['date_vat']);
+        $this->maturityDate = Utils::getDateTimeFrom($arrayData['maturity_date']);
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
-        $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
         $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
-        $this->customer = new CustomerOverview($arrayData['customer']);
+        $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
+        if (array_key_exists('customer', $arrayData)) {
+            $this->customer = new CustomerOverview($arrayData['customer']);
+        }
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
@@ -160,6 +163,9 @@ class ProformaInvoiceIssuedOverview
         return $this->toBePaid;
     }
 
+    /**
+     * @return CustomerOverview
+     */
     public function getCustomer()
     {
         return $this->customer;

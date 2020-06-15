@@ -17,77 +17,77 @@ class ProformaInvoiceReceivedOverview
      *
      * @var int(11)
      */
-    private $id;
+    protected $id;
 
     /**
      * Číslo dokladu
      *
      * @var string (45)
      */
-    private $sequenceCode;
+    protected $sequenceCode;
 
     /**
      * External code
      *
      * @var string (45)
      */
-    private $externalCode;
+    protected $externalCode;
 
     /**
      * Variabilní symbol
      *
      * @var string (42)
      */
-    private $variableSymbol;
+    protected $variableSymbol;
 
     /**
      * Datum vystavení (YYYY-mm-dd)
      *
      * @var string
      */
-    private $date;
+    protected $date;
 
     /**
      * Datum zdanitelného plnění (YYYY-mm-dd)
      *
      * @var string
      */
-    private $dateVat;
+    protected $dateVat;
 
     /**
      * Datum splatnosti (YYYY-mm-dd)
      *
      * @var string
      */
-    private $maturityDate;
+    protected $maturityDate;
 
     /**
      * Měna dokladu
      *
      * @var string (3)
      */
-    private $currency;
+    protected $currency;
 
     /**
      * Celková částka v CZK s DPH
      *
      * @var int(11)
      */
-    private $priceIncVat;
+    protected $priceIncVat;
 
     /**
      * Zbývající částka k úhradě (v měně dokladu)
      *
      * @var int
      */
-    private $toBePaid;
+    protected $toBePaid;
 
     /**
      * Zbývající částka k odečtení
      *
      * @var int
      */
-    private $toBeInvoiced;
+    protected $toBeInvoiced;
 
     /**
      * Dodavatel
@@ -101,7 +101,7 @@ class ProformaInvoiceReceivedOverview
      *
      * @var bool
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @param mixed[] $arrayData input data
@@ -178,6 +178,9 @@ class ProformaInvoiceReceivedOverview
         return $this->toBeInvoiced;
     }
 
+    /**
+     * @return SupplierOverview
+     */
     public function getSupplier()
     {
         return $this->supplier;
