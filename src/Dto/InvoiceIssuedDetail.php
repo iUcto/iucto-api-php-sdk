@@ -178,7 +178,7 @@ class InvoiceIssuedDetail
      *
      * @var array
      */
-    private $proforma_invoice;
+    private $proformaInvoiceIds;
 
     /**
      * @param mixed[] $arrayData input data
@@ -219,7 +219,7 @@ class InvoiceIssuedDetail
         $this->orderId = Utils::getValueOrNull($arrayData, 'order_id');
         if (array_key_exists('proforma_invoice', $arrayData)) {
             foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proforma_invoice[] = $itemData;
+                $this->proformaInvoiceIds[] = $itemData;
             }
         }
     }
@@ -342,8 +342,8 @@ class InvoiceIssuedDetail
         return $this->orderId;
     }
 
-    public function getProformaInvoiceID()
+    public function getProformaInvoiceIds()
     {
-        return $this->proforma_invoice;
+        return $this->proformaInvoiceIds;
     }
 }

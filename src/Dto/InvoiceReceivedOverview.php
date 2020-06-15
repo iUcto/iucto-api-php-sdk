@@ -97,11 +97,11 @@ class InvoiceReceivedOverview
     private $deleted;
 
     /**
-     * ID zálohové faktury
+     * ID zálohových faktur
      *
-     * @var id
+     * @var array
      */
-    private $proforma_invoice_id;
+    private $proformaInvoiceIds;
 
     /**
      * @param mixed[] $arrayData input data
@@ -120,7 +120,7 @@ class InvoiceReceivedOverview
         $this->supplier = new SupplierOverview($arrayData['supplier']);
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        $this->proforma_invoice_id = Utils::getValueOrNull($arrayData, 'proforma_invoice_id');
+        $this->proformaInvoiceIds = Utils::getValueOrNull($arrayData, 'proforma_invoice_id');
     }
 
     public function getId()
@@ -183,8 +183,8 @@ class InvoiceReceivedOverview
         return $this->deleted;
     }
 
-    public function getProformaInvoiceID()
+    public function getProformaInvoiceIds()
     {
-        return $this->proforma_invoice_id;
+        return $this->proformaInvoiceIds;
     }
 }

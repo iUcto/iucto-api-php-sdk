@@ -101,7 +101,7 @@ class InvoiceIsseudOverview
      *
      * @var array
      */
-    private $proforma_invoice;
+    private $proformaInvoiceIds;
 
     /**
      * @param mixed[] $arrayData input data
@@ -122,7 +122,7 @@ class InvoiceIsseudOverview
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
         if (array_key_exists('proforma_invoice', $arrayData)) {
             foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proforma_invoice[] = $itemData;
+                $this->proformaInvoiceIds[] = $itemData;
             }
         }
     }
@@ -187,8 +187,8 @@ class InvoiceIsseudOverview
         return $this->deleted;
     }
 
-    public function getProformaInvoiceID()
+    public function getProformaInvoiceIds()
     {
-        return $this->proforma_invoice;
+        return $this->proformaInvoiceIds;
     }
 }
