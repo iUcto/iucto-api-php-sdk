@@ -14,6 +14,8 @@ use IUcto\Command\SaveOrderIssued;
 use IUcto\Command\SaveOrderReceived;
 use IUcto\Command\SavePayment;
 use IUcto\Command\SaveSupplier;
+use IUcto\Command\SaveProformaInvoiceReceived;
+use IUcto\Command\SaveProformaInvoiceIssued;
 use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
@@ -40,6 +42,10 @@ use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\SupplierGroup;
+use IUcto\Dto\ProformaInvoiceReceivedOverview;
+use IUcto\Dto\ProformaInvoiceReceivedDetail;
+use IUcto\Dto\ProformaInvoiceIssuedOverview;
+use IUcto\Dto\ProformaInvoiceIssuedDetail;
 
 
 /**
@@ -1175,7 +1181,7 @@ class IUcto
 
     /**
      * Seznam dobropisů vydaných
-     * @return CreditNoteIsseudOverview[]
+     * @return CreditNoteIssuedOverview[]
      * @throws ConnectionException
      * @throws ValidationException
      */
@@ -1238,4 +1244,181 @@ class IUcto
         $this->handleRequest('creditnote_issued/' . $id, Connector::DELETE);
     }
 
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return ProformaInvoiceReceivedOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getProformaInvoiceReceived($page = null, $pageSize = null)
+    {
+        $filters = array();
+        if (isset($page) && isset($pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('proforma_invoice_received', Connector::GET, $filters);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new ProformaInvoiceReceivedOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * @param $id
+     * @return ProformaInvoiceReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getProformaInvoiceReceivedDetail($id)
+    {
+        $allData = $this->handleRequest('proforma_invoice_received/' . $id, Connector::GET);
+        return new ProformaInvoiceReceivedDetail($allData);
+    }
+
+    /**
+     * Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+     *
+     * @param SaveProformaInvoiceReceived $saveDocument
+     * @return ProformaInvoiceReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createProformaInvoiceReceived(SaveProformaInvoiceReceived $saveDocument)
+    {
+        $allData = $this->handleRequest('proforma_invoice_received', Connector::POST, $saveDocument->toArray());
+        return new ProformaInvoiceReceivedDetail($allData);
+    }
+
+    /**
+     * Aktulizuje předané parametry vybraného dokladu. Poviné pole jsou stejná jako při vkládání nového záznamu.
+     *
+     * @param int $id
+     * @param SaveProformaInvoiceReceived $saveDocument
+     * @return ProformaInvoiceReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateProformaInvoiceReceived($id, SaveProformaInvoiceReceived $saveDocument)
+    {
+        $allData = $this->handleRequest('proforma_invoice_received/' . $id, Connector::PUT, $saveDocument->toArray());
+        return new ProformaInvoiceReceivedDetail($allData);
+    }
+
+    /**
+     * Pokusí se smazat vybranou zálohovou fakturu. Pokud je ovšem vázán na jiný záznam (faktura, platba, apod.), vrátí chybu a faktura se nasmaže.
+     *
+     * @param int $id
+     * @return void
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteProformaInvoiceReceived($id)
+    {
+        $this->handleRequest('proforma_invoice_received/' . $id, Connector::DELETE);
+    }    
+
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return ProformaInvoiceIssuedOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getProformaInvoiceIssued($page = null, $pageSize = null)
+    {
+        $filters = array();
+        if (isset($page) && isset($pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('proforma_invoice_issued', Connector::GET, $filters);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new ProformaInvoiceIssuedOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * @param $id
+     * @return ProformaInvoiceIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getProformaInvoiceIssuedDetail($id)
+    {
+        $allData = $this->handleRequest('proforma_invoice_issued/' . $id, Connector::GET);
+        return new ProformaInvoiceIssuedDetail($allData);
+    }
+
+    /**
+     * Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+     *
+     * @param SaveProformaInvoiceIssued $saveDocument
+     * @return ProformaInvoiceIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createProformaInvoiceIssued(SaveProformaInvoiceIssued $saveDocument)
+    {
+        $allData = $this->handleRequest('proforma_invoice_issued', Connector::POST, $saveDocument->toArray());
+        return new ProformaInvoiceIssuedDetail($allData);
+    }
+
+    /**
+     * Aktulizuje předané parametry vybraného dokladu. Poviné pole jsou stejná jako při vkládání nového záznamu.
+     *
+     * @param int $id
+     * @param SaveProformaInvoiceIssued $saveDocument
+     * @return ProformaInvoiceIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateProformaInvoiceIssued($id, SaveProformaInvoiceIssued $saveDocument)
+    {
+        $allData = $this->handleRequest('proforma_invoice_issued/' . $id, Connector::PUT, $saveDocument->toArray());
+        return new ProformaInvoiceIssuedDetail($allData);
+    }
+
+    /**
+     * Pokusí se smazat vybranou zálohovou fakturu. Pokud je ovšem vázán na jiný záznam (faktura, platba, apod.), vrátí chybu a faktura se nasmaže.
+     *
+     * @param int $id
+     * @return void
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteProformaInvoiceIssued($id)
+    {
+        $this->handleRequest('proforma_invoice_issued/' . $id, Connector::DELETE);
+    }
 }
