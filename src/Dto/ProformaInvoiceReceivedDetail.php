@@ -91,7 +91,7 @@ class ProformaInvoiceReceivedDetail extends ProformaInvoiceReceivedOverview
     public function __construct(array $arrayData)
     {
         if (array_key_exists('supplier', $arrayData)) {
-            $this->customer = new Supplier($arrayData['supplier']);
+            $this->supplier = new Supplier($arrayData['supplier']);
             unset($arrayData['supplier']);
         }
 

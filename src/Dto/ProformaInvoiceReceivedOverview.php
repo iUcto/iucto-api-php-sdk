@@ -119,7 +119,9 @@ class ProformaInvoiceReceivedOverview
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
         $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
-        $this->supplier = new SupplierOverview($arrayData['supplier']);
+        if (array_key_exists('supplier', $arrayData)) {
+            $this->supplier = new SupplierOverview($arrayData['supplier']);
+        }
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
