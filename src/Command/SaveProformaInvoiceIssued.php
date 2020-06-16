@@ -110,12 +110,6 @@ class SaveProformaInvoiceIssued
     private $roundingType;
 
     /**
-     * Id objednávky
-     * @var int|null
-     */
-    private $orderId;
-
-    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -141,7 +135,6 @@ class SaveProformaInvoiceIssued
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
-        $this->orderId = Utils::getValueOrNull($dataArray, 'order_id');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
                 $this->items[] = new DocumentItem($itemData);
@@ -311,23 +304,6 @@ class SaveProformaInvoiceIssued
         $this->sequenceCode = $sequenceCode;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getOrderId()
-    {
-        return $this->orderId;
-    }
-
-    /**
-     * @param int|null $orderId
-     */
-    public function setOrderId($orderId)
-    {
-        $this->orderId = $orderId;
-    }
-
-
     public function toArray()
     {
         $array = array('variable_symbol' => $this->variableSymbol,
@@ -343,7 +319,6 @@ class SaveProformaInvoiceIssued
             'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
-            'order_id' => $this->orderId,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {

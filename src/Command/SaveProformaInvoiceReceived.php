@@ -27,6 +27,11 @@ class SaveProformaInvoiceReceived
     private $sequenceCode;
 
     /**
+     * @var string
+     */
+    private $externalCode;
+
+    /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
      *
      * @var string
@@ -102,10 +107,6 @@ class SaveProformaInvoiceReceived
      */
     private $roundingType;
 
-    /**
-     * @var string
-     */
-    private $externalCode;
 
     /**
      * Položky dokladu (povinné)
@@ -307,7 +308,6 @@ class SaveProformaInvoiceReceived
     {
         $this->externalCode = $externalCode;
     }
-
 
 
     public function toArray()
