@@ -27,6 +27,13 @@ class OrderReceivedOverview
     private $sequenceCode;
 
     /**
+     * Externí číslo dokladu
+     *
+     * @var string (45)
+     */
+    private $externalCode;
+
+    /**
      * Datum vystavení (YYYY-mm-dd)
      *
      * @var string
@@ -75,6 +82,7 @@ class OrderReceivedOverview
     {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($arrayData, 'external_code');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
@@ -91,6 +99,11 @@ class OrderReceivedOverview
     public function getSequenceCode()
     {
         return $this->sequenceCode;
+    }
+
+    public function getExternalCode()
+    {
+        return $this->externalCode;
     }
 
     public function getDate()

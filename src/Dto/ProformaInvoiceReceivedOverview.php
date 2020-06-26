@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for DocumentOverview data
+ * DTO for ProformaInvoiceReceivedOverview data
  *
  * @author iucto.cz
  */
-class InvoiceIsseudOverview
+class ProformaInvoiceReceivedOverview
 {
 
     /**
@@ -17,91 +17,91 @@ class InvoiceIsseudOverview
      *
      * @var int(11)
      */
-    private $id;
+    protected $id;
 
     /**
      * Číslo dokladu
      *
      * @var string (45)
      */
-    private $sequenceCode;
+    protected $sequenceCode;
+
+    /**
+     * External code
+     *
+     * @var string (45)
+     */
+    protected $externalCode;
 
     /**
      * Variabilní symbol
      *
      * @var string (42)
      */
-    private $variableSymbol;
+    protected $variableSymbol;
 
     /**
      * Datum vystavení (YYYY-mm-dd)
      *
      * @var string
      */
-    private $date;
+    protected $date;
 
     /**
      * Datum zdanitelného plnění (YYYY-mm-dd)
      *
      * @var string
      */
-    private $dateVat;
+    protected $dateVat;
 
     /**
      * Datum splatnosti (YYYY-mm-dd)
      *
      * @var string
      */
-    private $maturityDate;
+    protected $maturityDate;
 
     /**
      * Měna dokladu
      *
      * @var string (3)
      */
-    private $currency;
+    protected $currency;
 
     /**
      * Celková částka v CZK s DPH
      *
      * @var int(11)
      */
-    private $priceIncVat;
+    protected $priceIncVat;
 
     /**
      * Zbývající částka k úhradě (v měně dokladu)
      *
      * @var int
      */
-    private $toBePaid;
+    protected $toBePaid;
 
     /**
-     * Zákazník
+     * Zbývající částka k odečtení
      *
-     * @var CustomerOverview
+     * @var int
      */
-    private $customer;
+    protected $toBeInvoiced;
 
     /**
-     * Doklad je zaúčtován
+     * Dodavatel
      *
-     * @var bool
+     * @var SupplierOverview
      */
-    private $accounted;
+    private $supplier;
 
     /**
      * Doklad je smazaný
      *
      * @var bool
      */
-    private $deleted;
-
-    /**
-     * ID zálohových faktur
-     *
-     * @var array
-     */
-    private $proformaInvoiceIds;
+    protected $deleted;
 
     /**
      * @param mixed[] $arrayData input data
@@ -110,6 +110,7 @@ class InvoiceIsseudOverview
     {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($arrayData, 'external_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
@@ -117,14 +118,11 @@ class InvoiceIsseudOverview
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->customer = new CustomerOverview($arrayData['customer']);
-        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
-        $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        if (array_key_exists('proforma_invoice', $arrayData)) {
-            foreach ($arrayData['proforma_invoice'] as $itemData) {
-                $this->proformaInvoiceIds[] = $itemData;
-            }
+        $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
+        if (array_key_exists('supplier', $arrayData)) {
+            $this->supplier = new SupplierOverview($arrayData['supplier']);
         }
+        $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
     public function getId()
@@ -135,6 +133,11 @@ class InvoiceIsseudOverview
     public function getSequenceCode()
     {
         return $this->sequenceCode;
+    }
+
+    public function getExternalCode()
+    {
+        return $this->externalCode;
     }
 
     public function getVariableSymbol()
@@ -172,23 +175,21 @@ class InvoiceIsseudOverview
         return $this->toBePaid;
     }
 
-    public function getCustomer()
+    public function getToBeInvoiced()
     {
-        return $this->customer;
+        return $this->toBeInvoiced;
     }
 
-    public function getAccounted()
+    /**
+     * @return SupplierOverview
+     */
+    public function getSupplier()
     {
-        return $this->accounted;
+        return $this->supplier;
     }
 
     public function getDeleted()
     {
         return $this->deleted;
-    }
-
-    public function getProformaInvoiceIds()
-    {
-        return $this->proformaInvoiceIds;
     }
 }

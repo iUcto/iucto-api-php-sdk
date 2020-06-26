@@ -2,138 +2,100 @@
 
 namespace IUcto\Dto;
 
+use IUcto\Utils;
+
 /**
  * DTO for Customer data
  *
  * @author iucto.cz
  */
-class Supplier
+class Supplier extends SupplierOverview
 {
-
-    /**
-     * Id zákazníka
-     *
-     * @var int
-     */
-    private $id;
-
-    /**
-     * Jméno zákazníka
-     *
-     * @var string
-     */
-    private $name;
-
     /**
      * Zobrazované jméno
      *
      * @var string
      */
-    private $nameDisplay;
-
-    /**
-     * IČ
-     *
-     * @var string
-     */
-    private $comid;
-
-    /**
-     * DIČ
-     *
-     * @var string
-     */
-    private $vatid;
-
-    /**
-     * Plátce DPH (ano/ne)
-     *
-     * @var string
-     */
-    private $vatPayer;
-
-    /**
-     * Email
-     *
-     * @var string
-     */
-    private $email;
+    protected $nameDisplay;
 
     /**
      * Telefon
      *
      * @var string
      */
-    private $phone;
+    protected $phone;
 
     /**
      * Mobil
      *
      * @var string
      */
-    private $cellphone;
+    protected $cellphone;
 
     /**
      * WWW
      *
      * @var string
      */
-    private $www;
+    protected $www;
 
     /**
      * Adresa
      *
      * @var Address
      */
-    private $address;
+    protected $address;
 
     /**
      *  Poznámka
      *
      * @var string
      */
-    private $note;
+    protected $note;
 
     /**
      * Číslo účtu 1
      *
      * @var string
      */
-    private $accountNumber1;
+    protected $accountNumber1;
 
     /**
      * Číslo účtu 2
      *
      * @var string
      */
-    private $accountNumber2;
+    protected $accountNumber2;
 
     /**
      * Číslo účtu 3
      *
      * @var string
      */
-    private $accountNumber3;
+    protected $accountNumber3;
 
     /**
      * Číslo účtu 4
      *
      * @var string
      */
-    private $accountNumber4;
+    protected $accountNumber4;
+
+    /**
+     * ID skupiny dodavatelů
+     *
+     * @var int
+     */
+    protected $supplierGroupId;
 
     /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
     {
-        $this->id = $arrayData['id'];
-        $this->name = $arrayData['name'];
+        parent::__construct($arrayData);
+
         $this->nameDisplay = $arrayData['name_display'];
-        $this->comid = $arrayData['comid'];
-        $this->vatid = $arrayData['vatid'];
-        $this->vatPayer = $arrayData['vat_payer'];
-        $this->email = $arrayData['email'];
         $this->phone = $arrayData['phone'];
         $this->cellphone = $arrayData['cellphone'];
         $this->www = $arrayData['www'];
@@ -143,41 +105,13 @@ class Supplier
         $this->accountNumber2 = $arrayData['account_number2'];
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
+        $this->supplierGroupId = Utils::getValueOrNull($arrayData, 'supplier_group_id');
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
 
     public function getNameDisplay()
     {
         return $this->nameDisplay;
-    }
-
-    public function getComid()
-    {
-        return $this->comid;
-    }
-
-    public function getVatid()
-    {
-        return $this->vatid;
-    }
-
-    public function getVatPayer()
-    {
-        return $this->vatPayer;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     public function getPhone()
@@ -223,6 +157,14 @@ class Supplier
     public function getAccountNumber4()
     {
         return $this->accountNumber4;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSupplierGroupId()
+    {
+        return $this->supplierGroupId;
     }
 
 }

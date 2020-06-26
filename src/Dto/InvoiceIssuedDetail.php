@@ -174,6 +174,13 @@ class InvoiceIssuedDetail
     private $orderId;
 
     /**
+     * ID zálohových faktur
+     *
+     * @var array
+     */
+    private $proformaInvoiceIds;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -210,6 +217,11 @@ class InvoiceIssuedDetail
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
         $this->orderId = Utils::getValueOrNull($arrayData, 'order_id');
+        if (array_key_exists('proforma_invoice', $arrayData)) {
+            foreach ($arrayData['proforma_invoice'] as $itemData) {
+                $this->proformaInvoiceIds[] = $itemData;
+            }
+        }
     }
 
     public function getId()
@@ -330,4 +342,8 @@ class InvoiceIssuedDetail
         return $this->orderId;
     }
 
+    public function getProformaInvoiceIds()
+    {
+        return $this->proformaInvoiceIds;
+    }
 }

@@ -3,6 +3,7 @@
 namespace IUcto\Command;
 
 use IUcto\Dto\Address;
+use IUcto\Utils;
 
 /**
  * Description of SaveCustomer
@@ -139,6 +140,13 @@ class SaveCustomer
      */
     private $accountNumber4;
 
+    /**
+     * ID skupiny zákazníků
+     *
+     * @var int
+     */
+    private $customerGroupId;
+
     function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) {
@@ -163,6 +171,7 @@ class SaveCustomer
         $this->accountNumber2 = $arrayData['account_number2'];
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
+        $this->customerGroupId = Utils::getValueOrNull($arrayData, 'customer_group_id');
     }
 
     public function getName()
@@ -255,6 +264,14 @@ class SaveCustomer
         return $this->accountNumber4;
     }
 
+    /**
+     * @return int
+     */
+    public function getCustomerGroupId()
+    {
+        return $this->customerGroupId;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -345,6 +362,14 @@ class SaveCustomer
         $this->accountNumber4 = $accountNumber4;
     }
 
+    /**
+     * @param int $customerGroupId
+     */
+    public function setCustomerGroupId($customerGroupId)
+    {
+        $this->customerGroupId = $customerGroupId;
+    }
+
     public function toArray()
     {
         return array(
@@ -365,7 +390,8 @@ class SaveCustomer
             'account_number1' => $this->accountNumber1,
             'account_number2' => $this->accountNumber2,
             'account_number3' => $this->accountNumber3,
-            'account_number4' => $this->accountNumber4);
+            'account_number4' => $this->accountNumber4,
+            'customer_group_id' => $this->customerGroupId);
     }
 
 }

@@ -10,7 +10,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class SaveCreditNoteIssued
+class SaveProformaInvoiceReceived
 {
 
     /**
@@ -25,6 +25,11 @@ class SaveCreditNoteIssued
      * @var string (45)
      */
     private $sequenceCode;
+
+    /**
+     * @var string
+     */
+    private $externalCode;
 
     /**
      * Datum vystavení (povinné) (formát YYYY-mm-dd)
@@ -56,19 +61,12 @@ class SaveCreditNoteIssued
     private $currency;
 
     /**
-     * Zákazník (povinné)
-     * @see \IUcto\IUcto::getCustomers()
+     * Dodavetel (povinné)
+     * @see \IUcto\IUcto::getSuppliers()
      *
      * @var int
      */
-    private $customerId;
-
-    /**
-     * Bankovní účet zákazníka
-     *
-     * @var string (45)
-     */
-    private $customerBankAccount;
+    private $supplierId;
 
     /**
      * Forma úhrady
@@ -109,18 +107,6 @@ class SaveCreditNoteIssued
      */
     private $roundingType;
 
-    /**
-     * Datum kurzu cizí měny (formát YYYY-mm-dd)
-     *
-     * @var string
-     */
-    private $currencyDate;
-
-    /**
-     * Id faktury
-     * @var int|null
-     */
-    private $invoiceIssuedId;
 
     /**
      * Položky dokladu (povinné)
@@ -137,19 +123,17 @@ class SaveCreditNoteIssued
 
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->sequenceCode = Utils::getValueOrNull($dataArray, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($dataArray, 'external_code');
         $this->date = Utils::getValueOrNull($dataArray, 'date');
         $this->dateVat = Utils::getValueOrNull($dataArray, 'date_vat');
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
         $this->currency = Utils::getValueOrNull($dataArray, 'currency');
-        $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
-        $this->customerBankAccount = Utils::getValueOrNull($dataArray, 'customer_bank_account');
+        $this->supplierId = Utils::getValueOrNull($dataArray, 'supplier_id');
         $this->paymentType = Utils::getValueOrNull($dataArray, 'payment_type');
         $this->bankAccount = Utils::getValueOrNull($dataArray, 'bank_account');
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
-        $this->currencyDate = Utils::getValueOrNull($dataArray, 'currency_date');
-        $this->invoiceIssuedId = Utils::getValueOrNull($dataArray, 'invoice_issued_id');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
                 $this->items[] = new DocumentItem($itemData);
@@ -182,14 +166,9 @@ class SaveCreditNoteIssued
         return $this->currency;
     }
 
-    public function getCustomerId()
+    public function getSupplierId()
     {
-        return $this->customerId;
-    }
-
-    public function getCustomerBankAccount()
-    {
-        return $this->customerBankAccount;
+        return $this->supplierId;
     }
 
     public function getPaymentType()
@@ -215,11 +194,6 @@ class SaveCreditNoteIssued
     public function getRoundingType()
     {
         return $this->roundingType;
-    }
-
-    public function getCurrencyDate()
-    {
-        return $this->currencyDate;
     }
 
     public function getItems()
@@ -264,14 +238,9 @@ class SaveCreditNoteIssued
         $this->currency = $currency;
     }
 
-    public function setCustomerId($customerId)
+    public function setSupplierId($supplierId)
     {
-        $this->customerId = $customerId;
-    }
-
-    public function setCustomerBankAccount($customerBankAccount)
-    {
-        $this->customerBankAccount = $customerBankAccount;
+        $this->supplierId = $supplierId;
     }
 
     public function setPaymentType($paymentType)
@@ -303,11 +272,6 @@ class SaveCreditNoteIssued
         $this->roundingType = $roundingType;
     }
 
-    public function setCurrencyDate($currencyDate)
-    {
-        $this->currencyDate = $currencyDate;
-    }
-
     public function setItems(array $items)
     {
         $this->items = $items;
@@ -330,19 +294,19 @@ class SaveCreditNoteIssued
     }
 
     /**
-     * @return int|null
+     * @return string
      */
-    public function getInvoiceIssuedId()
+    public function getExternalCode()
     {
-        return $this->invoiceIssuedId;
+        return $this->externalCode;
     }
 
     /**
-     * @param int|null $invoiceIssuedId
+     * @param string $externalCode
      */
-    public function setInvoiceIssuedId($invoiceIssuedId)
+    public function setExternalCode($externalCode)
     {
-        $this->invoiceIssuedId = $invoiceIssuedId;
+        $this->externalCode = $externalCode;
     }
 
 
@@ -350,19 +314,17 @@ class SaveCreditNoteIssued
     {
         $array = array('variable_symbol' => $this->variableSymbol,
             'sequence_code' => $this->sequenceCode,
+            'external_code' => $this->externalCode,
             'date' => $this->date,
             'date_vat' => $this->dateVat,
             'maturity_date' => $this->maturityDate,
             'currency' => $this->currency,
-            'customer_id' => $this->customerId,
-            'customer_bank_account' => $this->customerBankAccount,
+            'supplier_id' => $this->supplierId,
             'payment_type' => $this->paymentType,
             'bank_account' => $this->bankAccount,
             'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
-            'rounding_type' => $this->roundingType,
-            'currency_date' => $this->currencyDate,
-            'invoice_issued_id' => $this->invoiceIssuedId,
+            'rounding_type' => $this->roundingType
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
