@@ -10,6 +10,7 @@ use IUcto\Utils;
  * Comman object pro uložení dokumentu
  *
  * @author iucto.cz
+ * @deprecated Použijte SavePaymentIssued a SavePaymentReceived
  */
 class SavePayment
 {
