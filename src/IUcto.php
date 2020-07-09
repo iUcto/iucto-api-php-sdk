@@ -2,6 +2,7 @@
 
 namespace IUcto;
 
+use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
@@ -1777,5 +1778,24 @@ class IUcto
         $this->handleRequest('price_list/' . $id, Connector::DELETE);
     }
 
+
+    /**
+     * @param $id
+     * @param PayDocument $payDocument
+     * @return array|mixed|mixed[]|null
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function payProformaInvoiceIssued($id, PayDocument $payDocument)
+    {
+        $data = $this->handleRequest('proforma_invoice_issued/' . $id . '/pay', Connector::PUT, $payDocument->toArray());
+        return new PaymentIssuedDetail($data);
+    }
 
 }
