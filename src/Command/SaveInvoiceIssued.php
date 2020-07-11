@@ -116,6 +116,13 @@ class SaveInvoiceIssued
     private $orderId;
 
     /**
+     * ID napojených zálohových faktur
+     * @version 1.2 and above
+     * @var int[]
+     */
+    private $proformaInvoices;
+
+    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -142,6 +149,7 @@ class SaveInvoiceIssued
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
         $this->orderId = Utils::getValueOrNull($dataArray, 'order_id');
+        $this->proformaInvoices = Utils::getValueOrNull($dataArray, 'proforma_invoices');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
                 $this->items[] = new DocumentItem($itemData);
@@ -327,6 +335,24 @@ class SaveInvoiceIssued
         $this->orderId = $orderId;
     }
 
+    /**
+     * @version 1.2 and above
+     * @return int[]
+     */
+    public function getProformaInvoices()
+    {
+        return $this->proformaInvoices;
+    }
+
+    /**
+     * @version 1.2 and above
+     * @param int[] $proformaInvoices
+     */
+    public function setProformaInvoices($proformaInvoices)
+    {
+        $this->proformaInvoices = $proformaInvoices;
+    }
+
 
     public function toArray()
     {
@@ -344,6 +370,7 @@ class SaveInvoiceIssued
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
             'order_id' => $this->orderId,
+            'proforma_invoices' => $this->proformaInvoices,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
