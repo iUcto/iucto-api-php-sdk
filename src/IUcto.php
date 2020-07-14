@@ -2,6 +2,7 @@
 
 namespace IUcto;
 
+use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
@@ -41,8 +42,9 @@ use IUcto\Dto\OrderIssuedDetail;
 use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
 use IUcto\Dto\OrderReceivedOverview;
-use IUcto\Dto\PaymentDetail;
+use IUcto\Dto\PaymentIssuedDetail;
 use IUcto\Dto\PaymentIssuedOverview;
+use IUcto\Dto\PaymentReceivedDetail;
 use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\ProductDetail;
 use IUcto\Dto\ProductOverview;
@@ -591,39 +593,39 @@ class IUcto
      * Vytvoří novú platbu, odpověd obsahuje detail platby.
      *
      * @param SavePayment $saveReceivedPayment
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function createReceivedPayment(SavePayment $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received', Connector::POST, $saveReceivedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
      * @param $id
      * @param SavePayment $saveReceivedPayment
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function updateReceivedPayment($id, SavePayment $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
      * @param $id
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function getReceivedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::GET);
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
@@ -656,39 +658,39 @@ class IUcto
 
     /**
      * @param SavePayment $saveIssuedPayment
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function createIssuedPayment(SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
      * @param $id
      * @param SavePayment $saveIssuedPayment
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function updateIssuedPayment($id, SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
      * @param $id
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function getIssuedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::GET);
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
@@ -1776,5 +1778,24 @@ class IUcto
         $this->handleRequest('price_list/' . $id, Connector::DELETE);
     }
 
+
+    /**
+     * @param $id
+     * @param PayDocument $payDocument
+     * @return array|mixed|mixed[]|null
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function payProformaInvoiceIssued($id, PayDocument $payDocument)
+    {
+        $data = $this->handleRequest('proforma_invoice_issued/' . $id . '/pay', Connector::PUT, $payDocument->toArray());
+        return new PaymentIssuedDetail($data);
+    }
 
 }
