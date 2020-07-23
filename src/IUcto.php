@@ -2,10 +2,12 @@
 
 namespace IUcto;
 
+use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCustomer;
+use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
 use IUcto\Command\SaveContact;
 use IUcto\Command\SaveInvoiceIssued;
@@ -13,7 +15,10 @@ use IUcto\Command\SaveInvoiceReceived;
 use IUcto\Command\SaveOrderIssued;
 use IUcto\Command\SaveOrderReceived;
 use IUcto\Command\SavePayment;
+use IUcto\Command\SaveProduct;
+use IUcto\Command\SaveStockMovement;
 use IUcto\Command\SaveSupplier;
+use IUcto\Command\SaveWarehouse;
 use IUcto\Command\SaveProformaInvoiceReceived;
 use IUcto\Command\SaveProformaInvoiceIssued;
 use IUcto\Dto\BankAccount;
@@ -28,6 +33,7 @@ use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
+use IUcto\Dto\InventoryDetail;
 use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
 use IUcto\Dto\InvoiceReceivedDetail;
@@ -36,9 +42,14 @@ use IUcto\Dto\OrderIssuedDetail;
 use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
 use IUcto\Dto\OrderReceivedOverview;
-use IUcto\Dto\PaymentDetail;
+use IUcto\Dto\PaymentIssuedDetail;
 use IUcto\Dto\PaymentIssuedOverview;
+use IUcto\Dto\PaymentReceivedDetail;
 use IUcto\Dto\PaymentReceivedOverview;
+use IUcto\Dto\ProductDetail;
+use IUcto\Dto\ProductOverview;
+use IUcto\Dto\StockMovementDetail;
+use IUcto\Dto\StockMovementOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\SupplierGroup;
@@ -46,6 +57,7 @@ use IUcto\Dto\ProformaInvoiceReceivedOverview;
 use IUcto\Dto\ProformaInvoiceReceivedDetail;
 use IUcto\Dto\ProformaInvoiceIssuedOverview;
 use IUcto\Dto\ProformaInvoiceIssuedDetail;
+use IUcto\Dto\WarehouseDetail;
 
 
 /**
@@ -71,21 +83,32 @@ class IUcto
      * @param $method
      * @param array $data
      * @return array|mixed|mixed[]|null
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
     private function handleRequest($address, $method, array $data = array())
     {
-        $response = $this->connector->request($address, $method, $data);
-        if ($method == Connector::DELETE) {
-            return $response;
+        try {
+            $response = $this->connector->request($address, $method, $data);
+            if ($method == Connector::DELETE) {
+                return $response;
+            }
+            return $this->parser->parse($response);
+        } catch (BadRequestException $ex) {
+            if (!empty($ex->getResponseData())) {
+                $data = $this->parser->parse($ex->getResponseData());
+                if (isset($data['errors']) && is_array($data['errors'])) {
+                    throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
+                }
+            }
+            throw $ex;
         }
-
-        $data = $this->parser->parse($response);
-        if (isset($data['errors']) && is_array($data['errors'])) {
-            $this->errorHandler->handleErrors($data['errors']);
-        }
-        return $data;
     }
 
     /**
@@ -93,12 +116,28 @@ class IUcto
      * @param $method
      * @param array $data
      * @return array|mixed|mixed[]|null
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
     private function handleDownloadRequest($address, $method, array $data = array())
     {
-        return  $this->connector->request($address, $method, $data);
+        try {
+            return $this->connector->request($address, $method, $data);
+        } catch (BadRequestException $ex) {
+            if (!empty($ex->getResponseData())) {
+                $data = $this->parser->parse($ex->getResponseData());
+                if (isset($data['errors']) && is_array($data['errors'])) {
+                    throw new ValidationException('Neplatný požadavek', $ex->getCode(), $ex, $data['errors']);
+                }
+            }
+            throw $ex;
+        }
     }
 
     /**
@@ -134,7 +173,7 @@ class IUcto
      * @throws ValidationException
      */
     public function getInvoiceIssued($page = null, $pageSize = null, $filters = [])
-    {        
+    {
         if (isset($page) && isset($pageSize)) {
             $filters['page'] = $page;
             $filters['pageSize'] = $pageSize;
@@ -425,7 +464,7 @@ class IUcto
      * @throws ValidationException
      */
     public function getCustomersGroup()
-    {        
+    {
         $allData = $this->handleRequest('customer_group', Connector::GET);
 
         $customers = array();
@@ -554,39 +593,39 @@ class IUcto
      * Vytvoří novú platbu, odpověd obsahuje detail platby.
      *
      * @param SavePayment $saveReceivedPayment
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function createReceivedPayment(SavePayment $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received', Connector::POST, $saveReceivedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
      * @param $id
      * @param SavePayment $saveReceivedPayment
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function updateReceivedPayment($id, SavePayment $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
      * @param $id
-     * @return PaymentDetail
+     * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function getReceivedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::GET);
-        return new PaymentDetail($allData);
+        return new PaymentReceivedDetail($allData);
     }
 
     /**
@@ -619,39 +658,39 @@ class IUcto
 
     /**
      * @param SavePayment $saveIssuedPayment
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function createIssuedPayment(SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
      * @param $id
      * @param SavePayment $saveIssuedPayment
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function updateIssuedPayment($id, SavePayment $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
      * @param $id
-     * @return PaymentDetail
+     * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
     public function getIssuedPaymentDetail($id)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::GET);
-        return new PaymentDetail($allData);
+        return new PaymentIssuedDetail($allData);
     }
 
     /**
@@ -861,7 +900,7 @@ class IUcto
         }
         return $departments;
     }
-    
+
     /**
      * @param SaveDepartment $saveDepartment
      * @return Department
@@ -873,7 +912,7 @@ class IUcto
         $allData = $this->handleRequest('department', Connector::POST, $saveDepartment->toArray());
         return new Department($allData);
     }
-    
+
     /**
      * @param $id
      * @param SaveDepartment $saveDepartment
@@ -886,7 +925,7 @@ class IUcto
         $allData = $this->handleRequest('department/' . $id, Connector::PUT, $saveDepartment->toArray());
         return new Department($allData);
     }
-            
+
     /**
      * @param $id
      * @throws ConnectionException
@@ -895,7 +934,7 @@ class IUcto
     public function deleteDepartment($id)
     {
         $this->handleRequest('department/' . $id, Connector::DELETE);
-    }    
+    }
 
     /**
      * Výpis dostupných zakázek.
@@ -913,7 +952,7 @@ class IUcto
         }
         return $contracts;
     }
-    
+
     /**
      * @param SaveContract $saveContract
      * @return Contract
@@ -925,7 +964,7 @@ class IUcto
         $allData = $this->handleRequest('contract', Connector::POST, $saveContract->toArray());
         return new Contract($allData);
     }
-    
+
     /**
      * @param $id
      * @param SaveContract $saveContract
@@ -938,7 +977,7 @@ class IUcto
         $allData = $this->handleRequest('contract/' . $id, Connector::PUT, $saveContract->toArray());
         return new Contract($allData);
     }
-            
+
     /**
      * @param $id
      * @throws ConnectionException
@@ -947,7 +986,7 @@ class IUcto
     public function deleteContract($id)
     {
         $this->handleRequest('contract/' . $id, Connector::DELETE);
-    } 
+    }
 
     /**
      * Seznam dostupných metod.
@@ -1331,7 +1370,7 @@ class IUcto
     public function deleteProformaInvoiceReceived($id)
     {
         $this->handleRequest('proforma_invoice_received/' . $id, Connector::DELETE);
-    }    
+    }
 
     /**
      * Zjednodušený výpis dostupných dokladů.
@@ -1421,4 +1460,342 @@ class IUcto
     {
         $this->handleRequest('proforma_invoice_issued/' . $id, Connector::DELETE);
     }
+    /**
+     * Seznam skladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return WarehouseDetail[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getWarehouseList($page = null, $pageSize = null)
+    {
+        $params = [];
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('warehouse', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['warehouse'] = [];
+        foreach ($allData['warehouse'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $warehoueDetail = new WarehouseDetail($data);
+            $allRows['warehouse'][$warehoueDetail->getId()] = $warehoueDetail;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveWarehouse $saveWarehouse
+     * @return WarehouseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createWarehouse(SaveWarehouse $saveWarehouse)
+    {
+        $allData = $this->handleRequest('warehouse', Connector::POST, $saveWarehouse->toArray());
+        return new WarehouseDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveWarehouse $saveWarehouse
+     * @return WarehouseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateWarehouse($id, SaveWarehouse $saveWarehouse)
+    {
+        $allData = $this->handleRequest('warehouse/' . $id, Connector::PUT, $saveWarehouse->toArray());
+        return new WarehouseDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return WarehouseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getWarehouseDetail($id)
+    {
+        $allData = $this->handleRequest('warehouse/' . $id, Connector::GET);
+        return new WarehouseDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteWarehouse($id)
+    {
+        $this->handleRequest('warehouse/' . $id, Connector::DELETE);
+    }
+
+
+    /**
+     * Seznam skladů.
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return InventoryDetail[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getInventoryList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('inventory', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['inventory'] = [];
+        foreach ($allData['inventory'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $inventoryDetail = new InventoryDetail($data);
+            $allRows['inventory'][$inventoryDetail->getId()] = $inventoryDetail;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveInventory $saveInventory
+     * @return InventoryDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createInventory(SaveInventory $saveInventory)
+    {
+        $allData = $this->handleRequest('inventory', Connector::POST, $saveInventory->toArray());
+        return new InventoryDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveInventory $saveInventory
+     * @return InventoryDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateInventory($id, SaveInventory $saveInventory)
+    {
+        $allData = $this->handleRequest('inventory/' . $id, Connector::PUT, $saveInventory->toArray());
+        return new InventoryDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return InventoryDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getInventoryDetail($id)
+    {
+        $allData = $this->handleRequest('inventory/' . $id, Connector::GET);
+        return new InventoryDetail($allData);
+    }
+
+    /**
+     * Seznam skladů.
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return StockMovementOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getStockMovementList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('stock_movement', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['stock_movement'] = [];
+        foreach ($allData['stock_movement'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $movementOverview = new StockMovementOverview($data);
+            $allRows['stock_movement'][$movementOverview->getId()] = $movementOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveStockMovement $saveStockMovement
+     * @return StockMovementDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createStockMovement(SaveStockMovement $saveStockMovement)
+    {
+        $allData = $this->handleRequest('stock_movement', Connector::POST, $saveStockMovement->toArray());
+        return new StockMovementDetail($allData);
+    }
+
+
+    /**
+     * @param $id
+     * @return StockMovementDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getStockMovementDetail($id)
+    {
+        $allData = $this->handleRequest('stock_movement/' . $id, Connector::GET);
+        return new StockMovementDetail($allData);
+    }
+
+
+    /**
+     * Seznam skladů.
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return ProductOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getProductList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('price_list', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['price_list'] = [];
+        foreach ($allData['price_list'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $productDetail = new ProductOverview($data);
+            $allRows['price_list'][$productDetail->getId()] = $productDetail;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveProduct $saveProduct
+     * @return ProductDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createProduct(SaveProduct $saveProduct)
+    {
+        $allData = $this->handleRequest('price_list', Connector::POST, $saveProduct->toArray());
+        return new ProductDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveProduct $saveProduct
+     * @return ProductDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateProduct($id, SaveProduct $saveProduct)
+    {
+        $allData = $this->handleRequest('price_list/' . $id, Connector::PUT, $saveProduct->toArray());
+        return new ProductDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return ProductDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getProductDetail($id)
+    {
+        $allData = $this->handleRequest('price_list/' . $id, Connector::GET);
+        return new ProductDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteProduct($id)
+    {
+        $this->handleRequest('price_list/' . $id, Connector::DELETE);
+    }
+
+
+    /**
+     * @param $id
+     * @param PayDocument $payDocument
+     * @return array|mixed|mixed[]|null
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function payProformaInvoiceIssued($id, PayDocument $payDocument)
+    {
+        $data = $this->handleRequest('proforma_invoice_issued/' . $id . '/pay', Connector::PUT, $payDocument->toArray());
+        return new PaymentIssuedDetail($data);
+    }
+
 }

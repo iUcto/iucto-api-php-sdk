@@ -44,6 +44,12 @@ class Connector
      * @param array $params
      * @return string
      * @throws ConnectionException
+     * @throws ServerException
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws UnautorizedException
      */
     public function request($address, $method, $params)
     {
@@ -64,40 +70,38 @@ class Connector
         try {
             $result = $this->httpClient->request($method, $url, $options);
 
-            if ($result->getStatusCode() === 401) {
-                throw new ConnectionException('Zkontrolujte prosím, zda je API klíč uveden správně.', $result->getStatusCode());
-            }
-
             $responseBody = $result->getBody()->getContents();
 
-            if ($result->getStatusCode() >= 400) {
-                $appended = "Operaci nelze provest. ";
+            if ($result->getStatusCode() >= 500) {
+                throw new ServerException('Nastala neočekávaná chyba na serveru.', $result->getStatusCode());
+            } elseif ($result->getStatusCode() >= 400) {
                 switch ($result->getStatusCode()) {
                     case 400:
-                        if (!empty($responseBody)) {
-                            return $responseBody;
-                        }
-                        $appended .= "Vracený kód 400 muže znamenat tyto možnosti: Komunikace musí probíhat přes protokol HTTPS.|Neplatná verze API, nebo zdroj.|Tělo požadavku je prázdné.|Neplatný JSON formát.|Parametr 'doctype' je povinný.|Chybý povinný parametr.";
+                        throw new BadRequestException('Neplatný požadavek.', $result->getStatusCode(), null, $responseBody);
                         break;
                     case 401:
-                        $appended .= 'Zkontrolujte prosím, zda je API klíč uveden správně.';
+                        throw new UnautorizedException('Zkontrolujte prosím, zda je API klíč uveden správně.', $result->getStatusCode());
+                        break;
+                    case 402:
+                        throw new PaymentRequiredException('Překročen denní limit na počet dotazů v API, zkontrolujte aktivní tarif.', $result->getStatusCode());
                         break;
                     case 403:
-                        $appended .= 'Vraceny kod 403 muze znamenat tyto moznosti: Nelze smazat záznam (má na sobě další závsilosti).|Účetní období, nebo období DPH je uzavřeno.';
+                        throw new ForbiddenException('Nelze editovat záznam, existují další závyslosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
                         break;
                     case 404:
-                        $appended .= 'Záznam nenalezen';
+                        throw new NotFoundException('Záznam nenalezen', $result->getStatusCode());
                         break;
                     default:
+                        throw new ConnectionException('Neznámá chyby v požadavku na server.', $result->getStatusCode());
                         break;
                 }
-                throw new ConnectionException(sprintf("Error while connecting to %s. Returned code is %s. Body content: %s. Message: %s", $url, $result->getStatusCode(), $responseBody, $appended), $result->getStatusCode());
+            } else {
+                return $responseBody;
             }
-
-            return $responseBody;
-
         } catch (\GuzzleHttp\Exception\GuzzleException $ex) {
             throw new ConnectionException($ex->getMessage(), $ex->getCode(), $ex);
+        } catch (\RuntimeException $ex){
+            throw new ConnectionException('Chyba při čtení odpovědi.', $ex->getCode(), $ex);
         }
     }
 
