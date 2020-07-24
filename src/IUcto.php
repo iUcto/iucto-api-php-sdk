@@ -38,6 +38,8 @@ use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
 use IUcto\Dto\InvoiceReceivedDetail;
 use IUcto\Dto\InvoiceReceivedOverview;
+use IUcto\Dto\JournalDetail;
+use IUcto\Dto\JournalOverview;
 use IUcto\Dto\OrderIssuedDetail;
 use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
@@ -1798,4 +1800,61 @@ class IUcto
         return new PaymentIssuedDetail($data);
     }
 
+    /**
+     * Účetní deník.
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return JournalOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getJournalList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('journal', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['journal'] = [];
+        foreach ($allData['journal'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $movementOverview = new JournalOverview($data);
+            $allRows['journal'][$movementOverview->getId()] = $movementOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param $id
+     * @return JournalDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getJournalDetail($id)
+    {
+        $allData = $this->handleRequest('journal/' . $id, Connector::GET);
+        return new JournalDetail($allData);
+    }
 }
