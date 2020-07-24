@@ -29,11 +29,11 @@ class JournalDetail extends JournalOverview
     /** @var string */
     public $figure;
 
-    /** @var null|int */
-    public $supplierId;
+    /** @var Supplier|null */
+    public $supplier;
 
-    /**  @var int|null */
-    public $customerId;
+    /**  @var Customer|null */
+    public $customer;
 
     /** @var int|null */
     public $departmentId;
@@ -65,8 +65,15 @@ class JournalDetail extends JournalOverview
         $this->vat = Utils::getValueOrNull($arrayData, 'vat');
         $this->vatTypeId = Utils::getValueOrNull($arrayData, 'vat_type_id');
         $this->figure = Utils::getValueOrNull($arrayData, 'figure');
-        $this->supplierId = Utils::getValueOrNull($arrayData, 'supplier_id');
-        $this->customerId = Utils::getValueOrNull($arrayData, 'customer_id');
+
+        if (array_key_exists('supplier', $arrayData) && $arrayData['supplier'] !== null) {
+            $this->supplier = new Supplier($arrayData['supplier']);
+        } else { $this->supplier = null; }
+
+        if (array_key_exists('customer', $arrayData) && $arrayData['customer'] !== null) {
+            $this->customer = new Customer($arrayData['customer']);
+        } else { $this->customer = null; }
+
         $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
         $this->docVariableSymbol = Utils::getValueOrNull($arrayData, 'document_variable_symbol');
@@ -85,8 +92,8 @@ class JournalDetail extends JournalOverview
                 'vat' => $this->vat,
                 'vat_type_id' => $this->vatTypeId,
                 'figure' => $this->figure,
-                'supplier_id' => $this->supplierId,
-                'customer_id' => $this->customerId,
+                'supplier' => $this->supplier,
+                'customer' => $this->customer,
                 'department_id' => $this->departmentId,
                 'contract_id' => $this->contractId,
                 'document_variable_symbol' => $this->docVariableSymbol,
@@ -144,20 +151,22 @@ class JournalDetail extends JournalOverview
     }
 
     /**
-     * @return int|null
+     * @return Supplier|null
      */
-    public function getSupplierId()
+    public function getSupplier()
     {
-        return $this->supplierId;
+        return $this->supplier;
     }
 
     /**
-     * @return int|null
+     * @return Customer|null
      */
-    public function getCustomerId()
+    public function getCustomer()
     {
-        return $this->customerId;
+        return $this->customer;
     }
+
+
 
     /**
      * @return int|null

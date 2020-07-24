@@ -1833,8 +1833,8 @@ class IUcto
             if (isset($data['href'])) {
                 continue;
             }
-            $movementOverview = new JournalOverview($data);
-            $allRows['journal'][$movementOverview->getId()] = $movementOverview;
+            $journalOverview = new JournalOverview($data);
+            $allRows['journal'][$journalOverview->getId()] = $journalOverview;
         }
 
         return $allRows;
