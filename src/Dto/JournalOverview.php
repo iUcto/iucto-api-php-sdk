@@ -15,28 +15,28 @@ class JournalOverview
     public $id;
 
     /** @var string */
-    public $doc_type;
+    public $docType;
 
     /** @var int */
-    public $doc_id;
+    public $docId;
 
     /** @var string */
-    public $doc_sequence_code;
+    public $docSequenceCode;
 
     /** @var null|string */
-    public $parent_sequence_code = null;
+    public $parentSequenceCode = null;
 
     /** @var string */
     public $date;
 
     /** @var string */
-    public $date_vat;
+    public $dateVat;
 
     /** @var int */
-    public $chartaccount_md;
+    public $chartaccountMd;
 
     /** @var int */
-    public $chartaccount_dal;
+    public $chartaccountDal;
 
     /** @var string */
     public $text;
@@ -52,14 +52,14 @@ class JournalOverview
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');
-        $this->doc_type = Utils::getValueOrNull($arrayData, 'doc_type');
-        $this->doc_id = Utils::getValueOrNull($arrayData, 'doc_id');
-        $this->doc_sequence_code = Utils::getValueOrNull($arrayData, 'doc_sequence_code');
-        $this->parent_sequence_code = Utils::getValueOrNull($arrayData, 'parent_sequence_code');
+        $this->docType = Utils::getValueOrNull($arrayData, 'document_type');
+        $this->docId = Utils::getValueOrNull($arrayData, 'document_id');
+        $this->docSequenceCode = Utils::getValueOrNull($arrayData, 'document_sequence_code');
+        $this->parentSequenceCode = Utils::getValueOrNull($arrayData, 'parent_document_sequence_code');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
-        $this->date_vat = Utils::getValueOrNull($arrayData, 'date_vat');
-        $this->chartaccount_md = Utils::getValueOrNull($arrayData, 'chartaccount_md');
-        $this->chartaccount_dal = Utils::getValueOrNull($arrayData, 'chartaccount_dal');
+        $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
+        $this->chartaccountMd = Utils::getValueOrNull($arrayData, 'chartaccount_md');
+        $this->chartaccountDal = Utils::getValueOrNull($arrayData, 'chartaccount_dal');
         $this->text = Utils::getValueOrNull($arrayData, 'text');
         $this->price = Utils::getValueOrNull($arrayData, 'price');
     }
@@ -68,14 +68,14 @@ class JournalOverview
     {
         return [
             'id' => $this->id,
-            'doc_type' => $this->doc_type,
-            'doc_id' => $this->doc_id,
-            'doc_sequence_code' => $this->doc_sequence_code,
-            'parent_sequence_code' => $this->parent_sequence_code,
+            'document_type' => $this->docType,
+            'document_id' => $this->docId,
+            'document_sequence_code' => $this->docSequenceCode,
+            'parent_document_sequence_code' => $this->parentSequenceCode,
             'date' => $this->date,
-            'date_vat' => $this->date_vat,
-            'chartaccount_md' => $this->chartaccount_md,
-            'chartaccount_dal' => $this->chartaccount_dal,
+            'date_vat' => $this->dateVat,
+            'chartaccount_md' => $this->chartaccountMd,
+            'chartaccount_dal' => $this->chartaccountDal,
             'text' => $this->text,
             'price' => $this->price,
         ];
@@ -94,7 +94,7 @@ class JournalOverview
      */
     public function getDocType()
     {
-        return $this->doc_type;
+        return $this->docType;
     }
 
     /**
@@ -102,7 +102,7 @@ class JournalOverview
      */
     public function getDocId()
     {
-        return $this->doc_id;
+        return $this->docId;
     }
 
     /**
@@ -110,7 +110,7 @@ class JournalOverview
      */
     public function getDocSequenceCode()
     {
-        return $this->doc_sequence_code;
+        return $this->docSequenceCode;
     }
 
     /**
@@ -118,7 +118,7 @@ class JournalOverview
      */
     public function getParentSequenceCode()
     {
-        return $this->parent_sequence_code;
+        return $this->parentSequenceCode;
     }
 
     /**
@@ -134,7 +134,7 @@ class JournalOverview
      */
     public function getDateVat()
     {
-        return $this->date_vat;
+        return $this->dateVat;
     }
 
     /**
@@ -142,7 +142,7 @@ class JournalOverview
      */
     public function getChartaccountMd()
     {
-        return $this->chartaccount_md;
+        return $this->chartaccountMd;
     }
 
     /**
@@ -150,7 +150,7 @@ class JournalOverview
      */
     public function getChartaccountDal()
     {
-        return $this->chartaccount_dal;
+        return $this->chartaccountDal;
     }
 
     /**
@@ -168,4 +168,6 @@ class JournalOverview
     {
         return $this->price;
     }
+
+
 }

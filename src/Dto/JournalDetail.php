@@ -12,43 +12,43 @@ use IUcto\Utils;
 class JournalDetail extends JournalOverview
 {
     /** @var null|int */
-    public $parent_id = null;
+    public $parentId;
 
     /** @var null|string */
-    public $parent_doc_type = null;
+    public $parentDocType;
 
     /** @var string */
-    public $date_expense;
+    public $dateExpense;
 
     /** @var int */
     public $vat;
 
     /** @var int */
-    public $vat_type_id;
+    public $vatTypeId;
 
     /** @var string */
     public $figure;
 
     /** @var null|int */
-    public $supplier_id = null;
+    public $supplierId;
 
-    /**  @var int */
-    public $customer_id = null;
+    /**  @var int|null */
+    public $customerId;
 
-    /** @var int */
-    public $department_id = null;
+    /** @var int|null */
+    public $departmentId;
 
-    /** @var int */
-    public $contract_id = null;
-
-    /** @var string */
-    public $doc_variable_symbol;
+    /** @var int|null */
+    public $contractId;
 
     /** @var string */
-    public $doc_maturity_date;
+    public $docVariableSymbol;
 
     /** @var string */
-    public $item_variable_symbol;
+    public $docMaturityDate;
+
+    /** @var string */
+    public $itemVariableSymbol;
 
     /**
      * @param mixed[] $arrayData input data
@@ -59,19 +59,19 @@ class JournalDetail extends JournalOverview
 
         if (empty($arrayData)) return;
 
-        $this->parent_id = Utils::getValueOrNull($arrayData, 'parent_id');
-        $this->parent_doc_type = Utils::getValueOrNull($arrayData, 'parent_doc_type');
-        $this->date_expense = Utils::getValueOrNull($arrayData, 'date_expense');
+        $this->parentId = Utils::getValueOrNull($arrayData, 'parent_document_id');
+        $this->parentDocType = Utils::getValueOrNull($arrayData, 'parent_document_type');
+        $this->dateExpense = Utils::getValueOrNull($arrayData, 'date_expense');
         $this->vat = Utils::getValueOrNull($arrayData, 'vat');
-        $this->vat_type_id = Utils::getValueOrNull($arrayData, 'vat_type_id');
+        $this->vatTypeId = Utils::getValueOrNull($arrayData, 'vat_type_id');
         $this->figure = Utils::getValueOrNull($arrayData, 'figure');
-        $this->supplier_id = Utils::getValueOrNull($arrayData, 'supplier_id');
-        $this->customer_id = Utils::getValueOrNull($arrayData, 'customer_id');
-        $this->department_id = Utils::getValueOrNull($arrayData, 'department_id');
-        $this->contract_id = Utils::getValueOrNull($arrayData, 'contract_id');
-        $this->doc_variable_symbol = Utils::getValueOrNull($arrayData, 'doc_variable_symbol');
-        $this->doc_maturity_date = Utils::getValueOrNull($arrayData, 'doc_maturity_date');
-        $this->item_variable_symbol = Utils::getValueOrNull($arrayData, 'item_variable_symbol');
+        $this->supplierId = Utils::getValueOrNull($arrayData, 'supplier_id');
+        $this->customerId = Utils::getValueOrNull($arrayData, 'customer_id');
+        $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
+        $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
+        $this->docVariableSymbol = Utils::getValueOrNull($arrayData, 'document_variable_symbol');
+        $this->docMaturityDate = Utils::getValueOrNull($arrayData, 'document_maturity_date');
+        $this->itemVariableSymbol = Utils::getValueOrNull($arrayData, 'item_variable_symbol');
     }
 
 
@@ -79,19 +79,19 @@ class JournalDetail extends JournalOverview
     {
         $array = parent::toArray();
         return $array + [
-                'parent_id' => $this->parent_id,
-                'parent_doc_type' => $this->parent_doc_type,
-                'date_expense' => $this->date_expense,
+                'parent_document_id' => $this->parentId,
+                'parent_document_type' => $this->parentDocType,
+                'date_expense' => $this->dateExpense,
                 'vat' => $this->vat,
-                'vat_type_id' => $this->vat_type_id,
+                'vat_type_id' => $this->vatTypeId,
                 'figure' => $this->figure,
-                'supplier_id' => $this->supplier_id,
-                'customer_id' => $this->customer_id,
-                'department_id' => $this->department_id,
-                'contract_id' => $this->contract_id,
-                'doc_variable_symbol' => $this->doc_variable_symbol,
-                'doc_maturity_date' => $this->doc_maturity_date,
-                'item_variable_symbol' => $this->item_variable_symbol,
+                'supplier_id' => $this->supplierId,
+                'customer_id' => $this->customerId,
+                'department_id' => $this->departmentId,
+                'contract_id' => $this->contractId,
+                'document_variable_symbol' => $this->docVariableSymbol,
+                'document_maturity_date' => $this->docMaturityDate,
+                'item_variable_symbol' => $this->itemVariableSymbol,
             ];
     }
 
@@ -100,7 +100,7 @@ class JournalDetail extends JournalOverview
      */
     public function getParentId()
     {
-        return $this->parent_id;
+        return $this->parentId;
     }
 
     /**
@@ -108,7 +108,7 @@ class JournalDetail extends JournalOverview
      */
     public function getParentDocType()
     {
-        return $this->parent_doc_type;
+        return $this->parentDocType;
     }
 
     /**
@@ -116,7 +116,7 @@ class JournalDetail extends JournalOverview
      */
     public function getDateExpense()
     {
-        return $this->date_expense;
+        return $this->dateExpense;
     }
 
     /**
@@ -132,7 +132,7 @@ class JournalDetail extends JournalOverview
      */
     public function getVatTypeId()
     {
-        return $this->vat_type_id;
+        return $this->vatTypeId;
     }
 
     /**
@@ -148,31 +148,31 @@ class JournalDetail extends JournalOverview
      */
     public function getSupplierId()
     {
-        return $this->supplier_id;
+        return $this->supplierId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getCustomerId()
     {
-        return $this->customer_id;
+        return $this->customerId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDepartmentId()
     {
-        return $this->department_id;
+        return $this->departmentId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getContractId()
     {
-        return $this->contract_id;
+        return $this->contractId;
     }
 
     /**
@@ -180,7 +180,7 @@ class JournalDetail extends JournalOverview
      */
     public function getDocVariableSymbol()
     {
-        return $this->doc_variable_symbol;
+        return $this->docVariableSymbol;
     }
 
     /**
@@ -188,7 +188,7 @@ class JournalDetail extends JournalOverview
      */
     public function getDocMaturityDate()
     {
-        return $this->doc_maturity_date;
+        return $this->docMaturityDate;
     }
 
     /**
@@ -196,6 +196,8 @@ class JournalDetail extends JournalOverview
      */
     public function getItemVariableSymbol()
     {
-        return $this->item_variable_symbol;
+        return $this->itemVariableSymbol;
     }
+
+
 }
