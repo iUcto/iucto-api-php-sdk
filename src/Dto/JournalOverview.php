@@ -64,23 +64,6 @@ class JournalOverview
         $this->price = Utils::getValueOrNull($arrayData, 'price');
     }
 
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'document_type' => $this->docType,
-            'document_id' => $this->docId,
-            'document_sequence_code' => $this->docSequenceCode,
-            'parent_document_sequence_code' => $this->parentSequenceCode,
-            'date' => $this->date,
-            'date_vat' => $this->dateVat,
-            'chartaccount_md' => $this->chartaccountMd,
-            'chartaccount_dal' => $this->chartaccountDal,
-            'text' => $this->text,
-            'price' => $this->price,
-        ];
-    }
-
     /**
      * @return int
      */
