@@ -1822,7 +1822,7 @@ class IUcto
 
     /**
      * @param SaveCreditNoteReceived $saveCreditNoteReceived
-     * @return CreditNoteIssuedDetail
+     * @return CreditNoteReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
@@ -1835,7 +1835,7 @@ class IUcto
     /**
      * @param $id
      * @param SaveCreditNoteReceived $saveCreditNoteReceived
-     * @return CreditNoteIssuedDetail
+     * @return CreditNoteReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
