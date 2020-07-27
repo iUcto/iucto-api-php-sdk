@@ -6,6 +6,7 @@ use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
+use IUcto\Command\SaveCreditNoteReceived;
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
@@ -29,6 +30,8 @@ use IUcto\Dto\CashRegisterList;
 use IUcto\Dto\Contract;
 use IUcto\Dto\CreditNoteIsseudOverview;
 use IUcto\Dto\CreditNoteIssuedDetail;
+use IUcto\Dto\CreditNoteReceivedDetail;
+use IUcto\Dto\CreditNoteReceivedOverview;
 use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
@@ -1797,5 +1800,72 @@ class IUcto
         $data = $this->handleRequest('proforma_invoice_issued/' . $id . '/pay', Connector::PUT, $payDocument->toArray());
         return new PaymentIssuedDetail($data);
     }
+
+
+    /**
+     * Seznam dobropisů přijatých
+     * @return CreditNoteReceivedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteReceivedList()
+    {
+        $allData = $this->handleRequest('creditnote_received', Connector::GET);
+        $creditNoteReceived = [];
+        if (isset($allData["creditnote_received"])) {
+            foreach ($allData["creditnote_received"] as $i => $data) {
+                $creditNoteReceived[] = new CreditNoteReceivedOverview($data);
+            }
+        }
+        return $creditNoteReceived;
+    }
+
+    /**
+     * @param SaveCreditNoteReceived $saveCreditNoteReceived
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createCreditNoteReceived(SaveCreditNoteReceived $saveCreditNoteReceived)
+    {
+        $allData = $this->handleRequest('creditnote_received', Connector::POST, $saveCreditNoteReceived->toArray());
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveCreditNoteReceived $saveCreditNoteReceived
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateCreditNoteReceived($id, SaveCreditNoteReceived $saveCreditNoteReceived)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id, Connector::PUT, $saveCreditNoteReceived->toArray());
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteReceivedDetail($id)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id, Connector::GET);
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteCreditNoteReceived($id)
+    {
+        $this->handleRequest('creditnote_received/' . $id, Connector::DELETE);
+    }
+
 
 }
