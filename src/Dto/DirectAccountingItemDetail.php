@@ -37,10 +37,10 @@ class DirectAccountingItemDetail extends DirectAccountingItemBase
         parent::__construct($arrayData);
 
         $this->priceCzk = Utils::getValueOrNull($arrayData, 'price_czk');
-        if (array_key_exists('supplier', $arrayData)) {
+        if (array_key_exists('supplier', $arrayData) && $arrayData['supplier'] !== null) {
             $this->supplier = new Supplier($arrayData['supplier']);
         }
-        if (array_key_exists('customer', $arrayData)) {
+        if (array_key_exists('customer', $arrayData) && $arrayData['customer'] !== null) {
             $this->supplier = new Customer($arrayData['customer']);
         }
     }
