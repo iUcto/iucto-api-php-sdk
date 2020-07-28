@@ -5,7 +5,7 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for DirectAccountingItemBase data
+ * DTO for DirectAccountingItemSave data
  *
  * @author iucto.cz
  */
