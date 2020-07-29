@@ -173,6 +173,15 @@ class CreditNoteIssuedDetail
      */
     private $invoice;
 
+    /** @var bool */
+    private $eet;
+
+    /** @var BusinessPremisesDetail */
+    private $businessPremises;
+
+    /** @var array */
+    private $eetStatus;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -213,6 +222,12 @@ class CreditNoteIssuedDetail
         if (isset($arrayData['invoice']) && !empty($arrayData['invoice'])) {
             $this->invoice = new InvoiceIsseudOverview($arrayData['invoice']);
         }
+
+        $this->eet = Utils::getValueOrNull($arrayData, 'eet');
+        if (isset($arrayData['business_premises']) && !empty($arrayData['business_premises'])) {
+            $this->businessPremises = new BusinessPremisesDetail($arrayData['business_premises']);
+        }
+        $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
     }
 
     public function getId()
@@ -333,5 +348,27 @@ class CreditNoteIssuedDetail
         return $this->invoice;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEet()
+    {
+        return $this->eet;
+    }
 
+    /**
+     * @return BusinessPremisesDetail
+     */
+    public function getBusinessPremises()
+    {
+        return $this->businessPremises;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEetStatus()
+    {
+        return $this->eetStatus;
+    }
 }
