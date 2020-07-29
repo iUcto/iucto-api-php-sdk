@@ -7,6 +7,7 @@ use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCustomer;
+use IUcto\Command\SaveEetStatus;
 use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
 use IUcto\Command\SaveContact;
@@ -25,6 +26,8 @@ use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
 use IUcto\Dto\BankTransactionOverview;
+use IUcto\Dto\BusinessPremisesDetail;
+use IUcto\Dto\BusinessPremisesOverview;
 use IUcto\Dto\CashRegisterList;
 use IUcto\Dto\Contract;
 use IUcto\Dto\CreditNoteIsseudOverview;
@@ -33,6 +36,8 @@ use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
+use IUcto\Dto\EetStatusDetail;
+use IUcto\Dto\EetStatusOverview;
 use IUcto\Dto\InventoryDetail;
 use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
@@ -1798,4 +1803,132 @@ class IUcto
         return new PaymentIssuedDetail($data);
     }
 
+
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return BusinessPremisesOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getBusinessPremisesList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('business_premises', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['business_premises'] = [];
+        foreach ($allData['business_premises'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $businessPremisesOverview = new BusinessPremisesOverview($data);
+            $allRows['business_premises'][$businessPremisesOverview->getId()] = $businessPremisesOverview;
+        }
+
+        return $allRows;
+    }
+
+
+    /**
+     * @param $id
+     * @return BusinessPremisesDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getBusinessPremisesDetail($id)
+    {
+        $allData = $this->handleRequest('business_premises/' . $id, Connector::GET);
+        return new BusinessPremisesDetail($allData);
+    }
+
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return EetStatusOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getEetStatusList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('eet_status', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['eet_status'] = [];
+        foreach ($allData['eet_status'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $eetStatusOverview = new EetStatusOverview($data);
+            $allRows['eet_status'][$eetStatusOverview->getId()] = $eetStatusOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveEetStatus $saveEetStatus
+     * @return EetStatusDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createEetStatus(SaveEetStatus $saveEetStatus)
+    {
+        $allData = $this->handleRequest('eet_status', Connector::POST, $saveEetStatus->toArray());
+        return new EetStatusDetail($allData);
+    }
+
+
+    /**
+     * @param $id
+     * @return EetStatusDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getEetStatusDetail($id)
+    {
+        $allData = $this->handleRequest('eet_status/' . $id, Connector::GET);
+        return new EetStatusDetail($allData);
+    }
 }
