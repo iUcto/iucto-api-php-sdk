@@ -12,43 +12,43 @@ use IUcto\Utils;
 class JournalDetail extends JournalOverview
 {
     /** @var null|int */
-    public $parentId;
+    protected $parentDocumentId;
 
     /** @var null|string */
-    public $parentDocType;
+    protected $parentDocumentType;
 
     /** @var string */
-    public $dateExpense;
+    protected $dateExpense;
 
     /** @var int */
-    public $vat;
+    protected $vat;
 
     /** @var int */
-    public $vatTypeId;
+    protected $vatTypeId;
 
     /** @var string */
-    public $figure;
+    protected $figure;
 
     /** @var Supplier|null */
-    public $supplier = null;
+    protected $supplier = null;
 
     /**  @var Customer|null */
-    public $customer = null;
+    protected $customer = null;
 
     /** @var int|null */
-    public $departmentId;
+    protected $departmentId;
 
     /** @var int|null */
-    public $contractId;
+    protected $contractId;
 
     /** @var string */
-    public $docVariableSymbol;
+    protected $documentVariableSymbol;
 
     /** @var string */
-    public $docMaturityDate;
+    protected $documentMaturityDate;
 
     /** @var string */
-    public $itemVariableSymbol;
+    protected $itemVariableSymbol;
 
     /**
      * @param mixed[] $arrayData input data
@@ -59,8 +59,8 @@ class JournalDetail extends JournalOverview
 
         if (empty($arrayData)) return;
 
-        $this->parentId = Utils::getValueOrNull($arrayData, 'parent_document_id');
-        $this->parentDocType = Utils::getValueOrNull($arrayData, 'parent_document_type');
+        $this->parentDocumentId = Utils::getValueOrNull($arrayData, 'parent_document_id');
+        $this->parentDocumentType = Utils::getValueOrNull($arrayData, 'parent_document_type');
         $this->dateExpense = Utils::getValueOrNull($arrayData, 'date_expense');
         $this->vat = Utils::getValueOrNull($arrayData, 'vat');
         $this->vatTypeId = Utils::getValueOrNull($arrayData, 'vat_type_id');
@@ -76,25 +76,25 @@ class JournalDetail extends JournalOverview
 
         $this->departmentId = Utils::getValueOrNull($arrayData, 'department_id');
         $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
-        $this->docVariableSymbol = Utils::getValueOrNull($arrayData, 'document_variable_symbol');
-        $this->docMaturityDate = Utils::getValueOrNull($arrayData, 'document_maturity_date');
+        $this->documentVariableSymbol = Utils::getValueOrNull($arrayData, 'document_variable_symbol');
+        $this->documentMaturityDate = Utils::getValueOrNull($arrayData, 'document_maturity_date');
         $this->itemVariableSymbol = Utils::getValueOrNull($arrayData, 'item_variable_symbol');
     }
 
     /**
      * @return int|null
      */
-    public function getParentId()
+    public function getParentDocumentId()
     {
-        return $this->parentId;
+        return $this->parentDocumentId;
     }
 
     /**
      * @return string|null
      */
-    public function getParentDocType()
+    public function getParentDocumentType()
     {
-        return $this->parentDocType;
+        return $this->parentDocumentType;
     }
 
     /**
@@ -166,17 +166,17 @@ class JournalDetail extends JournalOverview
     /**
      * @return string
      */
-    public function getDocVariableSymbol()
+    public function getDocumentVariableSymbol()
     {
-        return $this->docVariableSymbol;
+        return $this->documentVariableSymbol;
     }
 
     /**
      * @return string
      */
-    public function getDocMaturityDate()
+    public function getDocumentMaturityDate()
     {
-        return $this->docMaturityDate;
+        return $this->documentMaturityDate;
     }
 
     /**

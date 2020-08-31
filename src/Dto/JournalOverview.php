@@ -12,37 +12,37 @@ use IUcto\Utils;
 class JournalOverview
 {
     /** @var int */
-    public $id;
+    protected $id;
 
     /** @var string */
-    public $docType;
+    protected $documentType;
 
     /** @var int */
-    public $docId;
+    protected $documentId;
 
     /** @var string */
-    public $docSequenceCode;
+    protected $documentSequenceCode;
 
     /** @var null|string */
-    public $parentSequenceCode = null;
+    protected $parentDocumentSequenceCode = null;
 
     /** @var string */
-    public $date;
+    protected $date;
 
     /** @var string */
-    public $dateVat;
+    protected $dateVat;
 
     /** @var int */
-    public $chartaccountMd;
+    protected $chartaccountMd;
 
     /** @var int */
-    public $chartaccountDal;
+    protected $chartaccountDal;
 
     /** @var string */
-    public $text;
+    protected $text;
 
     /** @var float */
-    public $price;
+    protected $price;
 
     /**
      * @param mixed[] $arrayData input data
@@ -52,10 +52,10 @@ class JournalOverview
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');
-        $this->docType = Utils::getValueOrNull($arrayData, 'document_type');
-        $this->docId = Utils::getValueOrNull($arrayData, 'document_id');
-        $this->docSequenceCode = Utils::getValueOrNull($arrayData, 'document_sequence_code');
-        $this->parentSequenceCode = Utils::getValueOrNull($arrayData, 'parent_document_sequence_code');
+        $this->documentType = Utils::getValueOrNull($arrayData, 'document_type');
+        $this->documentId = Utils::getValueOrNull($arrayData, 'document_id');
+        $this->documentSequenceCode = Utils::getValueOrNull($arrayData, 'document_sequence_code');
+        $this->parentDocumentSequenceCode = Utils::getValueOrNull($arrayData, 'parent_document_sequence_code');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
         $this->chartaccountMd = Utils::getValueOrNull($arrayData, 'chartaccount_md');
@@ -75,33 +75,33 @@ class JournalOverview
     /**
      * @return string
      */
-    public function getDocType()
+    public function getDocumentType()
     {
-        return $this->docType;
+        return $this->documentType;
     }
 
     /**
      * @return int
      */
-    public function getDocId()
+    public function getDocumentId()
     {
-        return $this->docId;
+        return $this->documentId;
     }
 
     /**
      * @return string
      */
-    public function getDocSequenceCode()
+    public function getDocumentSequenceCode()
     {
-        return $this->docSequenceCode;
+        return $this->documentSequenceCode;
     }
 
     /**
      * @return string|null
      */
-    public function getParentSequenceCode()
+    public function getParentDocumentSequenceCode()
     {
-        return $this->parentSequenceCode;
+        return $this->parentDocumentSequenceCode;
     }
 
     /**
