@@ -9,6 +9,7 @@ use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
+use IUcto\Command\SaveDirectAccounting;
 use IUcto\Command\SaveContact;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
@@ -33,6 +34,8 @@ use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
+use IUcto\Dto\DirectAccountingDetail;
+use IUcto\Dto\DirectAccountingOverview;
 use IUcto\Dto\InventoryDetail;
 use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
@@ -1856,5 +1859,90 @@ class IUcto
     {
         $allData = $this->handleRequest('journal/' . $id, Connector::GET);
         return new JournalDetail($allData);
+    }
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return DirectAccountingOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getDirectAccountingList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('direct_accounting', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['direct_accounting'] = [];
+        foreach ($allData['direct_accounting'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $directAccountingDetail = new DirectAccountingOverview($data);
+            $allRows['direct_accounting'][$directAccountingDetail->getId()] = $directAccountingDetail;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveDirectAccounting $saveDirectAccounting
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createDirectAccounting(SaveDirectAccounting $saveDirectAccounting)
+    {
+        $allData = $this->handleRequest('direct_accounting', Connector::POST, $saveDirectAccounting->toArray());
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveDirectAccounting $saveDirectAccounting
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateDirectAccounting($id, SaveDirectAccounting $saveDirectAccounting)
+    {
+        $allData = $this->handleRequest('direct_accounting/' . $id, Connector::PUT, $saveDirectAccounting->toArray());
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDirectAccountingDetail($id)
+    {
+        $allData = $this->handleRequest('direct_accounting/' . $id, Connector::GET);
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteDirectAccounting($id)
+    {
+        $this->handleRequest('direct_accounting/' . $id, Connector::DELETE);
     }
 }
