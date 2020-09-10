@@ -1955,16 +1955,27 @@ class IUcto
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getCreditNoteReceivedList()
+    public function getCreditNoteReceivedList($params = [], $page = null, $pageSize = null)
     {
-        $allData = $this->handleRequest('creditnote_received', Connector::GET);
-        $creditNoteReceived = [];
-        if (isset($allData["creditnote_received"])) {
-            foreach ($allData["creditnote_received"] as $i => $data) {
-                $creditNoteReceived[] = new CreditNoteReceivedOverview($data);
-            }
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
         }
-        return $creditNoteReceived;
+        $allData = $this->handleRequest('creditnote_received', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['creditnote_received'] = [];
+        foreach ($allData['creditnote_received'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $creditNoteReceived = new CreditNoteReceivedOverview($data);
+            $allRows['creditnote_received'][$creditNoteReceived->getId()] = $creditNoteReceived;
+        }
+
+        return $allRows;
     }
 
     /**
