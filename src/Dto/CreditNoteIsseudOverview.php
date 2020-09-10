@@ -97,6 +97,11 @@ class CreditNoteIsseudOverview
     private $deleted;
 
     /**
+     * @var bool
+     */
+    private $eet;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -113,6 +118,7 @@ class CreditNoteIsseudOverview
         $this->customer = new CustomerOverview($arrayData['customer']);
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
+        $this->eet = Utils::getValueOrNull($arrayData, 'eet');
     }
 
     public function getId()
@@ -175,4 +181,8 @@ class CreditNoteIsseudOverview
         return $this->deleted;
     }
 
+    public function isEet()
+    {
+        return $this->eet;
+    }
 }

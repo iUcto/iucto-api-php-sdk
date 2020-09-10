@@ -116,6 +116,21 @@ class SaveInvoiceIssued
     private $orderId;
 
     /**
+     * @var bool|null
+     */
+    private $eet;
+
+    /**
+     * @var int|null
+     */
+    private $eetListId;
+
+    /**
+     * @var int|null
+     */
+    private $businessPremisesId;
+
+    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -147,6 +162,10 @@ class SaveInvoiceIssued
                 $this->items[] = new DocumentItem($itemData);
             }
         }
+
+        $this->eet = Utils::getValueOrNull($dataArray, 'eet');
+        $this->eetListId = Utils::getValueOrNull($dataArray, 'eet_list_id');
+        $this->businessPremisesId = Utils::getValueOrNull($dataArray, 'business_premises_id');
     }
 
     public function getVariableSymbol()
@@ -327,6 +346,55 @@ class SaveInvoiceIssued
         $this->orderId = $orderId;
     }
 
+    /**
+     * @return bool|null
+     */
+    public function getEet()
+    {
+        return $this->eet;
+    }
+
+    /**
+     * @param bool|null $eet
+     */
+    public function setEet($eet)
+    {
+        $this->eet = $eet;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEetListId()
+    {
+        return $this->eetListId;
+    }
+
+    /**
+     * @param int|null $eetListId
+     */
+    public function setEetListId($eetListId)
+    {
+        $this->eetListId = $eetListId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBusinessPremisesId()
+    {
+        return $this->businessPremisesId;
+    }
+
+    /**
+     * @param int|null $businessPremisesId
+     */
+    public function setBusinessPremisesId($businessPremisesId)
+    {
+        $this->businessPremisesId = $businessPremisesId;
+    }
+
+
 
     public function toArray()
     {
@@ -344,6 +412,9 @@ class SaveInvoiceIssued
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
             'order_id' => $this->orderId,
+            'eet' => $this->eet,
+            'eet_list_id' => $this->eetListId,
+            'business_premises_id' => $this->businessPremisesId,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
