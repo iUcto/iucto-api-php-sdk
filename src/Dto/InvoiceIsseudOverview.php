@@ -103,6 +103,9 @@ class InvoiceIsseudOverview
      */
     private $proformaInvoiceIds;
 
+    /** @var bool */
+    private $eet;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -125,6 +128,8 @@ class InvoiceIsseudOverview
                 $this->proformaInvoiceIds[] = $itemData;
             }
         }
+
+        $this->eet = Utils::getValueOrNull($arrayData, 'eet');
     }
 
     public function getId()
@@ -190,5 +195,10 @@ class InvoiceIsseudOverview
     public function getProformaInvoiceIds()
     {
         return $this->proformaInvoiceIds;
+    }
+
+    public function isEet()
+    {
+        return $this->eet;
     }
 }

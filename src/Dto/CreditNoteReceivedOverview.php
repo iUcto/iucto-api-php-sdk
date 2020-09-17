@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class CreditNoteIsseudOverview
+class CreditNoteReceivedOverview
 {
 
     /**
@@ -76,11 +76,11 @@ class CreditNoteIsseudOverview
     private $toBePaid;
 
     /**
-     * Zákazník
+     * Dodavatel
      *
-     * @var CustomerOverview
+     * @var SupplierOverview
      */
-    private $customer;
+    private $supplier;
 
     /**
      * Doklad je zaúčtován
@@ -97,11 +97,6 @@ class CreditNoteIsseudOverview
     private $deleted;
 
     /**
-     * @var bool
-     */
-    private $eet;
-
-    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -115,10 +110,9 @@ class CreditNoteIsseudOverview
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->customer = new CustomerOverview($arrayData['customer']);
+        $this->supplier = new SupplierOverview($arrayData['supplier']);
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        $this->eet = Utils::getValueOrNull($arrayData, 'eet');
     }
 
     public function getId()
@@ -166,9 +160,9 @@ class CreditNoteIsseudOverview
         return $this->toBePaid;
     }
 
-    public function getCustomer()
+    public function getSupplier()
     {
-        return $this->customer;
+        return $this->supplier;
     }
 
     public function getAccounted()
@@ -181,8 +175,4 @@ class CreditNoteIsseudOverview
         return $this->deleted;
     }
 
-    public function isEet()
-    {
-        return $this->eet;
-    }
 }

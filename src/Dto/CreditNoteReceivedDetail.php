@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class CreditNoteIssuedDetail
+class CreditNoteReceivedDetail
 {
 
     /**
@@ -97,18 +97,18 @@ class CreditNoteIssuedDetail
     private $toBePaid;
 
     /**
-     * Zákazník
+     * Dodavatel
      *
-     * @var Customer
+     * @var Supplier
      */
-    private $customer;
+    private $supplier;
 
     /**
-     * Bankovní účet zákazníka
+     * Bankovní účet dodavatele
      *
      * @var string (45)
      */
-    private $customerBankAccount;
+    private $supplierBankAccount;
 
     /**
      * Forma úhrady
@@ -169,18 +169,9 @@ class CreditNoteIssuedDetail
 
     /**
      * Faktura
-     * @var InvoiceIsseudOverview
+     * @var InvoiceReceivedOverview
      */
     private $invoice;
-
-    /** @var bool */
-    private $eet;
-
-    /** @var BusinessPremisesDetail */
-    private $businessPremises;
-
-    /** @var array */
-    private $eetStatus;
 
     /**
      * @param mixed[] $arrayData input data
@@ -199,10 +190,10 @@ class CreditNoteIssuedDetail
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->priceIncVatCzk = Utils::getValueOrNull($arrayData, 'price_inc_vat_czk');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        if (array_key_exists('customer', $arrayData)) {
-            $this->customer = new Customer($arrayData['customer']);
+        if (array_key_exists('supplier', $arrayData)) {
+            $this->supplier = new Supplier($arrayData['supplier']);
         }
-        $this->customerBankAccount = Utils::getValueOrNull($arrayData, 'customer_bank_account');
+        $this->supplierBankAccount = Utils::getValueOrNull($arrayData, 'supplier_bank_account');
         $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
         if (isset($arrayData['bank_account']) && !empty($arrayData['bank_account'])) {
             $this->bankAccount = new BankAccount($arrayData['bank_account']);
@@ -220,14 +211,8 @@ class CreditNoteIssuedDetail
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
 
         if (isset($arrayData['invoice']) && !empty($arrayData['invoice'])) {
-            $this->invoice = new InvoiceIsseudOverview($arrayData['invoice']);
+            $this->invoice = new InvoiceReceivedOverview($arrayData['invoice']);
         }
-
-        $this->eet = Utils::getValueOrNull($arrayData, 'eet');
-        if (isset($arrayData['business_premises']) && !empty($arrayData['business_premises'])) {
-            $this->businessPremises = new BusinessPremisesDetail($arrayData['business_premises']);
-        }
-        $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
     }
 
     public function getId()
@@ -290,14 +275,14 @@ class CreditNoteIssuedDetail
         return $this->toBePaid;
     }
 
-    public function getCustomer()
+    public function getSupplier()
     {
-        return $this->customer;
+        return $this->supplier;
     }
 
-    public function getCustomerBankAccount()
+    public function getSupplierBankAccount()
     {
-        return $this->customerBankAccount;
+        return $this->supplierBankAccount;
     }
 
     public function getPaymentType()
@@ -341,34 +326,12 @@ class CreditNoteIssuedDetail
     }
 
     /**
-     * @return InvoiceIsseudOverview
+     * @return InvoiceReceivedOverview
      */
     public function getInvoice()
     {
         return $this->invoice;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEet()
-    {
-        return $this->eet;
-    }
 
-    /**
-     * @return BusinessPremisesDetail
-     */
-    public function getBusinessPremises()
-    {
-        return $this->businessPremises;
-    }
-
-    /**
-     * @return array
-     */
-    public function getEetStatus()
-    {
-        return $this->eetStatus;
-    }
 }

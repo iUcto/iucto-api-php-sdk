@@ -6,9 +6,12 @@ use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
+use IUcto\Command\SaveCreditNoteReceived;
 use IUcto\Command\SaveCustomer;
+use IUcto\Command\SaveEetStatus;
 use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
+use IUcto\Command\SaveDirectAccounting;
 use IUcto\Command\SaveContact;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
@@ -25,19 +28,29 @@ use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
 use IUcto\Dto\BankTransactionOverview;
+use IUcto\Dto\BusinessPremisesDetail;
+use IUcto\Dto\BusinessPremisesOverview;
 use IUcto\Dto\CashRegisterList;
 use IUcto\Dto\Contract;
 use IUcto\Dto\CreditNoteIsseudOverview;
 use IUcto\Dto\CreditNoteIssuedDetail;
+use IUcto\Dto\CreditNoteReceivedDetail;
+use IUcto\Dto\CreditNoteReceivedOverview;
 use IUcto\Dto\Customer;
 use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
+use IUcto\Dto\DirectAccountingDetail;
+use IUcto\Dto\DirectAccountingOverview;
+use IUcto\Dto\EetStatusDetail;
+use IUcto\Dto\EetStatusOverview;
 use IUcto\Dto\InventoryDetail;
 use IUcto\Dto\InvoiceIsseudOverview;
 use IUcto\Dto\InvoiceIssuedDetail;
 use IUcto\Dto\InvoiceReceivedDetail;
 use IUcto\Dto\InvoiceReceivedOverview;
+use IUcto\Dto\JournalDetail;
+use IUcto\Dto\JournalOverview;
 use IUcto\Dto\OrderIssuedDetail;
 use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
@@ -1798,4 +1811,352 @@ class IUcto
         return new PaymentIssuedDetail($data);
     }
 
+    /**
+     * Účetní deník.
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return JournalOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getJournalList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('journal', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['journal'] = [];
+        foreach ($allData['journal'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $journalOverview = new JournalOverview($data);
+            $allRows['journal'][$journalOverview->getId()] = $journalOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param $id
+     * @return JournalDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getJournalDetail($id)
+    {
+        $allData = $this->handleRequest('journal/' . $id, Connector::GET);
+        return new JournalDetail($allData);
+    }
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return DirectAccountingOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getDirectAccountingList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('direct_accounting', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['direct_accounting'] = [];
+        foreach ($allData['direct_accounting'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $directAccountingDetail = new DirectAccountingOverview($data);
+            $allRows['direct_accounting'][$directAccountingDetail->getId()] = $directAccountingDetail;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveDirectAccounting $saveDirectAccounting
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createDirectAccounting(SaveDirectAccounting $saveDirectAccounting)
+    {
+        $allData = $this->handleRequest('direct_accounting', Connector::POST, $saveDirectAccounting->toArray());
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveDirectAccounting $saveDirectAccounting
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateDirectAccounting($id, SaveDirectAccounting $saveDirectAccounting)
+    {
+        $allData = $this->handleRequest('direct_accounting/' . $id, Connector::PUT, $saveDirectAccounting->toArray());
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return DirectAccountingDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDirectAccountingDetail($id)
+    {
+        $allData = $this->handleRequest('direct_accounting/' . $id, Connector::GET);
+        return new DirectAccountingDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteDirectAccounting($id)
+    {
+        $this->handleRequest('direct_accounting/' . $id, Connector::DELETE);
+    }
+
+    /**
+     * Seznam dobropisů přijatých
+     * @return CreditNoteReceivedOverview[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteReceivedList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('creditnote_received', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['creditnote_received'] = [];
+        foreach ($allData['creditnote_received'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $creditNoteReceived = new CreditNoteReceivedOverview($data);
+            $allRows['creditnote_received'][$creditNoteReceived->getId()] = $creditNoteReceived;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveCreditNoteReceived $saveCreditNoteReceived
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createCreditNoteReceived(SaveCreditNoteReceived $saveCreditNoteReceived)
+    {
+        $allData = $this->handleRequest('creditnote_received', Connector::POST, $saveCreditNoteReceived->toArray());
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @param SaveCreditNoteReceived $saveCreditNoteReceived
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateCreditNoteReceived($id, SaveCreditNoteReceived $saveCreditNoteReceived)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id, Connector::PUT, $saveCreditNoteReceived->toArray());
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getCreditNoteReceivedDetail($id)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id, Connector::GET);
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * @param $id
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteCreditNoteReceived($id)
+    {
+        $this->handleRequest('creditnote_received/' . $id, Connector::DELETE);
+    }
+
+
+
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return BusinessPremisesOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getBusinessPremisesList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('business_premises', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['business_premises'] = [];
+        foreach ($allData['business_premises'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $businessPremisesOverview = new BusinessPremisesOverview($data);
+            $allRows['business_premises'][$businessPremisesOverview->getId()] = $businessPremisesOverview;
+        }
+
+        return $allRows;
+    }
+
+
+    /**
+     * @param $id
+     * @return BusinessPremisesDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getBusinessPremisesDetail($id)
+    {
+        $allData = $this->handleRequest('business_premises/' . $id, Connector::GET);
+        return new BusinessPremisesDetail($allData);
+    }
+
+    /**
+     *
+     * @param array $params
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return EetStatusOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getEetStatusList($params = [], $page = null, $pageSize = null)
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('eet_status', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['eet_status'] = [];
+        foreach ($allData['eet_status'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $eetStatusOverview = new EetStatusOverview($data);
+            $allRows['eet_status'][$eetStatusOverview->getId()] = $eetStatusOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @param SaveEetStatus $saveEetStatus
+     * @return EetStatusDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createEetStatus(SaveEetStatus $saveEetStatus)
+    {
+        $allData = $this->handleRequest('eet_status', Connector::POST, $saveEetStatus->toArray());
+        return new EetStatusDetail($allData);
+    }
+
+
+    /**
+     * @param $id
+     * @return EetStatusDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function getEetStatusDetail($id)
+    {
+        $allData = $this->handleRequest('eet_status/' . $id, Connector::GET);
+        return new EetStatusDetail($allData);
+    }
 }

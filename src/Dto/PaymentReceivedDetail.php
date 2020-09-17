@@ -23,9 +23,9 @@ class PaymentReceivedDetail extends PaymentDetail
     protected $eet;
 
     /**
-     * @var array|null
+     * @var array
      */
-    protected $eetListId;
+    protected $eetStatus;
 
     /**
      * @param mixed[] $arrayData input data
@@ -37,7 +37,7 @@ class PaymentReceivedDetail extends PaymentDetail
         $this->proformaInvoiceId = Utils::getValueOrNull($arrayData, 'proforma_invoice_received_id');
 
         $this->eet = Utils::getValueOrNull($arrayData, 'eet');
-        $this->eetListId = Utils::getValueOrNull($arrayData, 'eet_list_id');
+        $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
     }
 
     /**
@@ -57,12 +57,13 @@ class PaymentReceivedDetail extends PaymentDetail
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getEetListId()
+    public function getEetStatus()
     {
-        return $this->eetListId;
+        return $this->eetStatus;
     }
+
 
 
 }
