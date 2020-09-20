@@ -159,6 +159,7 @@ class IUcto
      * @return InvoiceIsseudOverview[] - 2-úrovňové pole. První úroveň tvoří klíč typ dokladu.
      * @throws ConnectionException
      * @throws ValidationException
+     * @deprecated
      */
     public function getAllInvoiceIssued()
     {
@@ -308,14 +309,13 @@ class IUcto
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getInvoiceReceived($page = null, $pageSize = null)
+    public function getInvoiceReceived($page = null, $pageSize = null, $filters = [])
     {
-        $params = [];
         if (isset($page) && isset($pageSize)) {
-            $params['page'] = $page;
-            $params['pageSize'] = $pageSize;
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        $allData = $this->handleRequest('invoice_received', Connector::GET, $params);
+        $allData = $this->handleRequest('invoice_received', Connector::GET, $filters);
         $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
         if (isset($allData[Parser::PAGE_COUNT])) {
             unset($allData[Parser::PAGE_COUNT]);
@@ -396,9 +396,13 @@ class IUcto
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getCustomers()
+    public function getCustomers($page = null, $pageSize = null, $filters = [])
     {
-        $allData = $this->handleRequest('customer', Connector::GET);
+        if (isset($page) && isset($pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('customer', Connector::GET, $filters);
 
         $allCustomers = array();
         if (isset($allData['customer'])) {
@@ -492,9 +496,14 @@ class IUcto
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getSuppliers()
+    public function getSuppliers($page = null, $pageSize = null, $filters = [])
     {
-        $allData = $this->handleRequest('supplier', Connector::GET);
+        if (isset($page) && isset($pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
+        }
+
+        $allData = $this->handleRequest('supplier', Connector::GET, $filters);
 
         $allSuppliers = array();
         if (isset($allData['supplier'])) {
