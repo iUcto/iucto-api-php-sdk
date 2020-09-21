@@ -8,22 +8,25 @@ use IUcto\Command\SaveBankTransaction;
 use IUcto\Command\SaveCreditNoteIssued;
 use IUcto\Command\SaveCreditNoteReceived;
 use IUcto\Command\SaveCustomer;
-use IUcto\Command\SaveEetStatus;
-use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveDepartment;
 use IUcto\Command\SaveDirectAccounting;
-use IUcto\Command\SaveContact;
+use IUcto\Command\SaveEetStatus;
+use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
 use IUcto\Command\SaveOrderIssued;
 use IUcto\Command\SaveOrderReceived;
 use IUcto\Command\SavePayment;
 use IUcto\Command\SaveProduct;
+use IUcto\Command\SaveProformaInvoiceIssued;
+use IUcto\Command\SaveProformaInvoiceReceived;
 use IUcto\Command\SaveStockMovement;
 use IUcto\Command\SaveSupplier;
 use IUcto\Command\SaveWarehouse;
-use IUcto\Command\SaveProformaInvoiceReceived;
-use IUcto\Command\SaveProformaInvoiceIssued;
+use IUcto\Core\Paginator;
+use IUcto\Core\RequestHandler;
+use IUcto\DataObject\Contact\CustomerList;
+use IUcto\DataObject\Contact\SupplierList;
 use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
@@ -37,7 +40,6 @@ use IUcto\Dto\CreditNoteIssuedDetail;
 use IUcto\Dto\CreditNoteReceivedDetail;
 use IUcto\Dto\CreditNoteReceivedOverview;
 use IUcto\Dto\Customer;
-use IUcto\Dto\CustomerOverview;
 use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
 use IUcto\Dto\DirectAccountingDetail;
@@ -61,15 +63,15 @@ use IUcto\Dto\PaymentReceivedDetail;
 use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\ProductDetail;
 use IUcto\Dto\ProductOverview;
+use IUcto\Dto\ProformaInvoiceIssuedDetail;
+use IUcto\Dto\ProformaInvoiceIssuedOverview;
+use IUcto\Dto\ProformaInvoiceReceivedDetail;
+use IUcto\Dto\ProformaInvoiceReceivedOverview;
 use IUcto\Dto\StockMovementDetail;
 use IUcto\Dto\StockMovementOverview;
 use IUcto\Dto\Supplier;
-use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\SupplierGroup;
-use IUcto\Dto\ProformaInvoiceReceivedOverview;
-use IUcto\Dto\ProformaInvoiceReceivedDetail;
-use IUcto\Dto\ProformaInvoiceIssuedOverview;
-use IUcto\Dto\ProformaInvoiceIssuedDetail;
+use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\WarehouseDetail;
 
 
@@ -392,25 +394,22 @@ class IUcto
     /**
      * Zjednodušený výpis všech dostupných zákazníků.
      *
-     * @return CustomerOverview []
+     * @param array $filters
+     * @param int $page
+     * @param int $pageSize
+     * @return CustomerList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getCustomers($page = null, $pageSize = null, $filters = [])
+    public function getCustomerList($filters = [], $page = 1, $pageSize = 50)
     {
         if (isset($page) && isset($pageSize)) {
             $filters['page'] = $page;
             $filters['pageSize'] = $pageSize;
         }
-        $allData = $this->handleRequest('customer', Connector::GET, $filters);
-
-        $allCustomers = array();
-        if (isset($allData['customer'])) {
-            foreach ($allData['customer'] as $customer) {
-                $allCustomers[] = new CustomerOverview($customer);
-            }
-        }
-        return $allCustomers;
+        $rawData = $this->handleRequest('customer', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new CustomerList($paginator, $rawData['customer']);
     }
 
     /**
@@ -492,26 +491,23 @@ class IUcto
     }
 
     /**
-     * @return array
+     * @param array $filters
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return SupplierList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getSuppliers($page = null, $pageSize = null, $filters = [])
+    public function getSupplierList($filters = [], $page = null, $pageSize = null)
     {
         if (isset($page) && isset($pageSize)) {
             $filters['page'] = $page;
             $filters['pageSize'] = $pageSize;
         }
+        $rawData = $this->handleRequest('supplier', Connector::GET, $filters);
 
-        $allData = $this->handleRequest('supplier', Connector::GET, $filters);
-
-        $allSuppliers = array();
-        if (isset($allData['supplier'])) {
-            foreach ($allData['supplier'] as $supplier) {
-                $allSuppliers[] = new SupplierOverview($supplier);
-            }
-        }
-        return $allSuppliers;
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new SupplierList($paginator, $rawData['supplier']);
     }
 
     /**

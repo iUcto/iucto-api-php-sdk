@@ -8,6 +8,8 @@ class Parser
     const EMBEDED_KEY = '_embedded';
     const LINKS = '_links';
     const PAGE_COUNT = 'pageCount';
+    const PAGE_SIZE = 'pageSize';
+    const PAGE = 'page';
 
     public function parse($json)
     {
@@ -25,6 +27,12 @@ class Parser
 
             if (isset($array[self::PAGE_COUNT])) {
                 $result[self::PAGE_COUNT] = $array[self::PAGE_COUNT];
+            }
+            if (isset($array[self::PAGE_SIZE])) {
+                $result[self::PAGE_SIZE] = $array[self::PAGE_SIZE];
+            }
+            if (isset($array[self::PAGE])) {
+                $result[self::PAGE] = $array[self::PAGE];
             }
             return $result;
         }
