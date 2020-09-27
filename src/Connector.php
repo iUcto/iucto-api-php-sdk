@@ -86,7 +86,7 @@ class Connector
                         throw new PaymentRequiredException('Překročen denní limit na počet dotazů v API, zkontrolujte aktivní tarif.', $result->getStatusCode());
                         break;
                     case 403:
-                        throw new ForbiddenException('Nelze editovat záznam, existují další závyslosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
+                        throw new ForbiddenException('Nelze editovat záznam, existují další závislosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
                         break;
                     case 404:
                         throw new NotFoundException('Záznam nenalezen', $result->getStatusCode());
