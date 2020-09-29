@@ -188,7 +188,7 @@ class InvoiceReceivedDetail
             $this->supplier = new Supplier($arrayData['supplier']);
         }
         $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
-        if (array_key_exists('bank_account', $arrayData)) {
+        if (isset($arrayData['bank_account']) && !empty($arrayData['bank_account'])) {
             $this->bankAccount = new BankAccount($arrayData['bank_account']);
         }
 
