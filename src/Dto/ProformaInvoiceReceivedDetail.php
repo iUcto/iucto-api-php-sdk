@@ -101,7 +101,7 @@ class ProformaInvoiceReceivedDetail extends ProformaInvoiceReceivedOverview
         $this->priceCzk = Utils::getValueOrNull($arrayData, 'price_czk');
         $this->priceIncVatCzk = Utils::getValueOrNull($arrayData, 'price_inc_vat_czk');
         $this->paymentType = Utils::getValueOrNull($arrayData, 'payment_type');
-        if (array_key_exists('bank_account', $arrayData)) {
+        if (isset($arrayData['bank_account']) && !empty($arrayData['bank_account'])) {
             $this->bankAccount = new BankAccount($arrayData['bank_account']);
         }
         $this->dateVatPrev = Utils::getDateTimeFrom($arrayData['date_vat_prev']);
