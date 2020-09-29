@@ -83,7 +83,7 @@ class Connector
                         throw new UnautorizedException('Zkontrolujte prosím, zda je API klíč uveden správně.', $result->getStatusCode());
                         break;
                     case 402:
-                        throw new PaymentRequiredException('Překročen denní limit na počet dotazů v API, zkontrolujte aktivní tarif.', $result->getStatusCode());
+                        throw new PaymentRequiredException($responseBody, $result->getStatusCode());
                         break;
                     case 403:
                         throw new ForbiddenException('Nelze editovat záznam, existují další závyslosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
