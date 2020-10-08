@@ -147,6 +147,18 @@ class SaveSupplier
      */
     private $supplierGroupId;
 
+    /**
+     * ID výchozího střediska
+     * @var int
+     */
+    protected $defaultDepartmentId;
+
+    /**
+     * ID výchozí zakázky
+     * @var int
+     */
+    protected $defaultContractId;
+
     function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) {
@@ -172,6 +184,8 @@ class SaveSupplier
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
         $this->supplierGroupId = Utils::getValueOrNull($arrayData, 'supplier_group_id');
+        $this->defaultDepartmentId = $arrayData['default_department_id'];
+        $this->defaultContractId = $arrayData['default_contract_id'];
     }
 
     public function getName()
@@ -272,6 +286,22 @@ class SaveSupplier
         return $this->supplierGroupId;
     }
 
+    /**
+     * @return int
+     */
+    public function getDefaultDepartmentId()
+    {
+        return $this->defaultDepartmentId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultContractId()
+    {
+        return $this->defaultContractId;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -370,6 +400,22 @@ class SaveSupplier
         $this->supplierGroupId = $supplierGroupId;
     }
 
+    /**
+     * @param int $defaultDepartmentId
+     */
+    public function setDefaultDepartmentId($defaultDepartmentId)
+    {
+        $this->defaultDepartmentId = $defaultDepartmentId;
+    }
+
+    /**
+     * @param int $defaultContractId
+     */
+    public function setDefaultContractId($defaultContractId)
+    {
+        $this->defaultContractId = $defaultContractId;
+    }
+
     public function toArray()
     {
         return array(
@@ -391,7 +437,10 @@ class SaveSupplier
             'account_number2' => $this->accountNumber2,
             'account_number3' => $this->accountNumber3,
             'account_number4' => $this->accountNumber4,
-            'supplier_group_id' => $this->supplierGroupId);
+            'supplier_group_id' => $this->supplierGroupId,
+            'default_department_id' => $this->defaultDepartmentId,
+            'default_contract_id' => $this->defaultContractId
+        );
     }
 
 }
