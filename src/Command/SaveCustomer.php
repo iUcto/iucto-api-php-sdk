@@ -147,6 +147,13 @@ class SaveCustomer
      */
     private $customerGroupId;
 
+    /**
+     * Externí kód
+     *
+     * @var string
+     */
+    protected $externalCode;
+
     function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) {
@@ -172,6 +179,7 @@ class SaveCustomer
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
         $this->customerGroupId = Utils::getValueOrNull($arrayData, 'customer_group_id');
+        $this->externalCode = $arrayData['external_code'];
     }
 
     public function getName()
@@ -272,6 +280,11 @@ class SaveCustomer
         return $this->customerGroupId;
     }
 
+    public function getExternalCode()
+    {
+        return $this->externalCode;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -370,6 +383,11 @@ class SaveCustomer
         $this->customerGroupId = $customerGroupId;
     }
 
+    public function setExternalCode($externalCode)
+    {
+        $this->externalCode = $externalCode;
+    }
+
     public function toArray()
     {
         return array(
@@ -391,7 +409,9 @@ class SaveCustomer
             'account_number2' => $this->accountNumber2,
             'account_number3' => $this->accountNumber3,
             'account_number4' => $this->accountNumber4,
-            'customer_group_id' => $this->customerGroupId);
+            'customer_group_id' => $this->customerGroupId,
+            'external_code' => $this->externalCode
+        );
     }
 
 }

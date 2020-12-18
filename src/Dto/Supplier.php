@@ -89,6 +89,13 @@ class Supplier extends SupplierOverview
     protected $supplierGroupId;
 
     /**
+     * Externí kód
+     *
+     * @var string
+     */
+    protected $externalCode;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -106,6 +113,7 @@ class Supplier extends SupplierOverview
         $this->accountNumber3 = $arrayData['account_number3'];
         $this->accountNumber4 = $arrayData['account_number4'];
         $this->supplierGroupId = Utils::getValueOrNull($arrayData, 'supplier_group_id');
+        $this->externalCode = $arrayData['external_code'];
     }
 
 
@@ -167,4 +175,8 @@ class Supplier extends SupplierOverview
         return $this->supplierGroupId;
     }
 
+    public function getExternalCode()
+    {
+        return $this->externalCode;
+    }
 }
