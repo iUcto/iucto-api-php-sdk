@@ -154,6 +154,18 @@ class SaveCustomer
      */
     protected $externalCode;
 
+    /**
+     * ID výchozího střediska
+     * @var int
+     */
+    protected $defaultDepartmentId;
+
+    /**
+     * ID výchozí zakázky
+     * @var int
+     */
+    protected $defaultContractId;
+
     function __construct(array $arrayData = [])
     {
         if (empty($arrayData)) {
@@ -180,6 +192,8 @@ class SaveCustomer
         $this->accountNumber4 = $arrayData['account_number4'];
         $this->customerGroupId = Utils::getValueOrNull($arrayData, 'customer_group_id');
         $this->externalCode = $arrayData['external_code'];
+        $this->defaultDepartmentId = $arrayData['default_department_id'];
+        $this->defaultContractId = $arrayData['default_contract_id'];
     }
 
     public function getName()
@@ -285,6 +299,22 @@ class SaveCustomer
         return $this->externalCode;
     }
 
+    /**
+     * @return int
+     */
+    public function getDefaultDepartmentId()
+    {
+        return $this->defaultDepartmentId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultContractId()
+    {
+        return $this->defaultContractId;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -388,6 +418,22 @@ class SaveCustomer
         $this->externalCode = $externalCode;
     }
 
+    /**
+     * @param int $defaultDepartmentId
+     */
+    public function setDefaultDepartmentId($defaultDepartmentId)
+    {
+        $this->defaultDepartmentId = $defaultDepartmentId;
+    }
+
+    /**
+     * @param int $defaultContractId
+     */
+    public function setDefaultContractId($defaultContractId)
+    {
+        $this->defaultContractId = $defaultContractId;
+    }
+
     public function toArray()
     {
         return array(
@@ -410,7 +456,10 @@ class SaveCustomer
             'account_number3' => $this->accountNumber3,
             'account_number4' => $this->accountNumber4,
             'customer_group_id' => $this->customerGroupId,
-            'external_code' => $this->externalCode
+            'external_code' => $this->externalCode,
+            'customer_group_id' => $this->customerGroupId,
+            'default_department_id' => $this->defaultDepartmentId,
+            'default_contract_id' => $this->defaultContractId
         );
     }
 

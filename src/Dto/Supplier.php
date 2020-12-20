@@ -96,6 +96,18 @@ class Supplier extends SupplierOverview
     protected $externalCode;
 
     /**
+     * ID výchozího střediska
+     * @var int
+     */
+    protected $defaultDepartmentId;
+
+    /**
+     * ID výchozí zakázky
+     * @var int
+     */
+    protected $defaultContractId;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -114,6 +126,8 @@ class Supplier extends SupplierOverview
         $this->accountNumber4 = $arrayData['account_number4'];
         $this->supplierGroupId = Utils::getValueOrNull($arrayData, 'supplier_group_id');
         $this->externalCode = $arrayData['external_code'];
+        $this->defaultDepartmentId = $arrayData['default_department_id'];
+        $this->defaultContractId = $arrayData['default_contract_id'];
     }
 
 
@@ -178,5 +192,20 @@ class Supplier extends SupplierOverview
     public function getExternalCode()
     {
         return $this->externalCode;
+    }
+    /**
+     * @return int
+     */
+    public function getDefaultDepartmentId()
+    {
+        return $this->defaultDepartmentId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultContractId()
+    {
+        return $this->defaultContractId;
     }
 }
