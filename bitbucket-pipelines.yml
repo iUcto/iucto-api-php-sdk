@@ -1,0 +1,20 @@
+image:
+    name: registry.gitlab.com/iucto.cz/docker/php-ci:7.2-bruno
+    username: $GITLAB_REGISTRY_USERNAME
+    password: $GITLAB_REGISTRY_PASSWORD
+
+options:
+    max-time: 2
+
+pipelines:
+    default:
+        -   step:
+                name: Lint
+                script:
+                    - composer run-script phplint
+                caches:
+                    - phplint
+
+definitions:
+    caches:
+        phplint: .build/phplint/
