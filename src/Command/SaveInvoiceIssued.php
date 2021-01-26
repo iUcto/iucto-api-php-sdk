@@ -136,6 +136,13 @@ class SaveInvoiceIssued
      * @var DocumentItem[]
      */
     private $items = array();
+    
+    /**
+     * Upomínky
+     *
+     * @var array| null
+     */
+    private $reminders = array();
 
     public function __construct(array $dataArray = [])
     {
@@ -166,6 +173,7 @@ class SaveInvoiceIssued
         $this->eet = Utils::getValueOrNull($dataArray, 'eet');
         $this->eetListId = Utils::getValueOrNull($dataArray, 'eet_list_id');
         $this->businessPremisesId = Utils::getValueOrNull($dataArray, 'business_premises_id');
+        $this->reminders = Utils::getValueOrNull($dataArray, 'reminders');
     }
 
     public function getVariableSymbol()
@@ -231,6 +239,11 @@ class SaveInvoiceIssued
     public function getItems()
     {
         return $this->items;
+    }
+    
+    public function getReminders()
+    {
+        return $this->reminders;
     }
 
     public function setVariableSymbol($variableSymbol)
@@ -393,6 +406,11 @@ class SaveInvoiceIssued
     {
         $this->businessPremisesId = $businessPremisesId;
     }
+    
+    public function setReminders($reminders)
+    {
+        $this->reminders = $reminders;
+    }
 
 
 
@@ -415,6 +433,7 @@ class SaveInvoiceIssued
             'eet' => $this->eet,
             'eet_list_id' => $this->eetListId,
             'business_premises_id' => $this->businessPremisesId,
+            'reminders' => $this->reminders,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
