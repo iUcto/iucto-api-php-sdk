@@ -118,6 +118,10 @@ class SavePayment
      * @var int|null
      */
     protected $invoiceId;
+    /**
+     * @var mixed|null
+     */
+    protected $liquidationAmount;
 
     public function __construct(array $dataArray = [])
     {
@@ -139,6 +143,7 @@ class SavePayment
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
         $this->description = Utils::getValueOrNull($dataArray, 'description');
         $this->roundingType = Utils::getValueOrNull($dataArray, 'rounding_type');
+        $this->liquidationAmount = Utils::getValueOrNull($dataArray, 'liquidation_amount');
         if (array_key_exists('items', $dataArray)) {
             foreach ($dataArray['items'] as $itemData) {
                 $this->items[] = new PaymentItem((array)$itemData);
@@ -333,7 +338,8 @@ class SavePayment
             'cash_register_id' => $this->cash_register_id,
             'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
-            'rounding_type' => $this->roundingType
+            'rounding_type' => $this->roundingType,
+            'liquidation_amount' => $this->liquidationAmount,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
@@ -349,5 +355,23 @@ class SavePayment
     {
         $this->supplierId = $getSupplierId;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getLiquidationAmount()
+    {
+        return $this->liquidationAmount;
+    }
+
+    /**
+     * @param mixed|null $liquidationAmount
+     */
+    public function setLiquidationAmount($liquidationAmount)
+    {
+        $this->liquidationAmount = $liquidationAmount;
+    }
+
+
 
 }

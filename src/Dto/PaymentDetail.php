@@ -179,6 +179,13 @@ abstract class PaymentDetail
      */
     protected $deleted;
 
+
+    /**
+     * Likvidační částka v CZK
+     * @var float
+     */
+    protected $liquidationAmount;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -222,6 +229,7 @@ abstract class PaymentDetail
         }
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
+        $this->liquidationAmount = Utils::getValueOrNull($arrayData, 'liquidation_amount');
     }
 
     public function getId()
@@ -337,6 +345,14 @@ abstract class PaymentDetail
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLiquidationAmount()
+    {
+        return $this->liquidationAmount;
     }
 
 }
