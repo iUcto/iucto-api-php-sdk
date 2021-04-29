@@ -409,6 +409,9 @@ class IUcto
         }
         $rawData = $this->handleRequest('customer', Connector::GET, $filters);
         $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        if(!isset($rawData['customer'])){
+            $rawData['customer'] = [];
+        }
         return new CustomerList($paginator, $rawData['customer']);
     }
 
