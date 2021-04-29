@@ -409,7 +409,7 @@ class IUcto
         }
         $rawData = $this->handleRequest('customer', Connector::GET, $filters);
         $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
-        return new CustomerList($paginator, $rawData['customer']);
+        return new CustomerList($paginator, !isset($rawData['customer']) ? [] : $rawData['customer']);
     }
 
     /**
@@ -507,7 +507,7 @@ class IUcto
         $rawData = $this->handleRequest('supplier', Connector::GET, $filters);
 
         $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
-        return new SupplierList($paginator, $rawData['supplier']);
+        return new SupplierList($paginator, !isset($rawData['supplier']) ? [] : $rawData['supplier']);
     }
 
     /**
