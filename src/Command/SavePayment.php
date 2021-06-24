@@ -123,6 +123,7 @@ class SavePayment
      */
     protected $liquidationAmount;
 
+
     public function __construct(array $dataArray = [])
     {
         if (empty($dataArray)) {
