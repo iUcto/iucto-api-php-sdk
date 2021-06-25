@@ -32,9 +32,6 @@ class PaymentIssuedDetail extends PaymentDetail
         parent::__construct($arrayData);
 
         $this->proformaInvoiceId = Utils::getValueOrNull($arrayData, 'proforma_invoice_received_id');
-        if (isset($arrayData['customer']) AND $arrayData['customer'] !== null) {
-            $this->customer = new Customer($arrayData['customer']);
-        }
         if (isset($arrayData['creditnote']) AND $arrayData['creditnote'] !== null) {
             $this->creditnote = new CreditNoteIssuedDetail($arrayData['creditnote']);
         }
