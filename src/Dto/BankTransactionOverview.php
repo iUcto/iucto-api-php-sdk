@@ -119,10 +119,18 @@ class BankTransactionOverview
     protected $reference_number = null;
 
     /**
-     * ID protistrany, pro příchozí pohyb Zákazník, pro odchozí Dodavatel
-     * @var int
+     * Dodavatel - detail
+     *
+     * @var Supplier
      */
-    protected $counterparty = null;
+    protected $supplier;
+
+    /**
+     *  Zákazník - detail
+     *
+     * @var Customer
+     */
+    protected $customer;
 
     /**
      * Typ DPH
@@ -181,7 +189,12 @@ class BankTransactionOverview
         $this->description_tome = Utils::getValueOrNull($arrayData, 'description_tome');
         $this->description_toyou = Utils::getValueOrNull($arrayData, 'description_toyou');
         $this->reference_number = Utils::getValueOrNull($arrayData, 'reference_number');
-        $this->counterparty = Utils::getValueOrNull($arrayData, 'counterparty');
+        if (isset($arrayData['customer']) AND $arrayData['customer'] !== null) {
+            $this->customer = new Customer($arrayData['customer']);
+        }
+        if (isset($arrayData['supplier']) AND $arrayData['supplier'] !== null) {
+            $this->supplier = new Supplier($arrayData['supplier']);
+        }
         $this->vat_type = Utils::getValueOrNull($arrayData, 'vat_type');
         $this->account_entry_type = Utils::getValueOrNull($arrayData, 'account_entry_type');
         $this->chart_account = Utils::getValueOrNull($arrayData, 'chart_account');
@@ -333,12 +346,21 @@ class BankTransactionOverview
     }
 
     /**
-     * @return int
+     * @return Supplier
      */
-    public function getCounterparty()
+    public function getSupplier()
     {
-        return $this->counterparty;
+        return $this->supplier;
     }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
 
     /**
      * @return int

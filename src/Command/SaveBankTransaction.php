@@ -96,10 +96,17 @@ class SaveBankTransaction
     protected $reference_number = null;
 
     /**
-     * ID protistrany, pro příchozí pohyb Zákazník, pro odchozí Dodavatel
+     * Id zákazníka
      * @var int
      */
-    protected $counterparty = null;
+    protected $customer_id = null;
+
+    /**
+     * Id dodavatele
+     * @var int
+     */
+    protected $supplier_id = null;
+
 
     /**
      * Typ DPH
@@ -152,7 +159,8 @@ class SaveBankTransaction
         $this->description_tome = Utils::getValueOrNull($arrayData, 'description_tome');
         $this->description_toyou = Utils::getValueOrNull($arrayData, 'description_toyou');
         $this->reference_number = Utils::getValueOrNull($arrayData, 'reference_number');
-        $this->counterparty = Utils::getValueOrNull($arrayData, 'counterparty');
+        $this->customer_id = Utils::getValueOrNull($arrayData, 'customer_id');
+        $this->supplier_id = Utils::getValueOrNull($arrayData, 'supplier_id');
         $this->vat_type = Utils::getValueOrNull($arrayData, 'vat_type');
         $this->account_entry_type = Utils::getValueOrNull($arrayData, 'account_entry_type');
         $this->chart_account = Utils::getValueOrNull($arrayData, 'chart_account');
@@ -179,7 +187,8 @@ class SaveBankTransaction
             'description_tome' => $this->description_tome,
             'description_toyou' => $this->description_toyou,
             'reference_number' => $this->reference_number,
-            'counterparty' => $this->counterparty,
+            'customer_id' => $this->customer_id,
+            'supplier_id' => $this->supplier_id,
             'vat_type' => $this->vat_type,
             'account_entry_type' => $this->account_entry_type,
             'chart_account' => $this->chart_account,
@@ -442,18 +451,36 @@ class SaveBankTransaction
     /**
      * @return int
      */
-    public function getCounterparty()
+    public function getCustomerId()
     {
-        return $this->counterparty;
+        return $this->customer_id;
     }
 
     /**
-     * @param int $counterparty
+     * @param $customer_id
      * @return SaveBankTransaction
      */
-    public function setCounterparty($counterparty)
+    public function setCustomerId($customer_id)
     {
-        $this->counterparty = $counterparty;
+        $this->customer_id = $customer_id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSupplierId()
+    {
+        return $this->supplier_id;
+    }
+
+    /**
+     * @param $supplier_id
+     * @return SaveBankTransaction
+     */
+    public function setSupplierId($supplier_id)
+    {
+        $this->supplier_id = $supplier_id;
         return $this;
     }
 
