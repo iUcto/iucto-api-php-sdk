@@ -59,6 +59,13 @@ class BankTransactionList
      */
     protected $date_payment = null;
 
+
+    /**
+     * Datum importu
+     * @var string
+     */
+    protected $created = null;
+
     /**
      * Typ položky (popisek)
      * @var string
@@ -103,6 +110,8 @@ class BankTransactionList
         if (empty($arrayData)) {
             return;
         }
+        //readonly
+        $this->created = $arrayData['created'];
 
         // Required
         $this->payment_type = $arrayData['payment_type'];
@@ -181,6 +190,13 @@ class BankTransactionList
     public function getDatePayment()
     {
         return $this->date_payment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated() {
+        return $this->created;
     }
 
     /**

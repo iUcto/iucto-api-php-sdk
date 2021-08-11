@@ -59,6 +59,13 @@ class BankTransactionOverview
      */
     protected $date_payment = null;
 
+
+    /**
+     * Datum importu
+     * @var string
+     */
+    protected $created = null;
+
     /**
      * Typ položky (popisek)
      * @var string
@@ -163,6 +170,7 @@ class BankTransactionOverview
         $this->price_czk = $arrayData['price_czk'];
         $this->status = $arrayData['status'];
         $this->linked_docs = $arrayData['linked_docs'];
+        $this->created = $arrayData['created'];
 
         // Required
         $this->payment_type = $arrayData['payment_type'];
@@ -250,6 +258,14 @@ class BankTransactionOverview
     public function getDatePayment()
     {
         return $this->date_payment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**
