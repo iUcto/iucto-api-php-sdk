@@ -136,13 +136,20 @@ class SaveInvoiceIssued
      * @var DocumentItem[]
      */
     private $items = array();
-    
+
     /**
      * Upomínky
      *
      * @var array| null
      */
     private $reminders = array();
+
+    /**
+     * Režim OSS
+     *
+     * @var bool
+     */
+    private $ossMode;
 
     public function __construct(array $dataArray = [])
     {
@@ -174,6 +181,9 @@ class SaveInvoiceIssued
         $this->eetListId = Utils::getValueOrNull($dataArray, 'eet_list_id');
         $this->businessPremisesId = Utils::getValueOrNull($dataArray, 'business_premises_id');
         $this->reminders = Utils::getValueOrNull($dataArray, 'reminders');
+
+        $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
+        $this->ossMode = $ossMode === null ? false : $ossMode;
     }
 
     public function getVariableSymbol()
@@ -240,7 +250,7 @@ class SaveInvoiceIssued
     {
         return $this->items;
     }
-    
+
     public function getReminders()
     {
         return $this->reminders;
@@ -406,10 +416,26 @@ class SaveInvoiceIssued
     {
         $this->businessPremisesId = $businessPremisesId;
     }
-    
+
     public function setReminders($reminders)
     {
         $this->reminders = $reminders;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOssMode()
+    {
+        return $this->ossMode;
+    }
+
+    /**
+     * @param bool $ossMode
+     */
+    public function setOssMode($ossMode)
+    {
+        $this->ossMode = $ossMode;
     }
 
 
@@ -434,6 +460,7 @@ class SaveInvoiceIssued
             'eet_list_id' => $this->eetListId,
             'business_premises_id' => $this->businessPremisesId,
             'reminders' => $this->reminders,
+            'oss_mode' => $this->ossMode,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
