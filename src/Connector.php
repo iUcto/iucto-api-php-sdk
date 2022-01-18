@@ -72,9 +72,15 @@ class Connector
 
             $responseBody = $result->getBody()->getContents();
 
+            if ($result->getStatusCode() === 503) {
+                throw new MaintenanceException('Na serveru probíhá údržba.', $result->getStatusCode());
+            }
+
             if ($result->getStatusCode() >= 500) {
                 throw new ServerException('Nastala neočekávaná chyba na serveru.', $result->getStatusCode());
-            } elseif ($result->getStatusCode() >= 400) {
+            }
+
+            if ($result->getStatusCode() >= 400) {
                 switch ($result->getStatusCode()) {
                     case 400:
                         throw new BadRequestException('Neplatný požadavek.', $result->getStatusCode(), null, $responseBody);
@@ -86,7 +92,7 @@ class Connector
                         throw new PaymentRequiredException($responseBody, $result->getStatusCode());
                         break;
                     case 403:
-                        throw new ForbiddenException('Nelze editovat záznam, existují další závyslosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
+                        throw new ForbiddenException('Nelze editovat záznam, existují další závislosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
                         break;
                     case 404:
                         throw new NotFoundException('Záznam nenalezen', $result->getStatusCode());

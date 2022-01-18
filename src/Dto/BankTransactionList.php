@@ -105,6 +105,8 @@ class BankTransactionList
         }
 
         // Required
+        $this->id = $arrayData["id"];
+        $this->status = $arrayData["status"];
         $this->payment_type = $arrayData['payment_type'];
         $this->price = $arrayData['price'];
         $this->currency = $arrayData['currency'];
