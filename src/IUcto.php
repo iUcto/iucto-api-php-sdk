@@ -71,7 +71,6 @@ use IUcto\Dto\StockMovementDetail;
 use IUcto\Dto\StockMovementOverview;
 use IUcto\Dto\Supplier;
 use IUcto\Dto\SupplierGroup;
-use IUcto\Dto\SupplierOverview;
 use IUcto\Dto\WarehouseDetail;
 
 
@@ -843,13 +842,14 @@ class IUcto
      * Seznam kurzů DPH k danému datu.
      *
      * @param string $date formát (YYYY-mm-dd)
+     * @param string $countryCode formát ISO 3166-1 alpha-2
      * @return int[]
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getVATRatesOn($date)
+    public function getVATRatesOn($date, $countryCode = 'CZ')
     {
-        return $this->handleRequest('vat_rates?date=' . $date, Connector::GET);
+        return $this->handleRequest('vat_rates?date=' . $date . '&country='.$countryCode, Connector::GET);
     }
 
     /**

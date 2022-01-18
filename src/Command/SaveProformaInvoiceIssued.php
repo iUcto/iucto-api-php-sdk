@@ -110,6 +110,13 @@ class SaveProformaInvoiceIssued
     private $roundingType;
 
     /**
+     * Režim OSS
+     *
+     * @var bool
+     */
+    private $ossMode;
+
+    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -140,6 +147,9 @@ class SaveProformaInvoiceIssued
                 $this->items[] = new DocumentItem($itemData);
             }
         }
+
+        $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
+        $this->ossMode = $ossMode === null ? false : $ossMode;
     }
 
     public function getVariableSymbol()
@@ -304,6 +314,24 @@ class SaveProformaInvoiceIssued
         $this->sequenceCode = $sequenceCode;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function getOssMode()
+    {
+        return $this->ossMode;
+    }
+
+    /**
+     * @param bool $ossMode
+     */
+    public function setOssMode($ossMode)
+    {
+        $this->ossMode = $ossMode;
+    }
+
+
     public function toArray()
     {
         $array = array('variable_symbol' => $this->variableSymbol,
@@ -319,6 +347,7 @@ class SaveProformaInvoiceIssued
             'date_vat_prev' => $this->dateVatPrev,
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
+            'oss_mode' => $this->ossMode,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {

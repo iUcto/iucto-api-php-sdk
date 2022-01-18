@@ -72,9 +72,15 @@ class Connector
 
             $responseBody = $result->getBody()->getContents();
 
+            if ($result->getStatusCode() === 503) {
+                throw new MaintenanceException('Na serveru probíhá údržba.', $result->getStatusCode());
+            }
+
             if ($result->getStatusCode() >= 500) {
                 throw new ServerException('Nastala neočekávaná chyba na serveru.', $result->getStatusCode());
-            } elseif ($result->getStatusCode() >= 400) {
+            }
+
+            if ($result->getStatusCode() >= 400) {
                 switch ($result->getStatusCode()) {
                     case 400:
                         throw new BadRequestException('Neplatný požadavek.', $result->getStatusCode(), null, $responseBody);

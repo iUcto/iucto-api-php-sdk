@@ -138,6 +138,13 @@ class SaveCreditNoteIssued
     private $businessPremisesId;
 
     /**
+     * Režim OSS
+     *
+     * @var bool
+     */
+    private $ossMode;
+
+    /**
      * Položky dokladu (povinné)
      *
      * @var DocumentItem[]
@@ -173,6 +180,9 @@ class SaveCreditNoteIssued
         $this->eet = Utils::getValueOrNull($dataArray, 'eet');
         $this->eetListId = Utils::getValueOrNull($dataArray, 'eet_list_id');
         $this->businessPremisesId = Utils::getValueOrNull($dataArray, 'business_premises_id');
+
+        $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
+        $this->ossMode = $ossMode === null ? false : $ossMode;
     }
 
     public function getVariableSymbol()
@@ -411,6 +421,24 @@ class SaveCreditNoteIssued
         $this->businessPremisesId = $businessPremisesId;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function getOssMode()
+    {
+        return $this->ossMode;
+    }
+
+    /**
+     * @param bool $ossMode
+     */
+    public function setOssMode($ossMode)
+    {
+        $this->ossMode = $ossMode;
+    }
+
+
     public function toArray()
     {
         $array = array('variable_symbol' => $this->variableSymbol,
@@ -431,6 +459,7 @@ class SaveCreditNoteIssued
             'eet' => $this->eet,
             'eet_list_id' => $this->eetListId,
             'business_premises_id' => $this->businessPremisesId,
+            'oss_mode' => $this->ossMode,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {

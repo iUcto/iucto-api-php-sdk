@@ -19,5 +19,8 @@
     "psr-4": {
       "IUcto\\": "src"
     }
+  },
+  "scripts": {
+    "phplint": "phplint"
   }
 }
