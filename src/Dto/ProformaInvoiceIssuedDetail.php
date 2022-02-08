@@ -90,6 +90,8 @@ class ProformaInvoiceIssuedDetail extends ProformaInvoiceIssuedOverview
      */
     protected $items = array();
 
+    /** @var string */
+    private $shareLink;
 
     /**
      * @param mixed[] $arrayData input data
@@ -119,6 +121,7 @@ class ProformaInvoiceIssuedDetail extends ProformaInvoiceIssuedOverview
                 $this->items[] = new DocumentItem($itemData);
             }
         }
+        $this->shareLink = Utils::getValueOrNull($arrayData, 'share_link');
     }
 
     public function getPrice()

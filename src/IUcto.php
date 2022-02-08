@@ -281,9 +281,15 @@ class IUcto
     /**
      * Generování odkazu sdílení faktury vydané
      *
-     * @param int $id
+     * @param $id
      * @return InvoiceIssuedDetail
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
     public function generateInvoiceIssuedShareLink($id)
@@ -1350,9 +1356,15 @@ class IUcto
     /**
      * Generování odkazu sdílení dobropisu vydaného
      *
-     * @param int $id
+     * @param $id
      * @return CreditNoteIssuedDetail
+     * @throws BadRequestException
      * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
      * @throws ValidationException
      */
     public function generateCreditNoteIssuedShareLink($id)
@@ -1887,6 +1899,26 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení zálohové faktury vydané
+     *
+     * @param $id
+     * @return ProformaInvoiceIssuedDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function generateProformaInvoiceIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('proforma_invoice_issued/' . $id.'/share', Connector::PUT);
+        return new ProformaInvoiceIssuedDetail($allData);
+    }
+
+    /**
      * Účetní deník.
      *
      * @param array $params
@@ -2106,20 +2138,6 @@ class IUcto
     public function accountCreditNoteReceived($id)
     {
         $allData = $this->handleRequest('creditnote_received/' . $id.'/account', Connector::PUT);
-        return new CreditNoteReceivedDetail($allData);
-    }
-
-    /**
-     * Generování odkazu sdílení dobropisu přijatého
-     *
-     * @param int $id
-     * @return CreditNoteReceivedDetail
-     * @throws ConnectionException
-     * @throws ValidationException
-     */
-    public function generateCreditNoteReceivedShareLink($id)
-    {
-        $allData = $this->handleRequest('creditnote_received/' . $id.'/share', Connector::PUT);
         return new CreditNoteReceivedDetail($allData);
     }
 
