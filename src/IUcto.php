@@ -279,6 +279,20 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení faktury vydané
+     *
+     * @param int $id
+     * @return InvoiceIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function generateInvoiceIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('invoice_issued/' . $id.'/share', Connector::PUT);
+        return new InvoiceIssuedDetail($allData);
+    }
+
+    /**
      * Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
      *
      * @param int $id
@@ -1334,6 +1348,20 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení dobropisu vydaného
+     *
+     * @param int $id
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function generateCreditNoteIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('creditnote_issued/' . $id.'/share', Connector::PUT);
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
      * @param $id
      * @throws ConnectionException
      * @throws ValidationException
@@ -2082,6 +2110,20 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení dobropisu přijatého
+     *
+     * @param int $id
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function generateCreditNoteReceivedShareLink($id)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id.'/share', Connector::PUT);
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
      * @param $id
      * @throws ConnectionException
      * @throws ValidationException
@@ -2090,8 +2132,6 @@ class IUcto
     {
         $this->handleRequest('creditnote_received/' . $id, Connector::DELETE);
     }
-
-
 
     /**
      *
