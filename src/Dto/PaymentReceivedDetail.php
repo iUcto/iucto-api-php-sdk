@@ -46,7 +46,7 @@ class PaymentReceivedDetail extends PaymentDetail
         $this->eet = Utils::getValueOrNull($arrayData, 'eet');
         $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
 
-        if (isset($arrayData['creditnote']) AND $arrayData['creditnote'] !== null) {
+        if (isset($arrayData['creditnote']) && $arrayData['creditnote'] !== null) {
             $this->creditnote = new CreditNoteReceivedDetail($arrayData['creditnote']);
         }
     }
