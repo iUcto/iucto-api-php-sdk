@@ -272,7 +272,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setDateVat($input)
     {
@@ -281,7 +281,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setMaturityDate($input)
     {
@@ -315,7 +315,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setDateVatPrev($input)
     {
