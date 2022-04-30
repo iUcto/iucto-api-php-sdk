@@ -265,6 +265,20 @@ class IUcto
     }
 
     /**
+     * Zaúčtování faktury vydané
+     *
+     * @param int $id
+     * @return InvoiceIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function accountInvoiceIssued($id)
+    {
+        $allData = $this->handleRequest('invoice_issued/' . $id.'/account', Connector::PUT);
+        return new InvoiceIssuedDetail($allData);
+    }
+
+    /**
      * Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
      *
      * @param int $id
@@ -374,6 +388,20 @@ class IUcto
     public function updateInvoiceReceived($id, SaveInvoiceReceived $saveDocument)
     {
         $allData = $this->handleRequest('invoice_received/' . $id, Connector::PUT, $saveDocument->toArray());
+        return new InvoiceReceivedDetail($allData);
+    }
+
+    /**
+     * Zaúčtování faktury přijaté
+     *
+     * @param int $id
+     * @return InvoiceReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function accountInvoiceReceived($id)
+    {
+        $allData = $this->handleRequest('invoice_received/' . $id.'/account', Connector::PUT);
         return new InvoiceReceivedDetail($allData);
     }
 
@@ -1292,6 +1320,20 @@ class IUcto
     }
 
     /**
+     * Zaúčtování dobropisu vydaného
+     *
+     * @param int $id
+     * @return CreditNoteIssuedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function accountCreditNoteIssued($id)
+    {
+        $allData = $this->handleRequest('creditnote_issued/' . $id.'/account', Connector::PUT);
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
      * @param $id
      * @throws ConnectionException
      * @throws ValidationException
@@ -2022,6 +2064,20 @@ class IUcto
     public function getCreditNoteReceivedDetail($id)
     {
         $allData = $this->handleRequest('creditnote_received/' . $id, Connector::GET);
+        return new CreditNoteReceivedDetail($allData);
+    }
+
+    /**
+     * Zaúčtování dobropisu přijatého
+     *
+     * @param int $id
+     * @return CreditNoteReceivedDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function accountCreditNoteReceived($id)
+    {
+        $allData = $this->handleRequest('creditnote_received/' . $id.'/account', Connector::PUT);
         return new CreditNoteReceivedDetail($allData);
     }
 

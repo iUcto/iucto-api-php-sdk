@@ -20,7 +20,7 @@ class IUctoFactory
      * @param string $version
      * @return IUcto
      */
-    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.1')
+    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.2')
     {
         $options = [
             RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
