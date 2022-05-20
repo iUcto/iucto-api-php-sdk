@@ -151,6 +151,13 @@ class SaveInvoiceIssued
      */
     private $ossMode;
 
+    /**
+     * ID napojených zálohových faktur
+     * @version 1.2 and above
+     * @var int[]
+     */
+    private $proformaInvoices;
+
     public function __construct(array $dataArray = [])
     {
         if (empty($dataArray)) {
@@ -184,6 +191,7 @@ class SaveInvoiceIssued
 
         $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
         $this->ossMode = $ossMode === null ? false : $ossMode;
+        $this->proformaInvoices = Utils::getValueOrNull($dataArray, 'proforma_invoices');
     }
 
     public function getVariableSymbol()
@@ -438,7 +446,23 @@ class SaveInvoiceIssued
         $this->ossMode = $ossMode;
     }
 
+    /**
+     * @version 1.2 and above
+     * @return int[]
+     */
+    public function getProformaInvoices() :array
+    {
+        return $this->proformaInvoices;
+    }
 
+    /**
+     * @param int[] $proformaInvoices
+     * @version 1.2 and above
+     */
+    public function setProformaInvoices(array $proformaInvoices): void
+    {
+        $this->proformaInvoices = $proformaInvoices;
+    }
 
     public function toArray()
     {
@@ -461,6 +485,7 @@ class SaveInvoiceIssued
             'business_premises_id' => $this->businessPremisesId,
             'reminders' => $this->reminders,
             'oss_mode' => $this->ossMode,
+            'proforma_invoices' => $this->proformaInvoices,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
