@@ -16,7 +16,8 @@ use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
 use IUcto\Command\SaveOrderIssued;
 use IUcto\Command\SaveOrderReceived;
-use IUcto\Command\SavePayment;
+use IUcto\Command\SavePaymentIssued;
+use IUcto\Command\SavePaymentReceived;
 use IUcto\Command\SaveProduct;
 use IUcto\Command\SaveProformaInvoiceIssued;
 use IUcto\Command\SaveProformaInvoiceReceived;
@@ -637,12 +638,12 @@ class IUcto
     /**
      * Vytvoří novú platbu, odpověd obsahuje detail platby.
      *
-     * @param SavePayment $saveReceivedPayment
+     * @param SavePaymentReceived $saveReceivedPayment
      * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function createReceivedPayment(SavePayment $saveReceivedPayment)
+    public function createReceivedPayment(SavePaymentReceived $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received', Connector::POST, $saveReceivedPayment->toArray());
         return new PaymentReceivedDetail($allData);
@@ -650,12 +651,12 @@ class IUcto
 
     /**
      * @param $id
-     * @param SavePayment $saveReceivedPayment
+     * @param SavePaymentReceived $saveReceivedPayment
      * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function updateReceivedPayment($id, SavePayment $saveReceivedPayment)
+    public function updateReceivedPayment($id, SavePaymentReceived $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
         return new PaymentReceivedDetail($allData);
@@ -702,12 +703,12 @@ class IUcto
     }
 
     /**
-     * @param SavePayment $saveIssuedPayment
+     * @param SavePaymentIssued $saveIssuedPayment
      * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function createIssuedPayment(SavePayment $saveIssuedPayment)
+    public function createIssuedPayment(SavePaymentIssued $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
         return new PaymentIssuedDetail($allData);
@@ -715,12 +716,12 @@ class IUcto
 
     /**
      * @param $id
-     * @param SavePayment $saveIssuedPayment
+     * @param SavePaymentIssued $saveIssuedPayment
      * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function updateIssuedPayment($id, SavePayment $saveIssuedPayment)
+    public function updateIssuedPayment($id, SavePaymentIssued $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
         return new PaymentIssuedDetail($allData);
