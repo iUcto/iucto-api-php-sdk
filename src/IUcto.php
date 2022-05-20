@@ -28,6 +28,8 @@ use IUcto\Core\Paginator;
 use IUcto\Core\RequestHandler;
 use IUcto\DataObject\Contact\CustomerList;
 use IUcto\DataObject\Contact\SupplierList;
+use IUcto\DataObject\Payment\PaymentIssuedList;
+use IUcto\DataObject\Payment\PaymentReceivedList;
 use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
@@ -59,9 +61,7 @@ use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
 use IUcto\Dto\OrderReceivedOverview;
 use IUcto\Dto\PaymentIssuedDetail;
-use IUcto\Dto\PaymentIssuedOverview;
 use IUcto\Dto\PaymentReceivedDetail;
-use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\ProductDetail;
 use IUcto\Dto\ProductOverview;
 use IUcto\Dto\ProformaInvoiceIssuedDetail;
@@ -619,20 +619,20 @@ class IUcto
     /**
      * Zjednodušený výpis všech vydaných plateb.
      *
-     * @return PaymentReceivedOverview[]
+     * @return PaymentReceivedList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getReceivedPayments()
+    public function getReceivedPayments($page = null, $pageSize = null, $filters = [])
     {
-        $allData = $this->handleRequest('payment_received', Connector::GET);
-        $allDocuments = array();
-        if (isset($allData["payment_received"])) {
-            foreach ($allData["payment_received"] as $i => $data) {
-                $allDocuments[] = new PaymentReceivedOverview($data);
-            }
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        return $allDocuments;
+        $rawData = $this->handleRequest('payment_received', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new PaymentReceivedList($paginator, $rawData['payment_received'] ?? []);
+
     }
 
     /**
@@ -686,20 +686,19 @@ class IUcto
 
 
     /**
-     * @return PaymentIssuedOverview[]
+     * @return PaymentIssuedList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getIssuedPayments()
+    public function getIssuedPayments($filters = [], $page = 1, $pageSize = 50)
     {
-        $allData = $this->handleRequest('payment_issued', Connector::GET);
-        $allDocuments = array();
-        if (isset($allData["payment_issued"])) {
-            foreach ($allData["payment_issued"] as $i => $data) {
-                $allDocuments[] = new PaymentIssuedOverview($data);
-            }
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        return $allDocuments;
+        $rawData = $this->handleRequest('payment_issued', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new PaymentIssuedList($paginator, $rawData['payment_issued'] ?? []);
     }
 
     /**
