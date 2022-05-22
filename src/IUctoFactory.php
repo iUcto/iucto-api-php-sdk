@@ -12,24 +12,20 @@ use GuzzleHttp\RequestOptions;
 class IUctoFactory
 {
 
+    /** @var string  */
     const DEFAULT_ENDPOINT = 'https://online.iucto.cz/api';
 
-    /**
-     * @param $apiKey
-     * @param string $endpoint
-     * @param string $version
-     * @return IUcto
-     */
-    public static function create($apiKey, $endpoint = self::DEFAULT_ENDPOINT, $version = '1.2')
+
+    public static function create(string $apiKey, string $endpoint = self::DEFAULT_ENDPOINT, string $version = '1.2', array $clientConfig = []) : IUcto
     {
-        $options = [
+        $config = $clientConfig + [
             RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
             'headers' => [
                 'X-Auth-Key' => $apiKey,
                 'Content-Type' => 'application/json',
             ],
         ];
-        $httpClient = new Client($options);
+        $httpClient = new Client($config);
 
 
         $connector = new Connector($httpClient, $version, $endpoint);
