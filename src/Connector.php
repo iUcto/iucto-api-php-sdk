@@ -70,7 +70,7 @@ class Connector
         try {
             $result = $this->httpClient->request($method, $url, $options);
 
-            $responseBody = $result->getBody()->getContents();
+            $responseBody = $result->getBody()->__toString();
 
             if ($result->getStatusCode() === 503) {
                 throw new MaintenanceException('Na serveru probíhá údržba.', $result->getStatusCode());
