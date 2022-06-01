@@ -8,14 +8,12 @@ use IUcto\Core\Paginator;
 use IUcto\Dto\ProductOverview;
 
 /**
- * @template TKey of int
- * @template TValue of ProductOverview
- * @implements DataList<TKey, TValue>
+ * @extends DataList<int, ProductOverview>
  */
 class ProductList extends DataList
 {
 
-    /** @var array<TKey, TValue> */
+    /** @var array<int, ProductOverview> */
     protected $products = [];
 
     public function __construct(Paginator $paginator, array $productsData)
@@ -32,7 +30,7 @@ class ProductList extends DataList
     }
 
     /**
-     * @return array<TKey, TValue>
+     * @return array<int, ProductOverview>
      */
     public function getRecords()
     {

@@ -8,14 +8,12 @@ use IUcto\Core\Paginator;
 use IUcto\Dto\PaymentIssuedOverview;
 
 /**
- * @template TKey of int
- * @template TValue of PaymentIssuedOverview
- * @implements  DataList<TKey, TValue>
+ * @extends DataList<int, PaymentIssuedOverview>
  */
 class PaymentIssuedList extends DataList
 {
 
-    /** @var array<TKey, TValue> */
+    /** @var array<int, PaymentIssuedOverview> */
     protected $payments = [];
 
     public function __construct(Paginator $paginator, array $payments)
@@ -32,7 +30,7 @@ class PaymentIssuedList extends DataList
     }
 
     /**
-     * @return array<TKey, TValue>
+     * @return array<int, PaymentIssuedOverview>
      */
     public function getRecords()
     {

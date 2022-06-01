@@ -8,13 +8,12 @@ use IUcto\Core\Paginator;
 use IUcto\Dto\PaymentReceivedOverview;
 
 /**
- * @template TRecord of PaymentReceivedOverview
- * @implements \IteratorAggregate<TRecord>
+ * @extends DataList<int, PaymentReceivedOverview>
  */
 class PaymentReceivedList extends DataList
 {
 
-    /** @var PaymentReceivedOverview[] */
+    /** @var array<int, PaymentReceivedOverview> */
     protected $payments = [];
 
     public function __construct(Paginator $paginator, array $payments)
@@ -31,7 +30,7 @@ class PaymentReceivedList extends DataList
     }
 
     /**
-     * @return PaymentReceivedOverview[]
+     * @return array<int, PaymentReceivedOverview>
      */
     public function getRecords()
     {
