@@ -30,6 +30,7 @@ use IUcto\DataObject\Contact\CustomerList;
 use IUcto\DataObject\Contact\SupplierList;
 use IUcto\DataObject\Payment\PaymentIssuedList;
 use IUcto\DataObject\Payment\PaymentReceivedList;
+use IUcto\DataObject\Stock\ProductList;
 use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
@@ -1757,8 +1758,7 @@ class IUcto
      * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
-     * @return ProductOverview[] - 2-úrovňové pole.
-     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @return ProductList
      * @throws BadRequestException
      * @throws ConnectionException
      * @throws ForbiddenException
@@ -1768,27 +1768,15 @@ class IUcto
      * @throws UnautorizedException
      * @throws ValidationException
      */
-    public function getProductList($params = [], $page = null, $pageSize = null)
+    public function getProductList(array $filters = [], $page = null, $pageSize = null)
     {
-        if (isset($page) && isset($pageSize)) {
-            $params['page'] = $page;
-            $params['pageSize'] = $pageSize;
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        $allData = $this->handleRequest('price_list', Connector::GET, $params);
-        $pageCount = $allData[Parser::PAGE_COUNT];
-        unset($allData[Parser::PAGE_COUNT]);
-        $allRows = array();
-        $allRows[Parser::PAGE_COUNT] = $pageCount;
-        $allRows['price_list'] = [];
-        foreach ($allData['price_list'] as $data) {
-            if (isset($data['href'])) {
-                continue;
-            }
-            $productDetail = new ProductOverview($data);
-            $allRows['price_list'][$productDetail->getId()] = $productDetail;
-        }
-
-        return $allRows;
+        $rawData = $this->handleRequest('price_list', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new ProductList($paginator, $rawData['price_list'] ?? []);
     }
 
     /**
