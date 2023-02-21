@@ -13,7 +13,6 @@ try {
             "maturity_date" => "2014-06-30",
             "currency" => "CZK",
             "customer_id" => 1638,
-            "customer_bank_account" => null,
             "payment_type" => "transfer",
             "bank_account" => 275,
             "date_vat_prev" => null,
