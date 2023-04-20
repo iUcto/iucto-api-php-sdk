@@ -81,6 +81,13 @@ class SaveOrderReceived
      */
     private $invoiceId;
 
+    /**
+     * Režim OSS
+     *
+     * @var bool
+     */
+    private $ossMode;
+
     public function __construct(array $dataArray = [])
     {
         if (empty($dataArray)) {
@@ -100,6 +107,8 @@ class SaveOrderReceived
                 $this->items[] = new DocumentItem($itemData);
             }
         }
+        $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
+        $this->ossMode = $ossMode ?? false;
     }
 
 
@@ -220,6 +229,22 @@ class SaveOrderReceived
     }
 
     /**
+     * @return bool
+     */
+    public function getOssMode()
+    {
+        return $this->ossMode;
+    }
+
+    /**
+     * @param bool $ossMode
+     */
+    public function setOssMode($ossMode)
+    {
+        $this->ossMode = $ossMode;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
@@ -233,6 +258,7 @@ class SaveOrderReceived
             'description' => $this->description,
             'rounding_type' => $this->roundingType,
             'invoice_id' => $this->invoiceId,
+            'oss_mode' => $this->ossMode,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {
