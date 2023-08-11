@@ -12,7 +12,7 @@ use IUcto\Utils;
  * @author iucto.cz
  * @deprecated Použijte SavePaymentIssued a SavePaymentReceived
  */
-class SavePayment
+abstract class SavePayment
 {
 
     /**

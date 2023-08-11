@@ -16,7 +16,8 @@ use IUcto\Command\SaveInvoiceIssued;
 use IUcto\Command\SaveInvoiceReceived;
 use IUcto\Command\SaveOrderIssued;
 use IUcto\Command\SaveOrderReceived;
-use IUcto\Command\SavePayment;
+use IUcto\Command\SavePaymentIssued;
+use IUcto\Command\SavePaymentReceived;
 use IUcto\Command\SaveProduct;
 use IUcto\Command\SaveProformaInvoiceIssued;
 use IUcto\Command\SaveProformaInvoiceReceived;
@@ -27,6 +28,9 @@ use IUcto\Core\Paginator;
 use IUcto\Core\RequestHandler;
 use IUcto\DataObject\Contact\CustomerList;
 use IUcto\DataObject\Contact\SupplierList;
+use IUcto\DataObject\Payment\PaymentIssuedList;
+use IUcto\DataObject\Payment\PaymentReceivedList;
+use IUcto\DataObject\Stock\ProductList;
 use IUcto\Dto\BankAccount;
 use IUcto\Dto\BankAccountList;
 use IUcto\Dto\BankTransactionList;
@@ -58,9 +62,7 @@ use IUcto\Dto\OrderIssuedOverview;
 use IUcto\Dto\OrderReceivedDetail;
 use IUcto\Dto\OrderReceivedOverview;
 use IUcto\Dto\PaymentIssuedDetail;
-use IUcto\Dto\PaymentIssuedOverview;
 use IUcto\Dto\PaymentReceivedDetail;
-use IUcto\Dto\PaymentReceivedOverview;
 use IUcto\Dto\ProductDetail;
 use IUcto\Dto\ProductOverview;
 use IUcto\Dto\ProformaInvoiceIssuedDetail;
@@ -618,31 +620,31 @@ class IUcto
     /**
      * Zjednodušený výpis všech vydaných plateb.
      *
-     * @return PaymentReceivedOverview[]
+     * @return PaymentReceivedList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getReceivedPayments()
+    public function getReceivedPayments($page = null, $pageSize = null, $filters = [])
     {
-        $allData = $this->handleRequest('payment_received', Connector::GET);
-        $allDocuments = array();
-        if (isset($allData["payment_received"])) {
-            foreach ($allData["payment_received"] as $i => $data) {
-                $allDocuments[] = new PaymentReceivedOverview($data);
-            }
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        return $allDocuments;
+        $rawData = $this->handleRequest('payment_received', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new PaymentReceivedList($paginator, $rawData['payment_received'] ?? []);
+
     }
 
     /**
      * Vytvoří novú platbu, odpověd obsahuje detail platby.
      *
-     * @param SavePayment $saveReceivedPayment
+     * @param SavePaymentReceived $saveReceivedPayment
      * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function createReceivedPayment(SavePayment $saveReceivedPayment)
+    public function createReceivedPayment(SavePaymentReceived $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received', Connector::POST, $saveReceivedPayment->toArray());
         return new PaymentReceivedDetail($allData);
@@ -650,12 +652,12 @@ class IUcto
 
     /**
      * @param $id
-     * @param SavePayment $saveReceivedPayment
+     * @param SavePaymentReceived $saveReceivedPayment
      * @return PaymentReceivedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function updateReceivedPayment($id, SavePayment $saveReceivedPayment)
+    public function updateReceivedPayment($id, SavePaymentReceived $saveReceivedPayment)
     {
         $allData = $this->handleRequest('payment_received/' . $id, Connector::PUT, $saveReceivedPayment->toArray());
         return new PaymentReceivedDetail($allData);
@@ -685,29 +687,28 @@ class IUcto
 
 
     /**
-     * @return PaymentIssuedOverview[]
+     * @return PaymentIssuedList
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function getIssuedPayments()
+    public function getIssuedPayments($filters = [], $page = 1, $pageSize = 50)
     {
-        $allData = $this->handleRequest('payment_issued', Connector::GET);
-        $allDocuments = array();
-        if (isset($allData["payment_issued"])) {
-            foreach ($allData["payment_issued"] as $i => $data) {
-                $allDocuments[] = new PaymentIssuedOverview($data);
-            }
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        return $allDocuments;
+        $rawData = $this->handleRequest('payment_issued', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new PaymentIssuedList($paginator, $rawData['payment_issued'] ?? []);
     }
 
     /**
-     * @param SavePayment $saveIssuedPayment
+     * @param SavePaymentIssued $saveIssuedPayment
      * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function createIssuedPayment(SavePayment $saveIssuedPayment)
+    public function createIssuedPayment(SavePaymentIssued $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued', Connector::POST, $saveIssuedPayment->toArray());
         return new PaymentIssuedDetail($allData);
@@ -715,12 +716,12 @@ class IUcto
 
     /**
      * @param $id
-     * @param SavePayment $saveIssuedPayment
+     * @param SavePaymentIssued $saveIssuedPayment
      * @return PaymentIssuedDetail
      * @throws ConnectionException
      * @throws ValidationException
      */
-    public function updateIssuedPayment($id, SavePayment $saveIssuedPayment)
+    public function updateIssuedPayment($id, SavePaymentIssued $saveIssuedPayment)
     {
         $allData = $this->handleRequest('payment_issued/' . $id, Connector::PUT, $saveIssuedPayment->toArray());
         return new PaymentIssuedDetail($allData);
@@ -1757,8 +1758,7 @@ class IUcto
      * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
-     * @return ProductOverview[] - 2-úrovňové pole.
-     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @return ProductList
      * @throws BadRequestException
      * @throws ConnectionException
      * @throws ForbiddenException
@@ -1768,27 +1768,15 @@ class IUcto
      * @throws UnautorizedException
      * @throws ValidationException
      */
-    public function getProductList($params = [], $page = null, $pageSize = null)
+    public function getProductList(array $filters = [], $page = null, $pageSize = null)
     {
-        if (isset($page) && isset($pageSize)) {
-            $params['page'] = $page;
-            $params['pageSize'] = $pageSize;
+        if (isset($page, $pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
         }
-        $allData = $this->handleRequest('price_list', Connector::GET, $params);
-        $pageCount = $allData[Parser::PAGE_COUNT];
-        unset($allData[Parser::PAGE_COUNT]);
-        $allRows = array();
-        $allRows[Parser::PAGE_COUNT] = $pageCount;
-        $allRows['price_list'] = [];
-        foreach ($allData['price_list'] as $data) {
-            if (isset($data['href'])) {
-                continue;
-            }
-            $productDetail = new ProductOverview($data);
-            $allRows['price_list'][$productDetail->getId()] = $productDetail;
-        }
-
-        return $allRows;
+        $rawData = $this->handleRequest('price_list', Connector::GET, $filters);
+        $paginator = new Paginator($rawData['page'], $rawData['pageCount'], $rawData['pageSize']);
+        return new ProductList($paginator, $rawData['price_list'] ?? []);
     }
 
     /**

@@ -7,10 +7,13 @@ use IUcto\Core\DataList;
 use IUcto\Core\Paginator;
 use IUcto\Dto\CustomerOverview;
 
+/**
+ * @extends DataList<int, CustomerOverview>
+ */
 class CustomerList extends DataList
 {
 
-    /** @var CustomerOverview[] */
+    /** @var array<int, CustomerOverview> */
     protected $customers = [];
 
     public function __construct(Paginator $paginator, array $customers)
@@ -27,7 +30,7 @@ class CustomerList extends DataList
     }
 
     /**
-     * @return CustomerOverview[]
+     * @return array<int, CustomerOverview>
      */
     public function getRecords()
     {
