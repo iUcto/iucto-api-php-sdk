@@ -30,12 +30,12 @@ class InventoryDetail extends RawData
         parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
-        $this->id = Utils::getValueOrNull($arrayData, 'id');
-        $this->product_id = Utils::getValueOrNull($arrayData, 'product_id');
-        $this->warehouse_id = Utils::getValueOrNull($arrayData, 'warehouse_id');
-        $this->initial_balance = Utils::getValueOrNull($arrayData, 'initial_balance');
-        $this->minimal_balance = Utils::getValueOrNull($arrayData, 'minimal_balance');
-        $this->balance = Utils::getValueOrNull($arrayData, 'balance');
+        $this->id = Utils::getTypedValueOrNull($arrayData, 'id', Utils::TYPE_INT);
+        $this->product_id = Utils::getTypedValueOrNull($arrayData, 'product_id', Utils::TYPE_INT);
+        $this->warehouse_id = Utils::getTypedValueOrNull($arrayData, 'warehouse_id', Utils::TYPE_INT);
+        $this->initial_balance = Utils::getTypedValueOrNull($arrayData, 'initial_balance', Utils::TYPE_FLOAT);
+        $this->minimal_balance = Utils::getTypedValueOrNull($arrayData, 'minimal_balance', Utils::TYPE_FLOAT);
+        $this->balance = Utils::getTypedValueOrNull($arrayData, 'balance', Utils::TYPE_FLOAT);
         $this->location = Utils::getValueOrNull($arrayData, 'location');
         $this->is_deleted = Utils::getValueOrNull($arrayData, 'is_deleted');
         $this->date_last_movement = Utils::getValueOrNull($arrayData, 'date_last_movement');

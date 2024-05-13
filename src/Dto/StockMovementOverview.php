@@ -34,80 +34,61 @@ class StockMovementOverview extends RawData
 
 
     /**
-     * @param mixed[] $arrayData input data
+     * @param array<string, string|null> $arrayData input data
      */
     public function __construct(array $arrayData = [])
     {
         parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
-        $this->id = Utils::getValueOrNull($arrayData, 'id');
-        $this->product_id = Utils::getValueOrNull($arrayData, 'product_id');
-        $this->warehouse_id = Utils::getValueOrNull($arrayData, 'warehouse_id');
-        $this->amount = Utils::getValueOrNull($arrayData, 'amount');
+        $this->id = Utils::getTypedValueOrNull($arrayData, 'id', Utils::TYPE_INT);
+        $this->product_id = Utils::getTypedValueOrNull($arrayData, 'product_id', Utils::TYPE_INT);
+        $this->warehouse_id = Utils::getTypedValueOrNull($arrayData, 'warehouse_id', Utils::TYPE_INT) ?? Utils::getTypedValueOrNull($arrayData, 'inventory_id', Utils::TYPE_INT);
+        $this->amount = Utils::getTypedValueOrNull($arrayData, 'amount', Utils::TYPE_FLOAT) ?? 0.0;
         $this->note = Utils::getValueOrNull($arrayData, 'note');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->identification = Utils::getValueOrNull($arrayData, 'identification');
     }
 
-    /**
-     * @return int
-     */
-    public function getProductId()
+    public function getProductId(): ?int
     {
         return $this->product_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getWarehouseId()
+    public function getWarehouseId(): ?int
     {
         return $this->warehouse_id;
     }
 
-    /**
-     * @return float
-     */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @return string
-     */
-    public function getNote()
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @return string
-     */
-    public function getDate()
+    public function getDate(): string
     {
         return $this->date;
     }
 
-    /**
-     * @return string
-     */
-    public function getIdentification()
+    public function getIdentification(): ?string
     {
         return $this->identification;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-
-    public function toArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
     {
         return [
             'id' => $this->id,

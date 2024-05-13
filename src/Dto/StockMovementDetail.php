@@ -14,9 +14,8 @@ class StockMovementDetail extends StockMovementOverview
     /** @var float */
     private $real_amount;
 
-
     /**
-     * @param mixed[] $arrayData input data
+     * @param array<string, string|null> $arrayData input data
      */
     public function __construct(array $arrayData = [])
     {
@@ -28,7 +27,7 @@ class StockMovementDetail extends StockMovementOverview
     }
 
 
-    public function toArray()
+    public function toArray(): array
     {
         $array = parent::toArray();
         return $array + [

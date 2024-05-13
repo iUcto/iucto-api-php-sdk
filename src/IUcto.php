@@ -1724,7 +1724,7 @@ class IUcto
      * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
-     * @return InventoryDetail[] - 2-úrovňové pole.
+     * @return array<string, mixed|InventoryDetail[] - 2-úrovňové pole.
      *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
      * @throws BadRequestException
      * @throws ConnectionException
@@ -1747,7 +1747,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['inventory'] = [];
-        foreach ($allData['inventory'] as $data) {
+        foreach ($allData['inventory'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -1801,7 +1801,7 @@ class IUcto
      * @param array $params
      * @param int|null $page
      * @param int|null $pageSize
-     * @return StockMovementOverview[] - 2-úrovňové pole.
+     * @return array<string, string|int|null|StockMovementOverview[] - 2-úrovňové pole.
      *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
      * @throws BadRequestException
      * @throws ConnectionException
