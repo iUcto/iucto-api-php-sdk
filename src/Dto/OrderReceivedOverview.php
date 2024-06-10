@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class OrderReceivedOverview
+class OrderReceivedOverview extends RawData
 {
 
     /**
