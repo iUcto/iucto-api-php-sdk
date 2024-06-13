@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class BusinessPremisesOverview
+class BusinessPremisesOverview extends RawData
 {
     /** @var int */
     protected $id;

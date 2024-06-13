@@ -7,7 +7,7 @@ use IUcto\Utils;
 /**
  * @author iucto.cz
  */
-abstract class PaymentDetail
+abstract class PaymentDetail extends RawData
 {
 
     /**
@@ -23,6 +23,13 @@ abstract class PaymentDetail
      * @var string (45)
      */
     protected $sequenceCode;
+
+    /**
+     * Externí číslo dokladu
+     *
+     * @var string (45)
+     */
+    protected $externalCode;
 
     /**
      * Variabilní symbol
@@ -191,8 +198,10 @@ abstract class PaymentDetail
      */
     public function __construct(array $arrayData)
     {
+        parent::__construct($arrayData);
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
+        $this->externalCode = Utils::getValueOrNull($arrayData, 'external_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
         $this->date = Utils::getDateTimeFrom($arrayData['date']);
         $this->dateVat = Utils::getDateTimeFrom($arrayData['date_vat']);
@@ -240,6 +249,11 @@ abstract class PaymentDetail
     public function getSequenceCode()
     {
         return $this->sequenceCode;
+    }
+
+    public function getExternalCode()
+    {
+        return $this->externalCode;
     }
 
     public function getVariableSymbol()

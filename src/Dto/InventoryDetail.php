@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class InventoryDetail
+class InventoryDetail extends RawData
 {
 
     private $id;
@@ -27,6 +27,7 @@ class InventoryDetail
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');
