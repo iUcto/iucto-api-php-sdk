@@ -4,6 +4,7 @@ namespace IUcto;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Utils;
 
 /**
  * Description of Connector
@@ -51,17 +52,27 @@ class Connector
      * @throws PaymentRequiredException
      * @throws UnautorizedException
      */
-    public function request($address, $method, $params)
+    public function request($address, $method, $params, $filePath = null)
     {
-        $options = [
-            RequestOptions::HTTP_ERRORS => false,
-        ];
+        $options = [RequestOptions::HTTP_ERRORS => false];
 
-        if (!empty($params) && in_array($method, [self::POST, self::PUT])) {
+        if ($method === self::POST && $filePath !== null) {
+            $options[RequestOptions::MULTIPART] = [
+                [
+                    'name' => 'file',
+                    'contents' => fopen($filePath, 'r'),
+                    'filename' => basename($filePath)
+                ]
+            ];
+            foreach ($params as $key => $value) {
+                $options[RequestOptions::MULTIPART][] = [
+                    'name' => $key,
+                    'contents' => $value
+                ];
+            }
+        } else if (!empty($params) && in_array($method, [self::POST, self::PUT])) {
             $options[RequestOptions::JSON] = $params;
-        }
-
-        if (!empty($params) && $method == self::GET) {
+        } else if (!empty($params) && $method == self::GET) {
             $options[RequestOptions::QUERY] = $params;
         }
 
@@ -84,22 +95,16 @@ class Connector
                 switch ($result->getStatusCode()) {
                     case 400:
                         throw new BadRequestException('Neplatný požadavek.', $result->getStatusCode(), null, $responseBody);
-                        break;
                     case 401:
                         throw new UnautorizedException('Zkontrolujte prosím, zda je API klíč uveden správně.', $result->getStatusCode());
-                        break;
                     case 402:
                         throw new PaymentRequiredException($responseBody, $result->getStatusCode());
-                        break;
                     case 403:
                         throw new ForbiddenException('Nelze editovat záznam, existují další závislosti, je uzavřeno účetní období, nebo období DPH.', $result->getStatusCode());
-                        break;
                     case 404:
                         throw new NotFoundException('Záznam nenalezen', $result->getStatusCode());
-                        break;
                     default:
                         throw new ConnectionException('Neznámá chyby v požadavku na server.', $result->getStatusCode());
-                        break;
                 }
             } else {
                 return $responseBody;

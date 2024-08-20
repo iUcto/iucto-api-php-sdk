@@ -2,6 +2,7 @@
 
 namespace IUcto;
 
+use InvalidArgumentException;
 use IUcto\Command\PayDocument;
 use IUcto\Command\SaveBankAccount;
 use IUcto\Command\SaveBankTransaction;
@@ -48,6 +49,7 @@ use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
 use IUcto\Dto\DirectAccountingDetail;
 use IUcto\Dto\DirectAccountingOverview;
+use IUcto\Dto\DocumentScan;
 use IUcto\Dto\EetStatusDetail;
 use IUcto\Dto\EetStatusOverview;
 use IUcto\Dto\InventoryDetail;
@@ -108,10 +110,10 @@ class IUcto
      * @throws UnautorizedException
      * @throws ValidationException
      */
-    private function handleRequest($address, $method, array $data = array())
+    private function handleRequest($address, $method, array $data = array(), $filePath = null)
     {
         try {
-            $response = $this->connector->request($address, $method, $data);
+            $response = $this->connector->request($address, $method, $data, $filePath);
             if ($method == Connector::DELETE) {
                 return $response;
             }
@@ -454,7 +456,7 @@ class IUcto
         $allData = $this->handleRequest('customer', Connector::POST, $saveCustomer->toArray());
 
         if (!$allData) {
-            throw new \InvalidArgumentException("Can't parse the recieved data");
+            throw new InvalidArgumentException("Can't parse the recieved data");
         }
         return new Customer($allData);
     }
@@ -570,7 +572,7 @@ class IUcto
     {
         $allData = $this->handleRequest('supplier', Connector::POST, $saveSupplier->toArray());
         if (!$allData) {
-            throw new \InvalidArgumentException("Can't parse the recieved data");
+            throw new InvalidArgumentException("Can't parse the recieved data");
         }
         return new Supplier($allData);
     }
@@ -2207,5 +2209,64 @@ class IUcto
     {
         $allData = $this->handleRequest('eet_status/' . $id, Connector::GET);
         return new EetStatusDetail($allData);
+    }
+
+    /**
+     * @return DocumentScan[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function uploadDocumentScan(string $filePath): array
+    {
+        if (!file_exists($filePath)) {
+            throw new InvalidArgumentException('File not found');
+        }
+        $result = $this->handleRequest('document_scan', Connector::POST, [], $filePath);
+        $allRows['document_scan'] = $this->getDocumentScansFromResponse($result['document_scan']);
+        return $allRows;
+    }
+
+    /**
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDocumentScan(int $id): DocumentScan
+    {
+        $allData = $this->handleRequest('document_scan/' . $id, Connector::GET);
+        return new DocumentScan($allData);
+    }
+
+    /**
+     * @return DocumentScan[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDocumentScanList($params = [], $page = null, $pageSize = null): array
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('document_scan', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['document_scan'] = $this->getDocumentScansFromResponse($allData['document_scan']);
+
+        return $allRows;
+    }
+
+    private function getDocumentScansFromResponse(array $response): array
+    {
+        $documentScans = [];
+        foreach ($response as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $documentScan = new DocumentScan($data);
+            $documentScans[$documentScan->getId()] = $documentScan;
+        }
+        return $documentScans;
     }
 }
