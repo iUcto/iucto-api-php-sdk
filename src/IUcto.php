@@ -48,6 +48,7 @@ use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
 use IUcto\Dto\DirectAccountingDetail;
 use IUcto\Dto\DirectAccountingOverview;
+use IUcto\Dto\DocumentState;
 use IUcto\Dto\EetStatusDetail;
 use IUcto\Dto\EetStatusOverview;
 use IUcto\Dto\InventoryDetail;
@@ -2207,5 +2208,69 @@ class IUcto
     {
         $allData = $this->handleRequest('eet_status/' . $id, Connector::GET);
         return new EetStatusDetail($allData);
+    }
+
+    /**
+     * @throws ConnectionException|ValidationException
+     */
+    public function getDocumentState($id): DocumentState
+    {
+        $allData = $this->handleRequest('document_state/' . $id, Connector::GET);
+        return new DocumentState($allData);
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     * @return DocumentState[]
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDocumentStateList(array $params = [], ?int $page = null, ?int $pageSize = null): array
+    {
+        if (isset($page) && isset($pageSize)) {
+            $params['page'] = $page;
+            $params['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('document_state', Connector::GET, $params);
+        $pageCount = $allData[Parser::PAGE_COUNT];
+        unset($allData[Parser::PAGE_COUNT]);
+        $allRows = array();
+        $allRows[Parser::PAGE_COUNT] = $pageCount;
+        $allRows['document_state'] = [];
+        foreach ($allData['document_state'] as $data) {
+            if (isset($data['href'])) {
+                continue;
+            }
+            $documentStateOverview = new DocumentState($data);
+            $allRows['document_state'][$documentStateOverview->getId()] = $documentStateOverview;
+        }
+
+        return $allRows;
+    }
+
+    /**
+     * @throws ConnectionException|ValidationException
+     */
+    public function createDocumentState(DocumentState $documentState): DocumentState
+    {
+        $allData = $this->handleRequest('document_state', Connector::POST, $documentState->toArray());
+        return new DocumentState($allData);
+    }
+
+    /**
+     * @throws ConnectionException|ValidationException
+     */
+    public function updateDocumentState($id, DocumentState $documentState): DocumentState
+    {
+        $allData = $this->handleRequest('document_state/' . $id, Connector::PUT, $documentState->toArray());
+        return new DocumentState($allData);
+    }
+
+    /**
+     * @throws ConnectionException|ValidationException
+     */
+    public function deleteDocumentState($id): void
+    {
+        $this->handleRequest('document_state/' . $id, Connector::DELETE);
     }
 }
