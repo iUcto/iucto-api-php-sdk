@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class InvoiceReceivedDetail extends RawData
+class DirectExpenseDetail extends RawData
 {
 
     /**
@@ -161,11 +161,11 @@ class InvoiceReceivedDetail extends RawData
     private $deleted;
 
     /**
-     * ID zálohových faktur
+     * Účet účetní osnovy
      *
-     * @var array
+     * @var int(11)
      */
-    private $proformaInvoiceIds;
+    private $chartaccount_dal_id;
 
     /**
      * @param mixed[] $arrayData input data
@@ -202,7 +202,7 @@ class InvoiceReceivedDetail extends RawData
         }
         $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
-        $this->proformaInvoiceIds = Utils::getValueOrNull($arrayData, 'proforma_invoice_id');
+        $this->chartaccount_dal_id = Utils::getValueOrNull($arrayData, 'chartaccount_dal_id');
     }
 
     public function getId()
@@ -310,8 +310,8 @@ class InvoiceReceivedDetail extends RawData
         return $this->deleted;
     }
 
-    public function getProformaInvoiceIds()
+    public function getChartAccountDalId()
     {
-        return $this->proformaInvoiceIds;
+        return $this->chartaccount_dal_id;
     }
 }

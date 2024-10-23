@@ -7,7 +7,7 @@ namespace IUcto\Dto;
  *
  * @author iucto.cz
  */
-class WarehouseDetail
+class WarehouseDetail extends RawData
 {
 
     /** @var int */
@@ -32,6 +32,7 @@ class WarehouseDetail
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->id = $arrayData['id'];

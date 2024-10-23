@@ -7,7 +7,7 @@ namespace IUcto\Dto;
  *
  * @author iucto.cz
  */
-class SupplierOverview
+class SupplierOverview extends RawData
 {
 
     /**

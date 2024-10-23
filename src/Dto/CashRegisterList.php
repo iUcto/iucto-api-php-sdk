@@ -7,7 +7,7 @@ namespace IUcto\Dto;
  *
  * @author iucto.cz
  */
-class CashRegisterlist
+class CashRegisterlist extends RawData
 {
 
     /** @var CashRegisterOverview */

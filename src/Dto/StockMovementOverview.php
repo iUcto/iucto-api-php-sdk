@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class StockMovementOverview
+class StockMovementOverview extends RawData
 {
     /** @var int */
     protected $id;
@@ -38,6 +38,7 @@ class StockMovementOverview
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');

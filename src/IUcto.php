@@ -10,6 +10,7 @@ use IUcto\Command\SaveCreditNoteReceived;
 use IUcto\Command\SaveCustomer;
 use IUcto\Command\SaveDepartment;
 use IUcto\Command\SaveDirectAccounting;
+use IUcto\Command\SaveDirectExpense;
 use IUcto\Command\SaveEetStatus;
 use IUcto\Command\SaveInventory;
 use IUcto\Command\SaveInvoiceIssued;
@@ -48,6 +49,8 @@ use IUcto\Dto\CustomerGroup;
 use IUcto\Dto\Department;
 use IUcto\Dto\DirectAccountingDetail;
 use IUcto\Dto\DirectAccountingOverview;
+use IUcto\Dto\DirectExpenseDetail;
+use IUcto\Dto\DirectExpenseOverview;
 use IUcto\Dto\EetStatusDetail;
 use IUcto\Dto\EetStatusOverview;
 use IUcto\Dto\InventoryDetail;
@@ -418,6 +421,110 @@ class IUcto
     public function deleteInvoiceReceived($id)
     {
         $this->handleRequest('invoice_received/' . $id, Connector::DELETE);
+    }
+
+    /**
+     * Zjednodušený výpis dostupných dokladů.
+     *
+     * @param int|null $page
+     * @param int|null $pageSize
+     * @return DirectExpenseOverview[] - 2-úrovňové pole.
+     *      První úroveň tvoří klíč typ dokladu a pod indexem \IUcto\Parser::PAGE_COUNT je počet dostupných stránek
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDirectExpense($page = null, $pageSize = null, $filters = [])
+    {
+        if (isset($page) && isset($pageSize)) {
+            $filters['page'] = $page;
+            $filters['pageSize'] = $pageSize;
+        }
+        $allData = $this->handleRequest('direct_expense', Connector::GET, $filters);
+        $pageCount = isset($allData[Parser::PAGE_COUNT]) ? $allData[Parser::PAGE_COUNT] : 1;
+        if (isset($allData[Parser::PAGE_COUNT])) {
+            unset($allData[Parser::PAGE_COUNT]);
+        }
+        $allDocuments = array();
+        $allDocuments[Parser::PAGE_COUNT] = $pageCount;
+        foreach ($allData as $type => $typeData) {
+            foreach ($typeData as $data) {
+                if (isset($data['href'])) {
+                    continue;
+                }
+                $allDocuments[$type][] = new DirectExpenseOverview($data);
+            }
+        }
+        return $allDocuments;
+    }
+
+    /**
+     * Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+     *
+     * @param SaveDirectExpense $saveDocument
+     * @return DirectExpenseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function createDirectExpense(SaveDirectExpense $saveDocument)
+    {
+        $allData = $this->handleRequest('direct_expense', Connector::POST, $saveDocument->toArray());
+        return new DirectExpenseDetail($allData);
+    }
+
+    /**
+     * Vrátí kompletní kolekci dat vybraného dokladu.
+     *
+     * @param int $id
+     * @return DirectExpenseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function getDirectExpenseDetail($id)
+    {
+        $allData = $this->handleRequest('direct_expense/' . $id, Connector::GET);
+        return new DirectExpenseDetail($allData);
+    }
+
+    /**
+     * Aktulizuje předané parametry vybraného dokladu. Poviné ple jsou stejná jako při vkládání nového záznamu.
+     *
+     * @param int $id
+     * @param SaveDirectExpense $saveDocument
+     * @return DirectExpenseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function updateDirectExpense($id, SaveDirectExpense $saveDocument)
+    {
+        $allData = $this->handleRequest('direct_expense/' . $id, Connector::PUT, $saveDocument->toArray());
+        return new DirectExpenseDetail($allData);
+    }
+
+    /**
+     * Zaúčtování interního předpisu nákladu
+     *
+     * @param int $id
+     * @return DirectExpenseDetail
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function accountDirectExpense($id)
+    {
+        $allData = $this->handleRequest('direct_expense/' . $id.'/account', Connector::PUT);
+        return new DirectExpenseDetail($allData);
+    }
+
+    /**
+     * Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+     *
+     * @param int $id
+     * @return void
+     * @throws ConnectionException
+     * @throws ValidationException
+     */
+    public function deleteDirectExpense($id)
+    {
+        $this->handleRequest('direct_expense/' . $id, Connector::DELETE);
     }
 
     /**

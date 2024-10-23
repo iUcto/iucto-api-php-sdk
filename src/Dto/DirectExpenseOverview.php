@@ -5,11 +5,11 @@ namespace IUcto\Dto;
 use IUcto\Utils;
 
 /**
- * DTO for ProformaInvoiceReceivedOverview data
+ * DTO for DocumentOverview data
  *
  * @author iucto.cz
  */
-class ProformaInvoiceReceivedOverview extends RawData
+class DirectExpenseOverview extends RawData
 {
 
     /**
@@ -17,91 +17,84 @@ class ProformaInvoiceReceivedOverview extends RawData
      *
      * @var int(11)
      */
-    protected $id;
+    private $id;
 
     /**
      * Číslo dokladu
      *
      * @var string (45)
      */
-    protected $sequenceCode;
-
-    /**
-     * External code
-     *
-     * @var string (45)
-     */
-    protected $externalCode;
+    private $sequenceCode;
 
     /**
      * Variabilní symbol
      *
      * @var string (42)
      */
-    protected $variableSymbol;
+    private $variableSymbol;
 
     /**
      * Datum vystavení (YYYY-mm-dd)
      *
      * @var string
      */
-    protected $date;
+    private $date;
 
     /**
      * Datum zdanitelného plnění (YYYY-mm-dd)
      *
      * @var string
      */
-    protected $dateVat;
+    private $dateVat;
 
     /**
      * Datum splatnosti (YYYY-mm-dd)
      *
      * @var string
      */
-    protected $maturityDate;
+    private $maturityDate;
 
     /**
      * Měna dokladu
      *
      * @var string (3)
      */
-    protected $currency;
+    private $currency;
 
     /**
      * Celková částka v CZK s DPH
      *
      * @var int(11)
      */
-    protected $priceIncVat;
+    private $priceIncVat;
 
     /**
      * Zbývající částka k úhradě (v měně dokladu)
      *
      * @var int
      */
-    protected $toBePaid;
+    private $toBePaid;
 
     /**
-     * Zbývající částka k odečtení
-     *
-     * @var int
-     */
-    protected $toBeInvoiced;
-
-    /**
-     * Dodavatel
+     * Zákazník
      *
      * @var SupplierOverview
      */
     private $supplier;
 
     /**
+     * Doklad je zaúčtován
+     *
+     * @var bool
+     */
+    private $accounted;
+
+    /**
      * Doklad je smazaný
      *
      * @var bool
      */
-    protected $deleted;
+    private $deleted;
 
     /**
      * @param mixed[] $arrayData input data
@@ -110,7 +103,6 @@ class ProformaInvoiceReceivedOverview extends RawData
     {
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
-        $this->externalCode = Utils::getValueOrNull($arrayData, 'external_code');
         $this->variableSymbol = Utils::getValueOrNull($arrayData, 'variable_symbol');
         $this->date = Utils::getValueOrNull($arrayData, 'date');
         $this->dateVat = Utils::getValueOrNull($arrayData, 'date_vat');
@@ -118,10 +110,8 @@ class ProformaInvoiceReceivedOverview extends RawData
         $this->currency = Utils::getValueOrNull($arrayData, 'currency');
         $this->priceIncVat = Utils::getValueOrNull($arrayData, 'price_inc_vat');
         $this->toBePaid = Utils::getValueOrNull($arrayData, 'to_be_paid');
-        $this->toBeInvoiced = Utils::getValueOrNull($arrayData, 'to_be_invoiced');
-        if (array_key_exists('supplier', $arrayData)) {
-            $this->supplier = new SupplierOverview($arrayData['supplier']);
-        }
+        $this->supplier = new SupplierOverview($arrayData['supplier']);
+        $this->accounted = Utils::getValueOrNull($arrayData, 'accounted');
         $this->deleted = Utils::getValueOrNull($arrayData, 'deleted');
     }
 
@@ -133,11 +123,6 @@ class ProformaInvoiceReceivedOverview extends RawData
     public function getSequenceCode()
     {
         return $this->sequenceCode;
-    }
-
-    public function getExternalCode()
-    {
-        return $this->externalCode;
     }
 
     public function getVariableSymbol()
@@ -175,17 +160,14 @@ class ProformaInvoiceReceivedOverview extends RawData
         return $this->toBePaid;
     }
 
-    public function getToBeInvoiced()
-    {
-        return $this->toBeInvoiced;
-    }
-
-    /**
-     * @return SupplierOverview
-     */
     public function getSupplier()
     {
         return $this->supplier;
+    }
+
+    public function getAccounted()
+    {
+        return $this->accounted;
     }
 
     public function getDeleted()

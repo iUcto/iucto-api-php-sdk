@@ -101,6 +101,7 @@ class EetStatusDetail extends EetStatusOverview
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         parent::__construct($arrayData);

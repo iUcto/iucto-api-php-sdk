@@ -14,6 +14,12 @@ use IUcto\Utils;
  */
 abstract class SavePayment
 {
+    /**
+     * Externi oznaceni dokladu
+     *
+     * @var string
+     */
+    protected $externalCode;
 
     /**
      * Variabilní symbol (povinné)
@@ -129,6 +135,7 @@ abstract class SavePayment
             return;
         }
 
+        $this->externalCode = Utils::getValueOrNull($dataArray, 'external_code');
         $this->variableSymbol = Utils::getValueOrNull($dataArray, 'variable_symbol');
         $this->date = isset($dataArray['date']) ? Utils::getDateTimeFrom($dataArray['date']) : null;
         $this->dateVat = isset($dataArray['date_vat']) ? Utils::getDateTimeFrom($dataArray['date_vat']) : null;
@@ -149,6 +156,11 @@ abstract class SavePayment
                 $this->items[] = new PaymentItem((array)$itemData);
             }
         }
+    }
+
+    public function getExternalCode()
+    {
+        return $this->externalCode;
     }
 
     public function getVariableSymbol()
@@ -240,6 +252,10 @@ abstract class SavePayment
         $this->invoiceId = $invoiceId;
     }
 
+    public function setExternalCode($externalCode)
+    {
+        $this->externalCode = $externalCode;
+    }
 
     public function setVariableSymbol($variableSymbol)
     {
@@ -325,6 +341,7 @@ abstract class SavePayment
     public function toArray()
     {
         $array = array(
+            'external_code' => $this->externalCode,
             'variable_symbol' => $this->variableSymbol,
             'date' => $this->date != null ? $this->date->format('Y-m-d') : null,
             'date_vat' => $this->dateVat != null ? $this->dateVat->format('Y-m-d') : null,
