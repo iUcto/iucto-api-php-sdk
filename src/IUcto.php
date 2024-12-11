@@ -792,6 +792,10 @@ class IUcto
         $this->handleRequest('payment_received/' . $id, Connector::DELETE);
     }
 
+    public function paymentReceivedAccount($id)
+    {
+        $this->handleRequest('payment_received/' . $id . '/account', Connector::PUT);
+    }
 
     /**
      * @return PaymentIssuedList
@@ -856,6 +860,10 @@ class IUcto
         $this->handleRequest('payment_issued/' . $id, Connector::DELETE);
     }
 
+    public function paymentIssuedAccount($id)
+    {
+        $this->handleRequest('payment_issued/' . $id . '/account', Connector::PUT);
+    }
 
     /**
      * Seznam dostupných bankovních účtů.
