@@ -59,6 +59,13 @@ class BankTransactionList extends RawData
      */
     protected $date_payment = null;
 
+
+    /**
+     * Datum importu
+     * @var string
+     */
+    protected $created = null;
+
     /**
      * Typ položky (popisek)
      * @var string
@@ -103,6 +110,8 @@ class BankTransactionList extends RawData
         if (empty($arrayData)) {
             return;
         }
+        //readonly
+        $this->created = $arrayData['created'];
 
         // Required
         $this->id = $arrayData["id"];
@@ -183,6 +192,13 @@ class BankTransactionList extends RawData
     public function getDatePayment()
     {
         return $this->date_payment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated() {
+        return $this->created;
     }
 
     /**
