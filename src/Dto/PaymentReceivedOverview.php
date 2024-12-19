@@ -18,6 +18,11 @@ class PaymentReceivedOverview extends PaymentOverview
     protected $invoice;
 
     /**
+     * @var CreditNoteReceivedOverview
+     */
+    protected $creditnote;
+
+    /**
      * @var bool
      */
     protected $eet;
@@ -34,6 +39,12 @@ class PaymentReceivedOverview extends PaymentOverview
             $this->invoice = null;
         }
 
+        if (!is_null($arrayData['creditnote'])) {
+            $this->creditnote = new CreditNoteReceivedOverview($arrayData['creditnote']);
+        } else {
+            $this->creditnote = null;
+        }
+
         $this->eet = Utils::getValueOrNull($arrayData, 'eet');
     }
 
@@ -43,6 +54,14 @@ class PaymentReceivedOverview extends PaymentOverview
     public function getInvoice()
     {
         return $this->invoice;
+    }
+
+    /**
+     * @return CreditNoteReceivedOverview
+     */
+    public function getCreditnote()
+    {
+        return $this->creditnote;
     }
 
     /**
