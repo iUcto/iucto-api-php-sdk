@@ -620,7 +620,7 @@ class IUcto
         $allData = $this->handleRequest('customer_group', Connector::GET);
 
         $customers = array();
-        foreach ($allData['customer_group'] as $data) {
+        foreach ($allData['customer_group'] ?? [] as $data) {
             $customers[] = new CustomerGroup($data);
         }
         return $customers;
@@ -658,7 +658,7 @@ class IUcto
         $allData = $this->handleRequest('supplier_group', Connector::GET);
 
         $suppliers = array();
-        foreach ($allData['supplier_group'] as $data) {
+        foreach ($allData['supplier_group'] ?? [] as $data) {
             $suppliers[] = new SupplierGroup($data);
         }
         return $suppliers;
@@ -1057,7 +1057,7 @@ class IUcto
     {
         $allData = $this->handleRequest('department', Connector::GET);
         $departments = array();
-        foreach ($allData['department'] as $data) {
+        foreach ($allData['department'] ?? [] as $data) {
             $departments[] = new Department($data);
         }
         return $departments;
@@ -1109,7 +1109,7 @@ class IUcto
     {
         $allData = $this->handleRequest('contract', Connector::GET);
         $contracts = array();
-        foreach ($allData['contract'] as $data) {
+        foreach ($allData['contract'] ?? [] as $data) {
             $contracts[] = new Contract($data);
         }
         return $contracts;
@@ -1185,7 +1185,7 @@ class IUcto
         $allData = $this->handleRequest('bank_transaction', Connector::GET);
         $transactions = [];
         if (isset($allData["bank_transaction"])) {
-            foreach ($allData["bank_transaction"] as $i => $data) {
+            foreach ($allData["bank_transaction"] as $data) {
                 $transactions[] = new BankTransactionList($data);
             }
         }
@@ -1260,7 +1260,7 @@ class IUcto
         $allData = $this->handleRequest('order_issued', Connector::GET);
         $ordersIssued = [];
         if (isset($allData["order_issued"])) {
-            foreach ($allData["order_issued"] as $i => $data) {
+            foreach ($allData["order_issued"] as $data) {
                 $ordersIssued[] = new OrderIssuedOverview($data);
             }
         }
@@ -1325,7 +1325,7 @@ class IUcto
         $allData = $this->handleRequest('order_received', Connector::GET);
         $ordersIssued = [];
         if (isset($allData["order_received"])) {
-            foreach ($allData["order_received"] as $i => $data) {
+            foreach ($allData["order_received"] as $data) {
                 $ordersIssued[] = new OrderReceivedOverview($data);
             }
         }
@@ -1391,7 +1391,7 @@ class IUcto
         $allData = $this->handleRequest('creditnote_issued', Connector::GET);
         $creditNoteIssued = [];
         if (isset($allData["creditnote_issued"])) {
-            foreach ($allData["creditnote_issued"] as $i => $data) {
+            foreach ($allData["creditnote_issued"] as $data) {
                 $creditNoteIssued[] = new CreditNoteIsseudOverview($data);
             }
         }
@@ -1659,7 +1659,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['warehouse'] = [];
-        foreach ($allData['warehouse'] as $data) {
+        foreach ($allData['warehouse'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -1824,7 +1824,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['stock_movement'] = [];
-        foreach ($allData['stock_movement'] as $data) {
+        foreach ($allData['stock_movement'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -1990,7 +1990,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['journal'] = [];
-        foreach ($allData['journal'] as $data) {
+        foreach ($allData['journal'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -2046,7 +2046,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['direct_accounting'] = [];
-        foreach ($allData['direct_accounting'] as $data) {
+        foreach ($allData['direct_accounting'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -2122,7 +2122,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['creditnote_received'] = [];
-        foreach ($allData['creditnote_received'] as $data) {
+        foreach ($allData['creditnote_received'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -2224,7 +2224,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['business_premises'] = [];
-        foreach ($allData['business_premises'] as $data) {
+        foreach ($allData['business_premises'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
@@ -2282,7 +2282,7 @@ class IUcto
         $allRows = array();
         $allRows[Parser::PAGE_COUNT] = $pageCount;
         $allRows['eet_status'] = [];
-        foreach ($allData['eet_status'] as $data) {
+        foreach ($allData['eet_status'] ?? [] as $data) {
             if (isset($data['href'])) {
                 continue;
             }
