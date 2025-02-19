@@ -81,12 +81,6 @@ class BankAccount extends RawData
     private $chart_account_id;
 
     /**
-     * Analytický účet platný od
-     * @var string
-     */
-    private $chart_account_valid_from;
-
-    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -102,7 +96,6 @@ class BankAccount extends RawData
         $this->account_number = $arrayData['account_number'];
         $this->bank_code = $arrayData['bank_code'];
         $this->chart_account_id = $arrayData['chart_account_id'];
-        $this->chart_account_valid_from = $arrayData['chart_account_valid_from'];
     }
 
     public function getId()
@@ -180,14 +173,4 @@ class BankAccount extends RawData
     {
         return $this->chart_account_id;
     }
-
-    /**
-     * @return string
-     */
-    public function getChartAccountValidFrom()
-    {
-        return $this->chart_account_valid_from;
-    }
-
-
 }
