@@ -59,6 +59,13 @@ class BankTransactionOverview extends RawData
      */
     protected $date_payment = null;
 
+
+    /**
+     * Datum importu
+     * @var string
+     */
+    protected $created = null;
+
     /**
      * Typ položky (popisek)
      * @var string
@@ -148,6 +155,16 @@ class BankTransactionOverview extends RawData
      */
     protected $vat_chart = null;
 
+    /**
+     * @var float|null
+     */
+    protected $amount_original = null;
+
+    /**
+     * @var string|null
+     */
+    protected $currency_original = null;
+
 
     /**
      * @param array $arrayData
@@ -163,6 +180,7 @@ class BankTransactionOverview extends RawData
         $this->price_czk = $arrayData['price_czk'];
         $this->status = $arrayData['status'];
         $this->linked_docs = $arrayData['linked_docs'];
+        $this->created = $arrayData['created'];
 
         // Required
         $this->payment_type = $arrayData['payment_type'];
@@ -186,6 +204,8 @@ class BankTransactionOverview extends RawData
         $this->account_entry_type = Utils::getValueOrNull($arrayData, 'account_entry_type');
         $this->chart_account = Utils::getValueOrNull($arrayData, 'chart_account');
         $this->vat_chart = Utils::getValueOrNull($arrayData, 'vat_chart');
+        $this->amount_original = Utils::getValueOrNull($arrayData, 'amount_original');
+        $this->currency_original = Utils::getValueOrNull($arrayData, 'currency_original');
     }
 
     /**
@@ -250,6 +270,14 @@ class BankTransactionOverview extends RawData
     public function getDatePayment()
     {
         return $this->date_payment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**
@@ -370,6 +398,22 @@ class BankTransactionOverview extends RawData
     public function getVatChart()
     {
         return $this->vat_chart;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getAmountOriginal()
+    {
+        return $this->amount_original;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrencyOriginal()
+    {
+        return $this->currency_original;
     }
 
 }

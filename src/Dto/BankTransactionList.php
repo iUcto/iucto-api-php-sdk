@@ -59,6 +59,13 @@ class BankTransactionList extends RawData
      */
     protected $date_payment = null;
 
+
+    /**
+     * Datum importu
+     * @var string
+     */
+    protected $created = null;
+
     /**
      * Typ položky (popisek)
      * @var string
@@ -96,6 +103,18 @@ class BankTransactionList extends RawData
     protected $bank_account_contraparty = null;
 
     /**
+     * Původní částka v měně dokladu
+     * @var float|null
+     */
+    protected $amount_original = null;
+
+    /**
+     * Původní měna dokladu
+     * @var string|null
+     */
+    protected $currency_original = null;
+
+    /**
      * @param array $arrayData
      */
     function __construct(array $arrayData = [])
@@ -103,6 +122,8 @@ class BankTransactionList extends RawData
         if (empty($arrayData)) {
             return;
         }
+        //readonly
+        $this->created = $arrayData['created'];
 
         // Required
         $this->id = $arrayData["id"];
@@ -119,6 +140,8 @@ class BankTransactionList extends RawData
         $this->specific_symbol = Utils::getValueOrNull($arrayData, 'specific_symbol');
         $this->bank_account = Utils::getValueOrNull($arrayData, 'bank_account');
         $this->bank_account_contraparty = Utils::getValueOrNull($arrayData, 'bank_account_contraparty');
+        $this->amount_original = Utils::getValueOrNull($arrayData, 'amount_original');
+        $this->currency_original = Utils::getValueOrNull($arrayData, 'currency_original');
     }
 
     /**
@@ -188,6 +211,13 @@ class BankTransactionList extends RawData
     /**
      * @return string
      */
+    public function getCreated() {
+        return $this->created;
+    }
+
+    /**
+     * @return string
+     */
     public function getItemType()
     {
         return $this->item_type;
@@ -231,6 +261,22 @@ class BankTransactionList extends RawData
     public function getBankAccountContraparty()
     {
         return $this->bank_account_contraparty;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getAmountOriginal()
+    {
+        return $this->amount_original;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrencyOriginal()
+    {
+        return $this->currency_original;
     }
 
 }
