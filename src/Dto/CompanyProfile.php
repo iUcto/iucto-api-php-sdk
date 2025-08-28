@@ -52,14 +52,16 @@ class CompanyProfile extends RawData
     private $owner;
 
     /**
+     * IČO
      * @var string|null
      */
-    private $ico = null;
+    private $comId = null;
 
     /**
+     * DIČ
      * @var string|null
      */
-    private $vat = null;
+    private $vatId = null;
 
     /**
      * @var string|null
@@ -105,8 +107,8 @@ class CompanyProfile extends RawData
         $this->www = $arrayData['www'];
         $this->dataBoxId = $arrayData['data_box_id'];
         $this->owner = new CompanyOwner($arrayData['owner']);
-        $this->ico = $arrayData['ico'];
-        $this->vat = $arrayData['vat'];
+        $this->comId  = $arrayData['comid'];
+        $this->vatId = $arrayData['vatid'];
         $this->icp = $arrayData['icp'];
 
         $this->vatType = $arrayData['vat_type'];
@@ -155,14 +157,14 @@ class CompanyProfile extends RawData
         return $this->owner;
     }
 
-    public function getIco(): ?string
+    public function getComId(): ?string
     {
-        return $this->ico;
+        return $this->comId;
     }
 
-    public function getVat(): ?string
+    public function getVatId(): ?string
     {
-        return $this->vat;
+        return $this->vatId;
     }
 
     public function getIcp(): ?string
@@ -230,14 +232,14 @@ class CompanyProfile extends RawData
         $this->owner = $owner;
     }
 
-    public function setIco(?string $ico): void
+    public function setComId(?string $comId): void
     {
-        $this->ico = $ico;
+        $this->comId = $comId;
     }
 
-    public function setVat(?string $vat): void
+    public function setVatId(?string $vatId): void
     {
-        $this->vat = $vat;
+        $this->vatId = $vatId;
     }
 
     public function setIcp(?string $icp): void
@@ -279,8 +281,8 @@ class CompanyProfile extends RawData
             'www' => $this->www,
             'data_box_id' => $this->dataBoxId,
             'owner' => $this->owner->toArray(),
-            'ico' => $this->ico,
-            'vat' => $this->vat,
+            'comid' => $this->comId,
+            'vatid' => $this->vatId,
             'icp' => $this->icp,
             'vat_type' => $this->vatType,
             'subject_type' => $this->subjectType,
