@@ -90,6 +90,12 @@ class ProformaInvoiceIssuedDetail extends ProformaInvoiceIssuedOverview
      */
     protected $items = array();
 
+    /** @var Discount */
+    private $discount;
+
+    /** @var null|float*/
+    private $priceTotal;
+
 
     /**
      * @param mixed[] $arrayData input data
@@ -119,6 +125,13 @@ class ProformaInvoiceIssuedDetail extends ProformaInvoiceIssuedOverview
                 $this->items[] = new DocumentItem($itemData);
             }
         }
+
+        $this->priceTotal = Utils::getValueOrNull($arrayData, 'price_total');
+
+        $this->discount = new Discount(
+            Utils::getValueOrNull($arrayData, 'discount_type'),
+            Utils::getValueOrNull($arrayData, 'discount')
+        );
     }
 
     public function getPrice()
@@ -178,4 +191,20 @@ class ProformaInvoiceIssuedDetail extends ProformaInvoiceIssuedOverview
     {
         return $this->items;
     }
+
+    public function getDiscount(): Discount
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(Discount $discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    public function getPriceTotal(): float
+    {
+        return $this->priceTotal;
+    }
+
 }

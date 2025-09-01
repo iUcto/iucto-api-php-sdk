@@ -189,6 +189,12 @@ class InvoiceIssuedDetail extends RawData
     /** @var array */
     private $eetStatus;
 
+    /** @var Discount */
+    private $discount;
+
+    /** @var null|float*/
+    private $priceTotal;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -237,6 +243,13 @@ class InvoiceIssuedDetail extends RawData
             $this->businessPremises = new BusinessPremisesDetail($arrayData['business_premises']);
         }
         $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
+
+        $this->priceTotal = Utils::getValueOrNull($arrayData, 'price_total');
+
+        $this->discount = new Discount(
+            Utils::getValueOrNull($arrayData, 'discount_type'),
+            Utils::getValueOrNull($arrayData, 'discount')
+        );
     }
 
     public function getId()
@@ -386,5 +399,18 @@ class InvoiceIssuedDetail extends RawData
         return $this->eetStatus;
     }
 
+    public function getDiscount(): Discount
+    {
+        return $this->discount;
+    }
 
+    public function setDiscount(Discount $discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    public function getPriceTotal(): float
+    {
+        return $this->priceTotal;
+    }
 }
