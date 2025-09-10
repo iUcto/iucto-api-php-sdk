@@ -66,6 +66,7 @@ class SaveInvoiceIssued
     /**
      * Bankovní účet zákazníka
      *
+     * @deprecated
      * @var string (45)
      */
     private $customerBankAccount;
@@ -171,7 +172,6 @@ class SaveInvoiceIssued
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
         $this->currency = Utils::getValueOrNull($dataArray, 'currency');
         $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
-        $this->customerBankAccount = Utils::getValueOrNull($dataArray, 'customer_bank_account');
         $this->paymentType = Utils::getValueOrNull($dataArray, 'payment_type');
         $this->bankAccount = Utils::getValueOrNull($dataArray, 'bank_account');
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
@@ -222,11 +222,6 @@ class SaveInvoiceIssued
     public function getCustomerId()
     {
         return $this->customerId;
-    }
-
-    public function getCustomerBankAccount()
-    {
-        return $this->customerBankAccount;
     }
 
     public function getPaymentType()
@@ -304,11 +299,6 @@ class SaveInvoiceIssued
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-    }
-
-    public function setCustomerBankAccount($customerBankAccount)
-    {
-        $this->customerBankAccount = $customerBankAccount;
     }
 
     public function setPaymentType($paymentType)
@@ -473,7 +463,6 @@ class SaveInvoiceIssued
             'maturity_date' => $this->maturityDate,
             'currency' => $this->currency,
             'customer_id' => $this->customerId,
-            'customer_bank_account' => $this->customerBankAccount,
             'payment_type' => $this->paymentType,
             'bank_account' => $this->bankAccount,
             'date_vat_prev' => $this->dateVatPrev,
