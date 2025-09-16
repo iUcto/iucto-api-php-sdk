@@ -39,6 +39,7 @@ use IUcto\Dto\BankTransactionOverview;
 use IUcto\Dto\BusinessPremisesDetail;
 use IUcto\Dto\BusinessPremisesOverview;
 use IUcto\Dto\CashRegisterList;
+use IUcto\Dto\CompanyProfile;
 use IUcto\Dto\Contract;
 use IUcto\Dto\CreditNoteIsseudOverview;
 use IUcto\Dto\CreditNoteIssuedDetail;
@@ -2322,5 +2323,11 @@ class IUcto
     {
         $allData = $this->handleRequest('eet_status/' . $id, Connector::GET);
         return new EetStatusDetail($allData);
+    }
+
+    public function getCompanyProfile(): CompanyProfile
+    {
+        $data = $this->handleRequest('company_profile', Connector::GET);
+        return new CompanyProfile($data);
     }
 }
