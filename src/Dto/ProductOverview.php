@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class ProductOverview
+class ProductOverview extends RawData
 {
 
 
@@ -32,6 +32,7 @@ class ProductOverview
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');

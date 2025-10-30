@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class DirectAccountingItemBase
+class DirectAccountingItemBase extends RawData
 {
 
     /**
@@ -75,6 +75,7 @@ class DirectAccountingItemBase
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) {
             return;
         }

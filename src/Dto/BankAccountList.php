@@ -7,7 +7,7 @@ namespace IUcto\Dto;
  *
  * @author iucto.cz
  */
-class BankAccountList
+class BankAccountList extends RawData
 {
 
     /**

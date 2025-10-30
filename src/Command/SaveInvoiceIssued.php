@@ -66,6 +66,7 @@ class SaveInvoiceIssued
     /**
      * Bankovní účet zákazníka
      *
+     * @deprecated
      * @var string (45)
      */
     private $customerBankAccount;
@@ -151,6 +152,13 @@ class SaveInvoiceIssued
      */
     private $ossMode;
 
+    /**
+     * ID napojených zálohových faktur
+     * @version 1.2 and above
+     * @var int[]
+     */
+    private $proformaInvoices;
+
     public function __construct(array $dataArray = [])
     {
         if (empty($dataArray)) {
@@ -164,7 +172,6 @@ class SaveInvoiceIssued
         $this->maturityDate = Utils::getValueOrNull($dataArray, 'maturity_date');
         $this->currency = Utils::getValueOrNull($dataArray, 'currency');
         $this->customerId = Utils::getValueOrNull($dataArray, 'customer_id');
-        $this->customerBankAccount = Utils::getValueOrNull($dataArray, 'customer_bank_account');
         $this->paymentType = Utils::getValueOrNull($dataArray, 'payment_type');
         $this->bankAccount = Utils::getValueOrNull($dataArray, 'bank_account');
         $this->dateVatPrev = Utils::getValueOrNull($dataArray, 'date_vat_prev');
@@ -184,6 +191,7 @@ class SaveInvoiceIssued
 
         $ossMode = Utils::getValueOrNull($dataArray, 'oss_mode');
         $this->ossMode = $ossMode === null ? false : $ossMode;
+        $this->proformaInvoices = Utils::getValueOrNull($dataArray, 'proforma_invoices');
     }
 
     public function getVariableSymbol()
@@ -214,11 +222,6 @@ class SaveInvoiceIssued
     public function getCustomerId()
     {
         return $this->customerId;
-    }
-
-    public function getCustomerBankAccount()
-    {
-        return $this->customerBankAccount;
     }
 
     public function getPaymentType()
@@ -272,7 +275,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setDateVat($input)
     {
@@ -281,7 +284,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setMaturityDate($input)
     {
@@ -298,11 +301,6 @@ class SaveInvoiceIssued
         $this->customerId = $customerId;
     }
 
-    public function setCustomerBankAccount($customerBankAccount)
-    {
-        $this->customerBankAccount = $customerBankAccount;
-    }
-
     public function setPaymentType($paymentType)
     {
         $this->paymentType = $paymentType;
@@ -315,7 +313,7 @@ class SaveInvoiceIssued
 
     /**
      *
-     * @param int|\DateTime $input unix timestamp or DateTime object
+     * @param string|\DateTime $input Y-m-d or DateTime object
      */
     public function setDateVatPrev($input)
     {
@@ -438,7 +436,23 @@ class SaveInvoiceIssued
         $this->ossMode = $ossMode;
     }
 
+    /**
+     * @version 1.2 and above
+     * @return int[]
+     */
+    public function getProformaInvoices() :array
+    {
+        return $this->proformaInvoices;
+    }
 
+    /**
+     * @param int[] $proformaInvoices
+     * @version 1.2 and above
+     */
+    public function setProformaInvoices(array $proformaInvoices): void
+    {
+        $this->proformaInvoices = $proformaInvoices;
+    }
 
     public function toArray()
     {
@@ -449,7 +463,6 @@ class SaveInvoiceIssued
             'maturity_date' => $this->maturityDate,
             'currency' => $this->currency,
             'customer_id' => $this->customerId,
-            'customer_bank_account' => $this->customerBankAccount,
             'payment_type' => $this->paymentType,
             'bank_account' => $this->bankAccount,
             'date_vat_prev' => $this->dateVatPrev,
@@ -461,6 +474,7 @@ class SaveInvoiceIssued
             'business_premises_id' => $this->businessPremisesId,
             'reminders' => $this->reminders,
             'oss_mode' => $this->ossMode,
+            'proforma_invoices' => $this->proformaInvoices,
         );
         $array['items'] = array();
         foreach ($this->items as $item) {

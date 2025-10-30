@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class DocumentItem
+class DocumentItem extends RawData
 {
 
     /**
@@ -113,6 +113,7 @@ class DocumentItem
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) {
             return;
         }

@@ -18,6 +18,12 @@ class SavePaymentReceived extends SavePayment
     protected $proformaInvoiceId;
 
     /**
+     * ID opravného daňového dokladu přijaté
+     * @var int|null
+     */
+    protected $creditnoteId;
+
+    /**
      * @var bool|null
      */
     protected $eet;
@@ -44,6 +50,7 @@ class SavePaymentReceived extends SavePayment
         }
 
         $this->proformaInvoiceId = Utils::getValueOrNull($dataArray, 'proforma_invoice_id');
+        $this->creditnoteId = Utils::getValueOrNull($dataArray, 'creditnote_received_id');
         $this->eet = Utils::getValueOrNull($dataArray, 'eet');
         $this->eetListId = Utils::getValueOrNull($dataArray, 'eet_list_id');
 
@@ -73,6 +80,7 @@ class SavePaymentReceived extends SavePayment
         $array = parent::toArray();
 
         $array['proforma_invoice_id'] = $this->proformaInvoiceId;
+        $array['creditnote_received_id'] = $this->creditnoteId;
         $array['eet'] = $this->eet;
         $array['eet_list_id'] = $this->eetListId;
         $array['oss_mode'] = $this->ossMode;
@@ -93,6 +101,22 @@ class SavePaymentReceived extends SavePayment
     public function setProformaInvoiceId($proformaInvoiceId)
     {
         $this->proformaInvoiceId = $proformaInvoiceId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCreditnoteId()
+    {
+        return $this->creditnoteId;
+    }
+
+    /**
+     * @param int|null $creditnoteId
+     */
+    public function setCreditnoteId($creditnoteId)
+    {
+        $this->creditnoteId = $creditnoteId;
     }
 
     /**

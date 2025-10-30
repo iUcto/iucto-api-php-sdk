@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class DirectAccountingOverview
+class DirectAccountingOverview extends RawData
 {
 
     /**
@@ -63,6 +63,7 @@ class DirectAccountingOverview
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         $this->id = Utils::getValueOrNull($arrayData, 'id');
         $this->sequenceCode = Utils::getValueOrNull($arrayData, 'sequence_code');
         $this->date = Utils::getValueOrNull($arrayData, 'date');

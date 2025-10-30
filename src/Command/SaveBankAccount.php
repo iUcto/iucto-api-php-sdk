@@ -67,12 +67,6 @@ class SaveBankAccount
     private $chart_account_id;
 
     /**
-     * Analytický účet platný od
-     * @var string date
-     */
-    private $chart_account_valid_from;
-
-    /**
      * Příznak zda jde o výchozí účet
      * @var bool
      */
@@ -93,7 +87,6 @@ class SaveBankAccount
         $this->account_number = $arrayData['account_number'];
         $this->bank_code = $arrayData['bank_code'];
         $this->chart_account_id = Utils::getValueOrNull($arrayData, 'chart_account_id');
-        $this->chart_account_valid_from = Utils::getDateTimeFrom($arrayData['chart_account_valid_from']);
         $this->isDefault = $arrayData['isdefault'];
     }
 
@@ -110,7 +103,6 @@ class SaveBankAccount
             'account_number' => $this->account_number,
             'bank_code' => $this->bank_code,
             'chart_account_id' => $this->chart_account_id,
-            'chart_account_valid_from' => !empty($this->chart_account_valid_from) ? $this->chart_account_valid_from->format('Y-m-d') : null,
             'isdefault' => $this->isDefault,
         ];
     }
@@ -257,22 +249,6 @@ class SaveBankAccount
     public function setChartAccountId($chart_account_id)
     {
         $this->chart_account_id = $chart_account_id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getChartAccountValidFrom()
-    {
-        return $this->chart_account_valid_from;
-    }
-
-    /**
-     * @param \DateTime $chart_account_valid_from
-     */
-    public function setChartAccountValidFrom(\DateTime $chart_account_valid_from)
-    {
-        $this->chart_account_valid_from = $chart_account_valid_from;
     }
 
     /**

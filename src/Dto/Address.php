@@ -7,7 +7,7 @@ namespace IUcto\Dto;
  *
  * @author iucto.cz
  */
-class Address
+class Address extends RawData
 {
 
     /**
@@ -44,6 +44,7 @@ class Address
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->street = $arrayData['street'];

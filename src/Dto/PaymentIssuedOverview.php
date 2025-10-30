@@ -16,6 +16,11 @@ class PaymentIssuedOverview extends PaymentOverview
     protected $invoice;
 
     /**
+     * @var CreditNoteIsseudOverview
+     */
+    protected $creditnote;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData)
@@ -25,6 +30,12 @@ class PaymentIssuedOverview extends PaymentOverview
             $this->invoice = new InvoiceReceivedOverview($arrayData['invoice']);
         } else {
             $this->invoice = null;
+        }
+
+        if (!is_null($arrayData['creditnote'])) {
+            $this->creditnote = new CreditNoteIsseudOverview($arrayData['creditnote']);
+        } else {
+            $this->creditnote = null;
         }
     }
 
@@ -36,4 +47,11 @@ class PaymentIssuedOverview extends PaymentOverview
         return $this->invoice;
     }
 
+    /**
+     * @return CreditNoteIsseudOverview
+     */
+    public function getCreditnote()
+    {
+        return $this->creditnote;
+    }
 }

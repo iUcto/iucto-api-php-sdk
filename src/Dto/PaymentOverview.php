@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-abstract class PaymentOverview
+abstract class PaymentOverview extends RawData
 {
 
     /**

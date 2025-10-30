@@ -125,6 +125,17 @@ class SaveBankTransaction
      */
     protected $vat_chart = null;
 
+    /**
+     * Částka v původní měně
+     * @var float|null
+     */
+    protected $amount_original = null;
+
+    /**
+     * Původní měna záznamu
+     * @var string|null
+     */
+    protected $currency_original = null;
 
     /**
      * @param array $arrayData
@@ -157,6 +168,8 @@ class SaveBankTransaction
         $this->account_entry_type = Utils::getValueOrNull($arrayData, 'account_entry_type');
         $this->chart_account = Utils::getValueOrNull($arrayData, 'chart_account');
         $this->vat_chart = Utils::getValueOrNull($arrayData, 'vat_chart');
+        $this->amount_original = Utils::getValueOrNull($arrayData, 'amount_original');
+        $this->currency_original = Utils::getValueOrNull($arrayData, 'currency_original');
     }
 
     /**
@@ -164,7 +177,7 @@ class SaveBankTransaction
      */
     public function toArray()
     {
-        return [
+        $data = [
             'payment_type' => $this->payment_type,
             'price' => $this->price,
             'currency' => $this->currency,
@@ -183,8 +196,19 @@ class SaveBankTransaction
             'vat_type' => $this->vat_type,
             'account_entry_type' => $this->account_entry_type,
             'chart_account' => $this->chart_account,
-            'vat_chart' => $this->vat_chart,
+            'vat_chart' => $this->vat_chart
         ];
+
+        $originals = [
+            'amount_original' => $this->amount_original,
+            'currency_original' => $this->currency_original,
+        ];
+
+        if ($this->amount_original || $this->currency_original) {
+            $data = array_merge($data, $originals);
+        }
+
+        return $data;
     }
 
     /**
@@ -526,6 +550,42 @@ class SaveBankTransaction
     public function setVatChart($vat_chart)
     {
         $this->vat_chart = $vat_chart;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getAmountOriginal()
+    {
+        return $this->amount_original;
+    }
+
+    /**
+     * @param float|null $amount
+     * @return SaveBankTransaction
+     */
+    public function setAmountOriginal($amount)
+    {
+        $this->amount_original = $amount;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrencyOriginal()
+    {
+        return $this->currency_original;
+    }
+
+    /**
+     * @param string|null $currency
+     * @return SaveBankTransaction
+     */
+    public function setCurrencyOriginal($currency)
+    {
+        $this->currency_original = $currency;
         return $this;
     }
 }

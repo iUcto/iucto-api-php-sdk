@@ -8,10 +8,13 @@ use IUcto\Core\Paginator;
 use IUcto\Dto\SupplierOverview;
 
 
+/**
+ * @extends DataList<int, SupplierOverview>
+ */
 class SupplierList extends DataList
 {
 
-    /** @var SupplierOverview[] */
+    /** @var array<int, SupplierOverview> */
     protected $suppliers = [];
 
     public function __construct(Paginator $paginator, array $suppliers)
@@ -28,7 +31,7 @@ class SupplierList extends DataList
     }
 
     /**
-     * @return SupplierOverview[]
+     * @return array<int, SupplierOverview>
      */
     public function getRecords()
     {

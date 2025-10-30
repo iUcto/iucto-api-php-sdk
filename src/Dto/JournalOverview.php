@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class JournalOverview
+class JournalOverview extends RawData
 {
     /** @var int */
     protected $id;
@@ -49,6 +49,7 @@ class JournalOverview
      */
     public function __construct(array $arrayData = [])
     {
+        parent::__construct($arrayData);
         if (empty($arrayData)) return;
 
         $this->id = Utils::getValueOrNull($arrayData, 'id');

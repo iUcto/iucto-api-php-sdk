@@ -13,7 +13,6 @@ $updatedDocument = new IUcto\Command\SaveInvoiceIssued(
         "maturity_date" => "2014-06-25",
         "currency" => "CZK",
         "customer_id" => 1638,
-        "customer_bank_account" => null,
         "payment_type" => "transfer",
         "bank_account" => 275,
         "date_vat_prev" => null,

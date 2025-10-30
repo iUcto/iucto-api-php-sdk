@@ -17,6 +17,12 @@ class SavePaymentIssued extends SavePayment
      */
     protected $proformaInvoiceId;
 
+    /**
+     * ID opravného daňového dokladu vydané
+     * @var int|null
+     */
+    protected $creditnoteId;
+
     public function __construct(array $dataArray = [])
     {
         parent::__construct($dataArray);
@@ -26,6 +32,7 @@ class SavePaymentIssued extends SavePayment
         }
 
         $this->proformaInvoiceId = Utils::getValueOrNull($dataArray, 'proforma_invoice_received_id');
+        $this->creditnoteId = Utils::getValueOrNull($dataArray, 'creditnote_id');
     }
 
     public function toArray()
@@ -33,6 +40,7 @@ class SavePaymentIssued extends SavePayment
         $array = parent::toArray();
 
         $array['proforma_invoice_received_id'] = $this->proformaInvoiceId;
+        $array['creditnote_id'] = $this->creditnoteId;
         return $array;
     }
 
@@ -50,6 +58,22 @@ class SavePaymentIssued extends SavePayment
     public function setProformaInvoiceId($proformaInvoiceId)
     {
         $this->proformaInvoiceId = $proformaInvoiceId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCreditnoteId()
+    {
+        return $this->creditnoteId;
+    }
+
+    /**
+     * @param int|null $creditnoteId
+     */
+    public function setCreditnoteId($creditnoteId)
+    {
+        $this->creditnoteId = $creditnoteId;
     }
 
 

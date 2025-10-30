@@ -18,6 +18,13 @@ class PaymentReceivedDetail extends PaymentDetail
     protected $proformaInvoiceId;
 
     /**
+     * Opravný daňový doklad přijatý - detail
+     *
+     * @var CreditNoteReceivedDetail
+     */
+    protected $creditnote;
+
+    /**
      * @var bool|null
      */
     protected $eet;
@@ -38,6 +45,10 @@ class PaymentReceivedDetail extends PaymentDetail
 
         $this->eet = Utils::getValueOrNull($arrayData, 'eet');
         $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
+
+        if (isset($arrayData['creditnote']) && $arrayData['creditnote'] !== null) {
+            $this->creditnote = new CreditNoteReceivedDetail($arrayData['creditnote']);
+        }
     }
 
     /**
@@ -46,6 +57,14 @@ class PaymentReceivedDetail extends PaymentDetail
     public function getProformaInvoiceId()
     {
         return $this->proformaInvoiceId;
+    }
+
+    /**
+     * @return CreditNoteReceivedDetail
+     */
+    public function getCreditnote()
+    {
+        return $this->creditnote;
     }
 
     /**

@@ -9,7 +9,7 @@ use IUcto\Utils;
  *
  * @author iucto.cz
  */
-class ProformaInvoiceIssuedOverview
+class ProformaInvoiceIssuedOverview extends RawData
 {
 
     /**
