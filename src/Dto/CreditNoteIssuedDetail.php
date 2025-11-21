@@ -182,6 +182,9 @@ class CreditNoteIssuedDetail extends RawData
     /** @var array */
     private $eetStatus;
 
+    /** @var string */
+    private $shareLink;
+
     /**
      * @param mixed[] $arrayData input data
      */
@@ -228,6 +231,7 @@ class CreditNoteIssuedDetail extends RawData
             $this->businessPremises = new BusinessPremisesDetail($arrayData['business_premises']);
         }
         $this->eetStatus = Utils::getValueOrNull($arrayData, 'eet_status');
+        $this->shareLink = Utils::getValueOrNull($arrayData, 'share_link');
     }
 
     public function getId()

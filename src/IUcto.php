@@ -285,6 +285,26 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení faktury vydané
+     *
+     * @param $id
+     * @return InvoiceIssuedDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function generateInvoiceIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('invoice_issued/' . $id.'/share', Connector::PUT);
+        return new InvoiceIssuedDetail($allData);
+    }
+
+    /**
      * Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
      *
      * @param int $id
@@ -1451,6 +1471,26 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení dobropisu vydaného
+     *
+     * @param $id
+     * @return CreditNoteIssuedDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function generateCreditNoteIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('creditnote_issued/' . $id.'/share', Connector::PUT);
+        return new CreditNoteIssuedDetail($allData);
+    }
+
+    /**
      * @param $id
      * @throws ConnectionException
      * @throws ValidationException
@@ -1963,6 +2003,26 @@ class IUcto
     }
 
     /**
+     * Generování odkazu sdílení zálohové faktury vydané
+     *
+     * @param $id
+     * @return ProformaInvoiceIssuedDetail
+     * @throws BadRequestException
+     * @throws ConnectionException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws PaymentRequiredException
+     * @throws ServerException
+     * @throws UnautorizedException
+     * @throws ValidationException
+     */
+    public function generateProformaInvoiceIssuedShareLink($id)
+    {
+        $allData = $this->handleRequest('proforma_invoice_issued/' . $id.'/share', Connector::PUT);
+        return new ProformaInvoiceIssuedDetail($allData);
+    }
+
+    /**
      * Účetní deník.
      *
      * @param array $params
@@ -2194,8 +2254,6 @@ class IUcto
     {
         $this->handleRequest('creditnote_received/' . $id, Connector::DELETE);
     }
-
-
 
     /**
      *
