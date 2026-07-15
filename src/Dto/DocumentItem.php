@@ -109,6 +109,19 @@ class DocumentItem extends RawData
     private $vatTotal;
 
     /**
+     * Příznak, zda položka odečítá zálohovou fakturu
+     * @var bool
+     */
+    private $fromProforma = false;
+
+    /**
+     * Zálohová faktura, kterou položka odečítá
+     *
+     * @var int(11)
+     */
+    private $proformaInvoiceId;
+
+    /**
      * @param mixed[] $arrayData input data
      */
     public function __construct(array $arrayData = [])
@@ -131,6 +144,8 @@ class DocumentItem extends RawData
         $this->contractId = Utils::getValueOrNull($arrayData, 'contract_id');
         $this->unitPriceIncVat = (bool)Utils::getValueOrNull($arrayData, 'unit_price_inc_vat');
         $this->vatTotal = Utils::getValueOrNull($arrayData, 'vat_total');
+        $this->fromProforma = (bool)Utils::getValueOrNull($arrayData, 'from_proforma');
+        $this->proformaInvoiceId = Utils::getValueOrNull($arrayData, 'proforma_invoice_id');
     }
 
     public function toArray()
@@ -148,7 +163,9 @@ class DocumentItem extends RawData
             'department_id' => $this->departmentId,
             'contract_id' => $this->contractId,
             'unit_price_inc_vat' => $this->unitPriceIncVat,
-            'vat_total' => $this->vatTotal);
+            'vat_total' => $this->vatTotal,
+            'from_proforma' => $this->fromProforma,
+            'proforma_invoice_id' => $this->proformaInvoiceId);
     }
 
     public function getId()
@@ -296,6 +313,38 @@ class DocumentItem extends RawData
     public function setVatTotal($vatTotal)
     {
         $this->vatTotal = $vatTotal;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFromProforma()
+    {
+        return $this->fromProforma;
+    }
+
+    /**
+     * @param bool $fromProforma
+     */
+    public function setFromProforma($fromProforma)
+    {
+        $this->fromProforma = $fromProforma;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProformaInvoiceId()
+    {
+        return $this->proformaInvoiceId;
+    }
+
+    /**
+     * @param int $proformaInvoiceId
+     */
+    public function setProformaInvoiceId($proformaInvoiceId)
+    {
+        $this->proformaInvoiceId = $proformaInvoiceId;
     }
 
 }
